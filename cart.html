@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>סל הקניות — GARAGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner container">
+    <a href="index.html" class="logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-text" style="display:none"><strong>GARAGE</strong><span>מפיציי הריח המתקדמים</span></div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">דף הבית</a>
+      <a href="product.html?id=car">לרכב</a>
+      <a href="product.html?id=g60">לבית / משרד</a>
+      <a href="product.html?id=s500">לעסק</a>
+      <a href="product.html?id=bottles_100ml">בקבוקים</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="tel:0509723636" class="nav-phone">
+        <i class="ph-fill ph-phone"></i>
+        <span class="phone-label">050-9723636</span>
+      </a>
+      <a href="cart.html" class="cart-btn" style="background:var(--gold)">
+        <i class="ph ph-shopping-cart"></i>
+        <span>סל</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- CART PAGE -->
+<main class="cart-page">
+  <div class="container">
+    <h1 class="cart-title">
+      <i class="ph-fill ph-shopping-cart" style="color:var(--gold);margin-left:10px"></i>
+      סל הקניות
+    </h1>
+
+    <!-- EMPTY STATE -->
+    <div class="cart-empty" id="cartEmpty" style="display:none">
+      <i class="ph ph-shopping-cart-simple"></i>
+      <h3>הסל ריק</h3>
+      <p style="margin-bottom:24px">עדיין לא הוספת מוצרים לסל</p>
+      <a href="index.html#products" class="btn btn-dark btn-lg">
+        <i class="ph ph-arrow-right"></i>
+        לחזור לקניות
+      </a>
+    </div>
+
+    <!-- CART LAYOUT -->
+    <div class="cart-layout" id="cartLayout">
+
+      <!-- LEFT: items + upsells -->
+      <div>
+        <div class="cart-items" id="cartItems"></div>
+
+        <!-- CART UPSELLS -->
+        <div class="cart-upsells" id="cartUpsells">
+          <h3>
+            <i class="ph-fill ph-lightning"></i>
+            שכחת משהו? הוסף לפני המשלוח:
+          </h3>
+          <div class="upsells-list" id="cartUpsellsList"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: summary -->
+      <div>
+        <div class="order-summary">
+          <div class="order-summary__head">
+            <h3><i class="ph ph-receipt" style="margin-left:8px"></i>סיכום הזמנה</h3>
+          </div>
+          <div class="order-summary__body">
+            <div class="summary-row">
+              <span>סכום ביניים</span>
+              <span id="summarySubtotal">₪0</span>
+            </div>
+            <div class="summary-row free-ship" id="summaryShipRow">
+              <span><i class="ph ph-truck" style="margin-left:4px"></i>משלוח</span>
+              <span id="summaryShip">₪35</span>
+            </div>
+            <div class="shipping-note" id="freeShipNote" style="display:none">
+              <i class="ph-fill ph-truck"></i>
+              כל הכבוד — משלוח חינם!
+            </div>
+            <div class="shipping-note" id="freeShipProgress" style="display:none;background:rgba(184,146,42,.06);color:var(--gold);border:none">
+              <i class="ph ph-package"></i>
+              <span id="freeShipProgressText"></span>
+            </div>
+            <div class="summary-row saving" id="summarySaving" style="display:none">
+              <span><i class="ph ph-tag" style="margin-left:4px"></i>חסכת בהזמנה</span>
+              <span id="summarySavingAmt"></span>
+            </div>
+            <div class="summary-row total">
+              <span>סה"כ לתשלום</span>
+              <strong id="summaryTotal">₪0</strong>
+            </div>
+          </div>
+          <div class="summary-cta">
+            <a href="checkout.html" class="btn btn-add btn-full btn-lg" id="checkoutBtn" style="justify-content:center;gap:10px">
+              <i class="ph ph-credit-card"></i>
+              לתשלום בביט
+            </a>
+            <a href="index.html#products" style="display:block;text-align:center;margin-top:12px;font-size:.83rem;color:var(--muted)">
+              <i class="ph ph-arrow-right" style="margin-left:4px"></i>
+              המשך קניות
+            </a>
+          </div>
+        </div>
+
+        <!-- Bit teaser -->
+        <div style="margin-top:16px;padding:16px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--dark2)">
+            <div style="width:36px;height:36px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:.9rem;flex-shrink:0">bit</div>
+            <span>תשלום מהיר דרך <strong>ביט</strong> — קל, מאובטח ומיידי.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding:28px 0 0">
+      <p>© 2025 GARAGE — כל הזכויות שמורות</p>
+      <div class="footer-bottom-links">
+        <a href="index.html">דף הבית</a>
+        <a href="index.html#contact">צור קשר</a>
+        <a href="tel:0509723636">050-9723636</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+function renderCart() {
+  const items   = cartGet();
+  const totals  = cartTotals();
+  const isEmpty = items.length === 0;
+
+  document.getElementById('cartEmpty').style.display  = isEmpty ? 'block' : 'none';
+  document.getElementById('cartLayout').style.display = isEmpty ? 'none'  : 'grid';
+  if (isEmpty) return;
+
+  /* items */
+  document.getElementById('cartItems').innerHTML = items.map(item => {
+    const lineTotal = (item.price * item.qty).toLocaleString('he-IL');
+    return `
+    <div class="cart-item">
+      <div class="cart-item__img">
+        <img src="${item.img}" alt="${item.name}" loading="lazy">
+      </div>
+      <div class="cart-item__info">
+        <div class="cart-item__name">${item.name}</div>
+        ${item.scent ? `<div class="cart-item__scent"><i class="ph ph-drop" style="color:var(--gold);margin-left:4px"></i>${item.scent}</div>` : ''}
+        ${item.isUpsell ? `<div class="cart-item__upsell-tag"><i class="ph-fill ph-tag"></i> מחיר מיוחד</div>` : ''}
+        <button class="cart-item__remove" onclick="removeItem('${item.uid}')">
+          <i class="ph ph-trash"></i> הסר
+        </button>
+      </div>
+      <div class="cart-item__right">
+        <div class="cart-item__price">₪${lineTotal}</div>
+        <div class="cart-item__qty">
+          <button onclick="changeQty('${item.uid}',-1)"><i class="ph ph-minus"></i></button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty('${item.uid}',1)"><i class="ph ph-plus"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  /* summary */
+  document.getElementById('summarySubtotal').textContent = `₪${totals.subtotal.toLocaleString('he-IL')}`;
+
+  if (totals.shipping === 0) {
+    document.getElementById('summaryShip').textContent    = 'חינם!';
+    document.getElementById('summaryShipRow').style.color = 'var(--green)';
+    document.getElementById('freeShipNote').style.display = 'flex';
+    document.getElementById('freeShipProgress').style.display = 'none';
+  } else {
+    document.getElementById('summaryShip').textContent = `₪${totals.shipping}`;
+    document.getElementById('freeShipNote').style.display = 'none';
+    const needed = FREE_SHIP_THRESHOLD - totals.subtotal;
+    if (needed > 0) {
+      document.getElementById('freeShipProgress').style.display = 'flex';
+      document.getElementById('freeShipProgressText').textContent =
+        `עוד ₪${needed} למשלוח חינם!`;
+    }
+  }
+
+  const totalSave = totals.savings + totals.saleSave;
+  if (totalSave > 0) {
+    document.getElementById('summarySaving').style.display = 'flex';
+    document.getElementById('summarySavingAmt').textContent = `₪${totalSave.toLocaleString('he-IL')}`;
+  }
+
+  document.getElementById('summaryTotal').textContent = `₪${totals.total.toLocaleString('he-IL')}`;
+
+  /* upsells */
+  renderCartUpsells();
+}
+
+function renderCartUpsells() {
+  const suggestions = getCartUpsells();
+  const section     = document.getElementById('cartUpsells');
+  const list        = document.getElementById('cartUpsellsList');
+
+  if (suggestions.length === 0) { section.style.display = 'none'; return; }
+
+  list.innerHTML = suggestions.map(uid => {
+    const u = UPSELLS[uid];
+    if (!u) return '';
+    const save    = u.standAlonePrice - u.bundlePrice;
+    const savePct = Math.round(save / u.standAlonePrice * 100);
+    const scentRow = u.hasScent ? `
+      <div class="upsell-scent" onclick="event.stopPropagation()">
+        <select id="cu-scent-${uid}" class="scent-select" style="font-size:.78rem;padding:5px 8px;max-width:160px">
+          <option value="">בחר ניחוח</option>
+          ${SCENTS.map(s=>`<option value="${s.name}">${s.name}</option>`).join('')}
+        </select>
+      </div>` : '';
+    return `
+    <div class="upsell-card" onclick="quickAddUpsell('${uid}',this)">
+      <div class="upsell-card__img">
+        <img src="${u.img}" alt="${u.name}" loading="lazy">
+      </div>
+      <div class="upsell-card__info">
+        <div class="upsell-card__note">הוסף עכשיו — ${savePct}% הנחה</div>
+        <div class="upsell-card__name">${u.name}</div>
+        <div class="upsell-card__prices">
+          <span class="up">₪${u.bundlePrice}</span>
+          <span class="was">₪${u.standAlonePrice}</span>
+          <span class="save">חסכון ₪${save}</span>
+        </div>
+        ${scentRow}
+      </div>
+      <button class="upsell-card__btn" aria-label="הוסף"><i class="ph ph-plus"></i></button>
+    </div>`;
+  }).join('');
+}
+
+function quickAddUpsell(uid, el) {
+  if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION') return;
+  const scent = document.getElementById(`cu-scent-${uid}`)?.value || '';
+  cartAddUpsell(uid, scent);
+  el.classList.add('added');
+  el.querySelector('.upsell-card__btn i').className = 'ph ph-check';
+  setTimeout(() => renderCart(), 400);
+}
+
+function removeItem(uid) {
+  cartRemove(uid);
+  renderCart();
+}
+
+function changeQty(uid, delta) {
+  cartUpdateQty(uid, delta);
+  renderCart();
+}
+
+/* hamburger */
+document.getElementById('hamburger')?.addEventListener('click', () =>
+  document.getElementById('navLinks').classList.toggle('open'));
+
+renderCart();
+</script>
+</body>
+</html>

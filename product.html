@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מוצר — GARAGE</title>
+  <meta name="description" content="מפיצי ריח ומוצרי ריח איכותיים — GARAGE" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner container">
+    <a href="index.html" class="logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-text" style="display:none">
+        <strong>GARAGE</strong>
+        <span>מפיציי הריח המתקדמים</span>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">דף הבית</a>
+      <a href="product.html?id=car">לרכב</a>
+      <a href="product.html?id=g60">לבית / משרד</a>
+      <a href="product.html?id=s500">לעסק</a>
+      <a href="product.html?id=bottles_100ml">בקבוקים</a>
+      <a href="index.html#contact">צור קשר</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="tel:0509723636" class="nav-phone">
+        <i class="ph-fill ph-phone"></i>
+        <span class="phone-label">050-9723636</span>
+      </a>
+      <a href="cart.html" class="cart-btn">
+        <i class="ph ph-shopping-cart"></i>
+        <span>סל</span>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- PRODUCT PAGE -->
+<main class="product-page">
+  <div class="container">
+
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb" id="breadcrumb">
+      <a href="index.html">בית</a>
+      <i class="ph ph-caret-left"></i>
+      <span id="breadcrumbCat">מוצר</span>
+      <i class="ph ph-caret-left"></i>
+      <span id="breadcrumbName">טוען...</span>
+    </nav>
+
+    <!-- LAYOUT -->
+    <div class="product-layout">
+
+      <!-- GALLERY -->
+      <div class="product-gallery">
+        <div class="gallery-main">
+          <img id="galleryMain" src="" alt="" loading="eager">
+        </div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+
+      <!-- INFO -->
+      <div class="product-info">
+        <p class="product-info__cat" id="prodCat"></p>
+        <h1 class="product-info__name" id="prodName"></h1>
+        <p class="product-info__sub" id="prodSub"></p>
+
+        <!-- PRICE -->
+        <div id="priceBlock"><!-- rendered by JS --></div>
+
+        <!-- QTY VARIANTS (bottles only) -->
+        <div id="qtyVariants" style="display:none">
+          <div class="scent-label">בחר כמות:</div>
+          <div class="qty-variants" id="qtyVariantsList"></div>
+        </div>
+
+        <!-- SCENT SELECTOR -->
+        <div class="scent-selector" id="scentSelector" style="display:none">
+          <div class="scent-label">
+            <i class="ph-fill ph-drop" style="color:var(--gold);margin-left:6px"></i>
+            בחר ניחוח: <span style="color:var(--red)">*</span>
+          </div>
+          <select class="scent-select" id="scentSelect">
+            <option value="">— בחר ניחוח —</option>
+          </select>
+          <p class="scent-desc" id="scentDesc"></p>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="features-list" id="featuresList"></div>
+
+        <!-- ADD TO CART -->
+        <div class="add-to-cart-block">
+          <div class="atc-row">
+            <button class="btn btn-add" id="atcBtn" style="flex:1;font-size:1rem;padding:16px 24px">
+              <i class="ph ph-shopping-cart"></i>
+              הוסף לסל
+            </button>
+            <a href="https://wa.me/972509723636" target="_blank" rel="noopener"
+               class="btn btn-outline" style="padding:16px;border-radius:12px" title="שאל בוואטסאפ">
+              <i class="ph-fill ph-whatsapp-logo" style="font-size:1.3rem;color:#25D366"></i>
+            </a>
+          </div>
+          <div class="trust-row">
+            <div class="trust-item"><i class="ph-fill ph-truck"></i> משלוח חינם מ-₪250</div>
+            <div class="trust-item"><i class="ph-fill ph-shield-check"></i> תשלום מאובטח</div>
+            <div class="trust-item"><i class="ph-fill ph-arrow-u-up-left"></i> החזרה ב-14 יום</div>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="product-desc">
+          <h3>על המוצר</h3>
+          <p id="prodDesc"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPSELLS -->
+    <div class="upsells-section" id="upsellsSection">
+      <h3><i class="ph-fill ph-lightning"></i> הוסף להזמנה במחיר מיוחד</h3>
+      <div class="upsells-list" id="upsellsList"></div>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <section style="margin-top:64px">
+      <div class="section-head">
+        <h2>מוצרים נוספים</h2>
+        <a href="index.html#products">לכל המוצרים <i class="ph ph-arrow-left"></i></a>
+      </div>
+      <div class="products-grid" id="relatedGrid"></div>
+    </section>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text"><strong>GARAGE</strong><span>מפיציי הריח המתקדמים בעולם</span></div>
+        <p>מפיצי ריח ומוצרי ריח איכותיים לבית, לרכב ולעסק.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/garage.org.il" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+          <a href="https://www.facebook.com/garage.org.il" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph-fill ph-facebook-logo"></i></a>
+          <a href="https://wa.me/972509723636" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ph-fill ph-whatsapp-logo"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>קטגוריות</h4>
+        <ul>
+          <li><a href="product.html?id=car">מפיץ לרכב</a></li>
+          <li><a href="product.html?id=g60">מפיץ G60</a></li>
+          <li><a href="product.html?id=g30">מפיץ G30</a></li>
+          <li><a href="product.html?id=g100">מפיץ G100</a></li>
+          <li><a href="product.html?id=ipad">מפיץ אייפד</a></li>
+          <li><a href="product.html?id=s500">S500 לעסק</a></li>
+          <li><a href="product.html?id=s1000">S1000 לעסק</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>עוד מוצרים</h4>
+        <ul>
+          <li><a href="product.html?id=bundle">באנדל שנה</a></li>
+          <li><a href="product.html?id=bottles_100ml">בקבוקי 100 מ"ל</a></li>
+          <li><a href="product.html?id=bottles_liter">בקבוק ליטר</a></li>
+          <li><a href="product.html?id=laundry">מבשם כביסה</a></li>
+          <li><a href="product.html?id=samples">ערכת דוגמיות</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>צור קשר</h4>
+        <div class="footer-contact-item"><i class="ph ph-phone"></i><a href="tel:0509723636">050-9723636</a></div>
+        <div class="footer-contact-item"><i class="ph ph-map-pin"></i><span>הארום 82, נתיבות</span></div>
+        <div class="footer-contact-item"><i class="ph ph-whatsapp-logo"></i><a href="https://wa.me/972509723636" target="_blank" rel="noopener">וואטסאפ</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 GARAGE</p>
+      <div class="footer-bottom-links"><a href="#">תקנון</a><a href="#">פרטיות</a><a href="#">נגישות</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile cart bar -->
+<div class="mobile-cart-bar" id="mobileCartBar">
+  <button class="btn btn-add btn-full" id="mobileAtcBtn">
+    <i class="ph ph-shopping-cart"></i>
+    הוסף לסל
+  </button>
+</div>
+
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+const params   = new URLSearchParams(location.search);
+const prodId   = params.get('id') || 'car';
+const product  = PRODUCTS[prodId];
+
+/* State */
+let selectedScent   = '';
+let selectedQtyIdx  = 0;        // for priceVariants
+let upsellsAdded    = new Set();
+
+function init() {
+  if (!product) {
+    document.querySelector('.product-page').innerHTML = '<div class="container" style="padding:80px 0;text-align:center"><h2>מוצר לא נמצא</h2><a href="index.html" class="btn btn-dark" style="margin-top:20px">חזרה לדף הבית</a></div>';
+    return;
+  }
+
+  document.title = `${product.name} — GARAGE`;
+
+  /* breadcrumb */
+  document.getElementById('breadcrumbCat').textContent  = product.categoryLabel;
+  document.getElementById('breadcrumbName').textContent = product.name;
+
+  /* mark active nav */
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (a.href.includes(`id=${prodId}`)) a.classList.add('active');
+  });
+
+  /* gallery */
+  renderGallery();
+
+  /* info */
+  document.getElementById('prodCat').textContent  = product.categoryLabel;
+  document.getElementById('prodName').textContent = product.name;
+  document.getElementById('prodSub').textContent  = product.subtitle;
+  document.getElementById('prodDesc').textContent = product.desc;
+
+  /* price */
+  renderPrice();
+
+  /* qty variants */
+  if (product.priceVariants) {
+    document.getElementById('qtyVariants').style.display = 'block';
+    renderQtyVariants();
+  }
+
+  /* scent */
+  if (product.hasScent) {
+    document.getElementById('scentSelector').style.display = 'block';
+    const sel = document.getElementById('scentSelect');
+    SCENTS.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.name;
+      opt.textContent = s.name;
+      opt.dataset.desc = s.desc;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', () => {
+      selectedScent = sel.value;
+      const opt = sel.querySelector(`option[value="${selectedScent}"]`);
+      document.getElementById('scentDesc').textContent = opt ? opt.dataset.desc : '';
+    });
+  }
+
+  /* features */
+  const fl = document.getElementById('featuresList');
+  fl.innerHTML = product.features.map(f =>
+    `<div class="feature-item"><i class="ph-fill ${f.icon}"></i><span>${f.text}</span></div>`
+  ).join('');
+
+  /* add to cart */
+  document.getElementById('atcBtn').addEventListener('click', handleAddToCart);
+  document.getElementById('mobileAtcBtn').addEventListener('click', handleAddToCart);
+
+  /* upsells */
+  renderUpsells();
+
+  /* related */
+  renderRelated();
+}
+
+function renderGallery() {
+  const mainImg = document.getElementById('galleryMain');
+  mainImg.src = product.img;
+  mainImg.alt = product.name;
+
+  const thumbs = document.getElementById('galleryThumbs');
+  if (product.thumbs && product.thumbs.length > 1) {
+    thumbs.innerHTML = product.thumbs.map((t, i) =>
+      `<button class="gallery-thumb ${i===0?'active':''}" onclick="switchThumb('${t}',this)">
+        <img src="${t}" alt="${product.name} תמונה ${i+1}" loading="lazy">
+       </button>`
+    ).join('');
+  }
+}
+
+function switchThumb(src, el) {
+  document.getElementById('galleryMain').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('galleryMain').src = src;
+    document.getElementById('galleryMain').style.opacity = '1';
+  }, 150);
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function renderPrice() {
+  const block = document.getElementById('priceBlock');
+  if (!product.priceVariants) {
+    const saving = product.origPrice ? product.origPrice - product.price : 0;
+    block.innerHTML = `
+      <div class="price-block">
+        <span class="price-now">₪${product.price.toLocaleString('he-IL')}</span>
+        ${product.origPrice ? `<span class="price-was">₪${product.origPrice.toLocaleString('he-IL')}</span>` : ''}
+      </div>
+      ${saving > 0 ? `<div class="price-saving"><i class="ph-fill ph-tag"></i> חוסכים ₪${saving} עכשיו!</div>` : ''}
+    `;
+  } else {
+    renderPrice_Variant();
+  }
+}
+
+function renderPrice_Variant() {
+  const v = product.priceVariants[selectedQtyIdx];
+  document.getElementById('priceBlock').innerHTML = `
+    <div class="price-block">
+      <span class="price-now">₪${v.price.toLocaleString('he-IL')}</span>
+      ${selectedQtyIdx > 0 ? `<span style="font-size:.85rem;color:var(--green);font-weight:600">חסכון ₪${(product.priceVariants[0].price * v.qty - v.price).toLocaleString('he-IL')}</span>` : ''}
+    </div>
+  `;
+}
+
+function renderQtyVariants() {
+  const list = document.getElementById('qtyVariantsList');
+  list.innerHTML = product.priceVariants.map((v, i) => {
+    const base = product.priceVariants[0].price;
+    const save = base * v.qty - v.price;
+    return `
+    <label class="qty-variant ${i===0?'selected':''}">
+      <input type="radio" name="qty" value="${i}" ${i===0?'checked':''}>
+      <span class="qv-label">${v.label}</span>
+      <div style="display:flex;flex-direction:column;align-items:flex-end">
+        <span class="qv-price">₪${v.price}</span>
+        ${save > 0 ? `<span class="qv-save">חסכון ₪${save}</span>` : ''}
+      </div>
+    </label>`;
+  }).join('');
+
+  list.querySelectorAll('.qty-variant').forEach((el, i) => {
+    el.addEventListener('click', () => {
+      selectedQtyIdx = i;
+      list.querySelectorAll('.qty-variant').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      renderPrice_Variant();
+    });
+  });
+}
+
+function handleAddToCart() {
+  if (product.hasScent && !selectedScent) {
+    const sel = document.getElementById('scentSelect');
+    sel.focus();
+    sel.style.borderColor = 'var(--red)';
+    setTimeout(() => sel.style.borderColor = '', 2000);
+    cartToast('נא לבחור ניחוח תחילה');
+    return;
+  }
+
+  let qty = 1;
+  if (product.priceVariants) {
+    qty = product.priceVariants[selectedQtyIdx].qty;
+  }
+
+  cartAdd(prodId, { scent: selectedScent, qty });
+
+  /* auto-add upsells that were checked */
+  upsellsAdded.forEach(uid => {
+    const scent = document.getElementById(`upsell-scent-${uid}`)?.value || selectedScent || '';
+    cartAddUpsell(uid, scent);
+  });
+
+  /* redirect to cart */
+  setTimeout(() => { location.href = 'cart.html'; }, 600);
+}
+
+function renderUpsells() {
+  const section = document.getElementById('upsellsSection');
+  const list    = document.getElementById('upsellsList');
+
+  if (!product.upsells || product.upsells.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  /* dedupe */
+  const ids = [...new Set(product.upsells)];
+  list.innerHTML = ids.map(uid => {
+    const u = UPSELLS[uid];
+    if (!u) return '';
+    const save = u.standAlonePrice - u.bundlePrice;
+    const savePct = Math.round(save / u.standAlonePrice * 100);
+    const scentRow = u.hasScent ? `
+      <div class="upsell-scent">
+        <select id="upsell-scent-${uid}" class="scent-select" style="font-size:.78rem;padding:5px 8px;max-width:180px">
+          <option value="">בחר ניחוח</option>
+          ${SCENTS.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
+        </select>
+      </div>` : '';
+
+    return `
+    <div class="upsell-card" id="upsell-${uid}" onclick="toggleUpsell('${uid}',this)">
+      <div class="upsell-card__img">
+        <img src="${u.img}" alt="${u.name}" loading="lazy">
+      </div>
+      <div class="upsell-card__info">
+        <div class="upsell-card__note">עם ההזמנה — ${savePct}% הנחה</div>
+        <div class="upsell-card__name">${u.name}</div>
+        <div class="upsell-card__prices">
+          <span class="up">₪${u.bundlePrice}</span>
+          <span class="was">₪${u.standAlonePrice}</span>
+          <span class="save">חסכון ₪${save}</span>
+        </div>
+        ${scentRow}
+      </div>
+      <button class="upsell-card__btn" aria-label="הוסף">
+        <i class="ph ph-plus"></i>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function toggleUpsell(uid, el) {
+  /* prevent toggling on scent select click */
+  if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION') return;
+
+  el.classList.toggle('added');
+  const btn = el.querySelector('.upsell-card__btn i');
+
+  if (el.classList.contains('added')) {
+    upsellsAdded.add(uid);
+    if (btn) btn.className = 'ph ph-check';
+    cartToast(`"${UPSELLS[uid]?.name}" נוסף — יתווסף עם הלחיצה על הוסף לסל`);
+  } else {
+    upsellsAdded.delete(uid);
+    if (btn) btn.className = 'ph ph-plus';
+  }
+}
+
+function renderRelated() {
+  const related = Object.values(PRODUCTS)
+    .filter(p => p.id !== prodId && p.category === product.category)
+    .slice(0, 4);
+
+  const extra = Object.values(PRODUCTS)
+    .filter(p => p.id !== prodId && !related.find(r => r.id === p.id))
+    .slice(0, 4 - related.length);
+
+  const all = [...related, ...extra].slice(0, 4);
+  const grid = document.getElementById('relatedGrid');
+
+  grid.innerHTML = all.map(p => {
+    const saving = p.origPrice ? `<span class="saving">חסכון ₪${p.origPrice - p.price}</span>` : '';
+    const orig   = p.origPrice ? `<span class="original">₪${p.origPrice}</span>` : '';
+    return `
+    <a href="product.html?id=${p.id}" class="product-card">
+      <div class="product-card__img">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<div class="product-card__badge"><span class="badge badge-sale">${p.badge}</span></div>` : ''}
+      </div>
+      <div class="product-card__body">
+        <span class="product-card__cat">${p.categoryLabel}</span>
+        <h3 class="product-card__name">${p.name}</h3>
+        <div class="product-card__price">
+          <span class="current">₪${p.price}</span>${orig}${saving}
+        </div>
+        <div class="product-card__cta">
+          <span class="btn btn-add btn-full btn-sm"><i class="ph ph-shopping-cart"></i> הוסף לסל</span>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+/* hamburger */
+document.getElementById('hamburger')?.addEventListener('click', () =>
+  document.getElementById('navLinks').classList.toggle('open'));
+
+init();
+</script>
+</body>
+</html>

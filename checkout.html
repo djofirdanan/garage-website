@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>תשלום — GARAGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .steps { display:flex; align-items:center; gap:0; margin-bottom:40px; }
+    .step  { display:flex; align-items:center; gap:8px; flex:1; }
+    .step-num {
+      width:32px; height:32px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.8rem; font-weight:700; flex-shrink:0;
+    }
+    .step.done  .step-num { background:var(--green);  color:#fff; }
+    .step.active .step-num{ background:var(--gold);   color:#fff; }
+    .step.idle  .step-num { background:var(--border); color:var(--muted); }
+    .step-label { font-size:.82rem; font-weight:600; }
+    .step.active .step-label { color:var(--dark); }
+    .step.idle  .step-label  { color:var(--muted); }
+    .step-line  { flex:1; height:2px; background:var(--border); margin:0 8px; }
+    .step.done + .step .step-line,
+    .step.done .step-line { background:var(--green); }
+
+    .success-screen {
+      display:none; text-align:center; padding:80px 20px;
+    }
+    .success-screen .success-icon {
+      width:80px; height:80px; border-radius:50%;
+      background:rgba(45,122,79,.1); border:3px solid var(--green);
+      display:flex; align-items:center; justify-content:center;
+      font-size:2.2rem; color:var(--green);
+      margin:0 auto 24px;
+    }
+    .success-screen h2 { font-size:1.6rem; font-weight:900; margin-bottom:8px; }
+    .success-screen p  { color:var(--muted); max-width:400px; margin:0 auto 28px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner container">
+    <a href="index.html" class="logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="logo-text" style="display:none"><strong>GARAGE</strong><span>מפיציי הריח המתקדמים</span></div>
+    </a>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-btn">
+        <i class="ph ph-arrow-right"></i>
+        חזרה לסל
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- CHECKOUT -->
+<main class="checkout-page">
+  <div class="container">
+
+    <!-- STEPS -->
+    <div class="steps">
+      <div class="step done">
+        <div class="step-num"><i class="ph-fill ph-check"></i></div>
+        <span class="step-label">סל קניות</span>
+        <div class="step-line"></div>
+      </div>
+      <div class="step active">
+        <div class="step-num">2</div>
+        <span class="step-label">פרטים ותשלום</span>
+        <div class="step-line"></div>
+      </div>
+      <div class="step idle">
+        <div class="step-num">3</div>
+        <span class="step-label">אישור הזמנה</span>
+      </div>
+    </div>
+
+    <!-- EMPTY REDIRECT -->
+    <div id="emptyCart" style="display:none;text-align:center;padding:60px 0">
+      <i class="ph ph-shopping-cart-simple" style="font-size:3rem;color:var(--border)"></i>
+      <h3 style="margin:16px 0 8px">הסל ריק</h3>
+      <a href="index.html#products" class="btn btn-dark" style="margin-top:12px">חזרה לקניות</a>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon"><i class="ph-fill ph-check"></i></div>
+      <h2>ההזמנה נשלחה!</h2>
+      <p>קיבלנו את הזמנתך. ניצור איתך קשר לאישור תוך זמן קצר.<br/>תודה שבחרת GARAGE!</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" class="btn btn-dark btn-lg">
+          <i class="ph ph-house"></i>
+          דף הבית
+        </a>
+        <a href="https://wa.me/972509723636" target="_blank" rel="noopener"
+           class="btn btn-lg" style="background:#25D366;color:#fff">
+          <i class="ph-fill ph-whatsapp-logo"></i>
+          וואטסאפ
+        </a>
+      </div>
+    </div>
+
+    <!-- CHECKOUT LAYOUT -->
+    <div class="checkout-layout" id="checkoutLayout">
+
+      <!-- FORM -->
+      <div>
+        <div class="checkout-form">
+          <div class="checkout-form__head">
+            <h2><i class="ph ph-user" style="margin-left:8px"></i>פרטי משלוח</h2>
+          </div>
+          <div class="checkout-form__body">
+            <form id="checkoutForm" novalidate>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="firstName">שם פרטי <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="firstName" placeholder="ישראל" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">שם משפחה <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="lastName" placeholder="ישראלי" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">טלפון <span class="req">*</span></label>
+                <input type="tel" class="form-input" id="phone" placeholder="050-0000000" required>
+              </div>
+
+              <div class="form-group">
+                <label for="address">כתובת למשלוח <span class="req">*</span></label>
+                <input type="text" class="form-input" id="address" placeholder="רחוב, מספר בית, דירה" required>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label for="city">עיר <span class="req">*</span></label>
+                  <input type="text" class="form-input" id="city" placeholder="תל אביב" required>
+                </div>
+                <div class="form-group">
+                  <label for="zip">מיקוד</label>
+                  <input type="text" class="form-input" id="zip" placeholder="6100000">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="notes">הערות להזמנה</label>
+                <textarea class="form-input" id="notes" placeholder="הוראות מיוחדות, זמן משלוח מועדף..."></textarea>
+              </div>
+
+              <!-- BIT PAYMENT -->
+              <div class="bit-payment">
+                <div class="bit-payment__head">
+                  <div class="bit-logo">bit</div>
+                  <div>
+                    <h3>תשלום בביט</h3>
+                    <p>מהיר, מאובטח, ללא עמלות</p>
+                  </div>
+                </div>
+
+                <div class="bit-phone">
+                  <i class="ph-fill ph-device-mobile"></i>
+                  <span id="bitAmount">₪0</span>
+                  <span style="color:var(--muted);font-weight:400;font-size:.85rem">← שלח לביט:</span>
+                  <span>050-9723636</span>
+                </div>
+
+                <div class="bit-steps">
+                  <div class="bit-step">
+                    <div class="bit-step-num">1</div>
+                    <span>פתח את אפליקציית ביט בטלפון שלך</span>
+                  </div>
+                  <div class="bit-step">
+                    <div class="bit-step-num">2</div>
+                    <span>שלח <strong id="bitAmountStep">₪0</strong> למספר <strong>050-9723636</strong></span>
+                  </div>
+                  <div class="bit-step">
+                    <div class="bit-step-num">3</div>
+                    <span>לחץ על "שלח הזמנה" — ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-order-btn">
+                <i class="ph-fill ph-whatsapp-logo" style="font-size:1.5rem"></i>
+                שלח הזמנה בוואטסאפ
+              </button>
+
+              <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--muted)">
+                לחיצה על הכפתור תפתח וואטסאפ עם פרטי ההזמנה המלאים
+              </p>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER REVIEW -->
+      <div>
+        <div class="checkout-review">
+          <div class="checkout-review__head">
+            <i class="ph ph-receipt" style="margin-left:8px"></i>
+            סיכום הזמנה
+          </div>
+          <div class="checkout-review__items" id="reviewItems"></div>
+          <div style="padding:16px 20px;border-top:1px solid var(--border)">
+            <div class="summary-row" style="padding:4px 0;font-size:.85rem">
+              <span>סכום ביניים</span><span id="reviewSubtotal">₪0</span>
+            </div>
+            <div class="summary-row" id="reviewShipRow" style="padding:4px 0;font-size:.85rem">
+              <span>משלוח</span><span id="reviewShip">₪35</span>
+            </div>
+            <div class="summary-row total" style="margin-top:8px">
+              <span>סה"כ</span><strong id="reviewTotal">₪0</strong>
+            </div>
+          </div>
+          <div style="padding:0 20px 20px">
+            <a href="cart.html" style="font-size:.82rem;color:var(--gold);display:flex;align-items:center;gap:4px">
+              <i class="ph ph-pencil"></i> ערוך הזמנה
+            </a>
+          </div>
+        </div>
+
+        <!-- Trust badges -->
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+          <div class="trust-item" style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);font-size:.85rem">
+            <i class="ph-fill ph-shield-check" style="color:var(--green);font-size:1.1rem"></i>
+            <span>תשלום מאובטח דרך ביט</span>
+          </div>
+          <div class="trust-item" style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);font-size:.85rem">
+            <i class="ph-fill ph-truck" style="color:var(--navy);font-size:1.1rem"></i>
+            <span>משלוח תוך 2-3 ימי עסקים</span>
+          </div>
+          <div class="trust-item" style="background:var(--surface);padding:12px;border-radius:var(--radius-sm);font-size:.85rem">
+            <i class="ph-fill ph-arrow-u-up-left" style="color:var(--gold);font-size:1.1rem"></i>
+            <span>ביטול והחזרה תוך 14 יום</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:60px">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none;padding:28px 0 0">
+      <p>© 2025 GARAGE</p>
+      <div class="footer-bottom-links">
+        <a href="index.html">דף הבית</a>
+        <a href="cart.html">סל קניות</a>
+        <a href="tel:0509723636">050-9723636</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+function renderReview() {
+  const items  = cartGet();
+  const totals = cartTotals();
+
+  if (items.length === 0) {
+    document.getElementById('emptyCart').style.display   = 'block';
+    document.getElementById('checkoutLayout').style.display = 'none';
+    return;
+  }
+
+  /* items list */
+  document.getElementById('reviewItems').innerHTML = items.map(item => `
+    <div class="review-item">
+      <img src="${item.img}" alt="${item.name}" loading="lazy">
+      <div class="review-item__info">
+        <div class="name">${item.name}</div>
+        <div class="meta">
+          ${item.scent ? `<span><i class="ph ph-drop" style="color:var(--gold)"></i> ${item.scent}</span>` : ''}
+          ${item.qty > 1 ? ` · ×${item.qty}` : ''}
+        </div>
+      </div>
+      <div class="review-item__price">₪${(item.price * item.qty).toLocaleString('he-IL')}</div>
+    </div>`).join('');
+
+  /* totals */
+  document.getElementById('reviewSubtotal').textContent = `₪${totals.subtotal.toLocaleString('he-IL')}`;
+  document.getElementById('reviewShip').textContent     = totals.shipping === 0 ? 'חינם!' : `₪${totals.shipping}`;
+  if (totals.shipping === 0) document.getElementById('reviewShipRow').style.color = 'var(--green)';
+  document.getElementById('reviewTotal').textContent    = `₪${totals.total.toLocaleString('he-IL')}`;
+
+  /* bit amount */
+  document.getElementById('bitAmount').textContent     = `₪${totals.total.toLocaleString('he-IL')}`;
+  document.getElementById('bitAmountStep').textContent = `₪${totals.total.toLocaleString('he-IL')}`;
+}
+
+/* form submit */
+document.getElementById('checkoutForm')?.addEventListener('submit', e => {
+  e.preventDefault();
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const phone     = document.getElementById('phone').value.trim();
+  const address   = document.getElementById('address').value.trim();
+  const city      = document.getElementById('city').value.trim();
+  const zip       = document.getElementById('zip').value.trim();
+  const notes     = document.getElementById('notes').value.trim();
+
+  /* validation */
+  const required = [
+    [firstName, 'firstName', 'נא למלא שם פרטי'],
+    [lastName,  'lastName',  'נא למלא שם משפחה'],
+    [phone,     'phone',     'נא למלא טלפון'],
+    [address,   'address',   'נא למלא כתובת'],
+    [city,      'city',      'נא למלא עיר'],
+  ];
+  for (const [val, id, msg] of required) {
+    if (!val) {
+      const el = document.getElementById(id);
+      el.style.borderColor = 'var(--red)';
+      el.focus();
+      cartToast(msg);
+      setTimeout(() => el.style.borderColor = '', 2000);
+      return;
+    }
+  }
+
+  const fullName  = `${firstName} ${lastName}`;
+  const fullAddr  = `${address}, ${city}${zip ? ' ' + zip : ''}`;
+  const waMsg     = buildOrderMessage(fullName, phone, fullAddr, notes);
+  const waUrl     = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
+
+  /* open WhatsApp */
+  window.open(waUrl, '_blank');
+
+  /* show success */
+  cartClear();
+  document.getElementById('checkoutLayout').style.display = 'none';
+  document.querySelector('.steps').style.display          = 'none';
+  document.getElementById('successScreen').style.display  = 'block';
+  document.querySelector('.steps .step:last-child').classList.replace('idle','active');
+  window.scrollTo(0, 0);
+});
+
+renderReview();
+</script>
+</body>
+</html>
