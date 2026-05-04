@@ -156,6 +156,19 @@
                 <textarea class="form-input" id="notes" placeholder="הוראות מיוחדות, זמן משלוח מועדף..."></textarea>
               </div>
 
+              <!-- COUPON -->
+              <div class="form-group" style="margin-bottom:0">
+                <label for="couponCode">קוד קופון</label>
+                <div style="display:flex;gap:8px">
+                  <input type="text" class="form-input" id="couponCode" placeholder="הכנס קוד" style="flex:1;letter-spacing:.05em;text-transform:uppercase">
+                  <button type="button" id="applyCoupon"
+                    style="padding:0 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--dark)">
+                    החל
+                  </button>
+                </div>
+                <div id="couponMsg" style="font-size:.8rem;margin-top:4px;display:none"></div>
+              </div>
+
               <!-- BIT PAYMENT -->
               <div class="bit-payment">
                 <div class="bit-payment__head">
@@ -266,6 +279,8 @@
 <script src="products.js"></script>
 <script src="cart.js"></script>
 <script>
+const ADMIN_API = 'https://garage-admin.vercel.app';
+
 function renderReview() {
   const items  = cartGet();
   const totals = cartTotals();
@@ -301,8 +316,50 @@ function renderReview() {
   document.getElementById('bitAmountStep').textContent = `₪${totals.total.toLocaleString('he-IL')}`;
 }
 
+/* coupon logic */
+let appliedCoupon = null;
+
+document.getElementById('applyCoupon')?.addEventListener('click', async () => {
+  const code = document.getElementById('couponCode').value.trim().toUpperCase();
+  const msg  = document.getElementById('couponMsg');
+  if (!code) return;
+
+  const totals = cartTotals();
+  const btn    = document.getElementById('applyCoupon');
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch(
+      `${ADMIN_API}/api/coupons/validate?code=${encodeURIComponent(code)}&subtotal=${totals.subtotal}`
+    );
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      msg.style.color = 'var(--red)';
+      msg.textContent = data.error ?? 'קוד לא תקין';
+      msg.style.display = 'block';
+      appliedCoupon = null;
+    } else {
+      msg.style.color = 'var(--green)';
+      msg.textContent = `קופון הוחל! חיסכון ₪${data.discountAmt}`;
+      msg.style.display = 'block';
+      appliedCoupon = { code, discount: data.discountAmt };
+      /* update review totals */
+      const discountedTotal = totals.total - data.discountAmt;
+      document.getElementById('reviewTotal').textContent    = `₪${discountedTotal.toLocaleString('he-IL')}`;
+      document.getElementById('bitAmount').textContent     = `₪${discountedTotal.toLocaleString('he-IL')}`;
+      document.getElementById('bitAmountStep').textContent = `₪${discountedTotal.toLocaleString('he-IL')}`;
+    }
+  } catch {
+    msg.style.color = 'var(--red)';
+    msg.textContent = 'שגיאה בבדיקת הקופון';
+    msg.style.display = 'block';
+  }
+  btn.disabled = false;
+});
+
 /* form submit */
-document.getElementById('checkoutForm')?.addEventListener('submit', e => {
+document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   e.preventDefault();
   const firstName = document.getElementById('firstName').value.trim();
   const lastName  = document.getElementById('lastName').value.trim();
@@ -333,10 +390,49 @@ document.getElementById('checkoutForm')?.addEventListener('submit', e => {
 
   const fullName  = `${firstName} ${lastName}`;
   const fullAddr  = `${address}, ${city}${zip ? ' ' + zip : ''}`;
-  const waMsg     = buildOrderMessage(fullName, phone, fullAddr, notes);
-  const waUrl     = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
+  const items     = cartGet();
+  const totals    = cartTotals();
+
+  /* disable button during processing */
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  /* save order to admin */
+  try {
+    await fetch(`${ADMIN_API}/api/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer: { name: fullName, phone, address: fullAddr, city, zip: zip || undefined },
+        items: items.map(i => ({
+          productId: i.productId,
+          name: i.name,
+          scent: i.scent || '',
+          qty: i.qty,
+          price: i.price,
+          isUpsell: i.isUpsell || false,
+        })),
+        subtotal: totals.subtotal,
+        shipping: totals.shipping,
+        discountAmt: appliedCoupon ? appliedCoupon.discount : 0,
+        couponCode: appliedCoupon ? appliedCoupon.code : undefined,
+        total: appliedCoupon ? totals.total - appliedCoupon.discount : totals.total,
+        notes: notes || undefined,
+        paymentMethod: 'bit',
+      }),
+    });
+  } catch (err) {
+    console.warn('admin save failed', err);
+    /* continue even if admin API is unreachable */
+  }
+
+  btn.disabled = false;
+  btn.style.opacity = '';
 
   /* open WhatsApp */
+  const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes);
+  const waUrl = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
   window.open(waUrl, '_blank');
 
   /* show success */
