@@ -16,20 +16,31 @@
 <!-- NAV -->
 <header class="site-nav" id="siteNav">
   <div class="site-nav__inner">
-    <div class="site-nav__links" id="siteNavLinks">
-      <a href="index.html">דף הבית</a>
-      <a href="product.html?id=car">לרכב</a>
-      <a href="product.html?id=g60">לבית / משרד</a>
-      <a href="product.html?id=s500">לעסק</a>
-      <a href="product.html?id=bottles_100ml">בקבוקים</a>
-      <a href="index.html#contact">צור קשר</a>
+
+    <!-- Column 1 RIGHT (RTL): nav links on desktop, hamburger on mobile -->
+    <div class="site-nav__start">
+      <nav class="site-nav__links" id="siteNavLinks">
+        <a href="index.html">דף הבית</a>
+        <a href="product.html?id=car">לרכב</a>
+        <a href="product.html?id=g60">לבית / משרד</a>
+        <a href="product.html?id=s500">לעסק</a>
+        <a href="product.html?id=bottles_100ml">בקבוקים</a>
+        <a href="index.html#contact">צור קשר</a>
+      </nav>
+      <button class="nav-hamburger" id="navHamburger" aria-label="תפריט">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+
+    <!-- Column 2 CENTER: logo -->
     <a href="index.html" class="site-nav__logo">
       <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
            alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <strong style="display:none;font-size:18px;letter-spacing:.04em">GARAGE</strong>
+      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
     </a>
-    <div class="site-nav__actions">
+
+    <!-- Column 3 LEFT (RTL): phone + cart -->
+    <div class="site-nav__end">
       <a href="tel:050-9723636" class="phone-btn">
         <i class="ph-fill ph-phone" style="font-size:14px"></i>
         <span>050-9723636</span>
@@ -38,10 +49,8 @@
         <i class="ph ph-shopping-cart" style="font-size:20px"></i>
         <span class="cart-badge" id="cartBadge">0</span>
       </a>
-      <button class="nav-hamburger" id="navHamburger" aria-label="תפריט">
-        <span></span><span></span><span></span>
-      </button>
     </div>
+
   </div>
 </header>
 
