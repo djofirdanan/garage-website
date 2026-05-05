@@ -14,38 +14,53 @@
 <body>
 
 <!-- NAV -->
-<nav class="nav" id="nav">
-  <div class="nav-inner container">
-    <a href="index.html" class="logo">
-      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
-           alt="GARAGE" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="logo-text" style="display:none">
-        <strong>GARAGE</strong>
-        <span>מפיציי הריח המתקדמים</span>
-      </div>
-    </a>
-    <nav class="nav-links" id="navLinks">
+<header class="site-nav" id="siteNav">
+  <div class="site-nav__inner">
+    <div class="site-nav__links" id="siteNavLinks">
       <a href="index.html">דף הבית</a>
       <a href="product.html?id=car">לרכב</a>
       <a href="product.html?id=g60">לבית / משרד</a>
       <a href="product.html?id=s500">לעסק</a>
       <a href="product.html?id=bottles_100ml">בקבוקים</a>
       <a href="index.html#contact">צור קשר</a>
-    </nav>
-    <div class="nav-actions">
-      <a href="tel:0509723636" class="nav-phone">
-        <i class="ph-fill ph-phone"></i>
-        <span class="phone-label">050-9723636</span>
+    </div>
+    <a href="index.html" class="site-nav__logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <strong style="display:none;font-size:18px;letter-spacing:.04em">GARAGE</strong>
+    </a>
+    <div class="site-nav__actions">
+      <a href="tel:050-9723636" class="phone-btn">
+        <i class="ph-fill ph-phone" style="font-size:14px"></i>
+        <span>050-9723636</span>
       </a>
-      <a href="cart.html" class="cart-btn">
-        <i class="ph ph-shopping-cart"></i>
-        <span>סל</span>
+      <a href="cart.html" class="site-nav__icon-btn" aria-label="סל קניות">
+        <i class="ph ph-shopping-cart" style="font-size:20px"></i>
         <span class="cart-badge" id="cartBadge">0</span>
       </a>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <button class="nav-hamburger" id="navHamburger" aria-label="תפריט">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
-</nav>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav__overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav__links">
+    <a href="index.html">דף הבית</a>
+    <a href="product.html?id=car">לרכב</a>
+    <a href="product.html?id=g60">לבית / משרד</a>
+    <a href="product.html?id=s500">לעסק</a>
+    <a href="product.html?id=bottles_100ml">בקבוקים</a>
+    <a href="index.html#contact">צור קשר</a>
+  </div>
+  <div class="mobile-nav__cta">
+    <a href="tel:050-9723636" class="btn btn--mint">050-9723636</a>
+    <a href="product.html?id=car" class="btn btn--primary">לקנות עכשיו</a>
+  </div>
+</div>
 
 <!-- PRODUCT PAGE -->
 <main class="product-page">
@@ -54,9 +69,9 @@
     <!-- BREADCRUMB -->
     <nav class="breadcrumb" id="breadcrumb">
       <a href="index.html">בית</a>
-      <i class="ph ph-caret-left"></i>
+      <i class="ph ph-caret-left" style="font-size:12px"></i>
       <span id="breadcrumbCat">מוצר</span>
-      <i class="ph ph-caret-left"></i>
+      <i class="ph ph-caret-left" style="font-size:12px"></i>
       <span id="breadcrumbName">טוען...</span>
     </nav>
 
@@ -78,7 +93,7 @@
         <p class="product-info__sub" id="prodSub"></p>
 
         <!-- PRICE -->
-        <div id="priceBlock"><!-- rendered by JS --></div>
+        <div id="priceBlock"></div>
 
         <!-- QTY VARIANTS (bottles only) -->
         <div id="qtyVariants" style="display:none">
@@ -89,8 +104,8 @@
         <!-- SCENT SELECTOR -->
         <div class="scent-selector" id="scentSelector" style="display:none">
           <div class="scent-label">
-            <i class="ph-fill ph-drop" style="color:var(--gold);margin-left:6px"></i>
-            בחר ניחוח: <span style="color:var(--red)">*</span>
+            <i class="ph-fill ph-drop" style="color:var(--black);margin-left:6px;font-size:15px"></i>
+            בחר ניחוח: <span style="color:#dc2626;margin-right:2px">*</span>
           </div>
           <select class="scent-select" id="scentSelect">
             <option value="">— בחר ניחוח —</option>
@@ -104,19 +119,19 @@
         <!-- ADD TO CART -->
         <div class="add-to-cart-block">
           <div class="atc-row">
-            <button class="btn btn-add" id="atcBtn" style="flex:1;font-size:1rem;padding:16px 24px">
+            <button class="btn-add" id="atcBtn" style="flex:1;font-size:1rem;padding:16px 24px">
               <i class="ph ph-shopping-cart"></i>
               הוסף לסל
             </button>
             <a href="https://wa.me/972509723636" target="_blank" rel="noopener"
-               class="btn btn-outline" style="padding:16px;border-radius:12px" title="שאל בוואטסאפ">
+               class="btn-outline-sq" title="שאל בוואטסאפ">
               <i class="ph-fill ph-whatsapp-logo" style="font-size:1.3rem;color:#25D366"></i>
             </a>
           </div>
           <div class="trust-row">
             <div class="trust-item"><i class="ph-fill ph-truck"></i> משלוח חינם מ-₪250</div>
             <div class="trust-item"><i class="ph-fill ph-shield-check"></i> תשלום מאובטח</div>
-            <div class="trust-item"><i class="ph-fill ph-arrow-u-up-left"></i> החזרה ב-14 יום</div>
+            <div class="trust-item"><i class="ph-fill ph-arrow-counter-clockwise"></i> החזרה ב-14 יום</div>
           </div>
         </div>
 
@@ -135,7 +150,7 @@
     </div>
 
     <!-- RELATED PRODUCTS -->
-    <section style="margin-top:64px">
+    <section class="related-section">
       <div class="section-head">
         <h2>מוצרים נוספים</h2>
         <a href="index.html#products">לכל המוצרים <i class="ph ph-arrow-left"></i></a>
@@ -147,11 +162,12 @@
 </main>
 
 <!-- FOOTER -->
-<footer class="footer">
+<footer class="site-footer">
   <div class="container">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div class="footer-brand">
-        <div class="logo-text"><strong>GARAGE</strong><span>מפיציי הריח המתקדמים בעולם</span></div>
+        <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+             alt="GARAGE" onerror="this.style.display='none'">
         <p>מפיצי ריח ומוצרי ריח איכותיים לבית, לרכב ולעסק.</p>
         <div class="footer-socials">
           <a href="https://www.instagram.com/garage.org.il" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
@@ -160,7 +176,7 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>קטגוריות</h4>
+        <p class="footer-col__title">קטגוריות</p>
         <ul>
           <li><a href="product.html?id=car">מפיץ לרכב</a></li>
           <li><a href="product.html?id=g60">מפיץ G60</a></li>
@@ -172,32 +188,28 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>עוד מוצרים</h4>
+        <p class="footer-col__title">צור קשר</p>
         <ul>
-          <li><a href="product.html?id=bundle">באנדל שנה</a></li>
-          <li><a href="product.html?id=bottles_100ml">בקבוקי 100 מ"ל</a></li>
-          <li><a href="product.html?id=bottles_liter">בקבוק ליטר</a></li>
-          <li><a href="product.html?id=laundry">מבשם כביסה</a></li>
-          <li><a href="product.html?id=samples">ערכת דוגמיות</a></li>
+          <li><a href="tel:0509723636"><i class="ph ph-phone" style="margin-left:6px"></i>050-9723636</a></li>
+          <li><span><i class="ph ph-map-pin" style="margin-left:6px"></i>הארום 82, נתיבות</span></li>
+          <li><a href="https://wa.me/972509723636" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo" style="margin-left:6px"></i>וואטסאפ</a></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>צור קשר</h4>
-        <div class="footer-contact-item"><i class="ph ph-phone"></i><a href="tel:0509723636">050-9723636</a></div>
-        <div class="footer-contact-item"><i class="ph ph-map-pin"></i><span>הארום 82, נתיבות</span></div>
-        <div class="footer-contact-item"><i class="ph ph-whatsapp-logo"></i><a href="https://wa.me/972509723636" target="_blank" rel="noopener">וואטסאפ</a></div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 GARAGE</p>
-      <div class="footer-bottom-links"><a href="#">תקנון</a><a href="#">פרטיות</a><a href="#">נגישות</a></div>
+      <p>© 2025 GARAGE — כל הזכויות שמורות</p>
+      <div style="display:flex;gap:20px">
+        <a href="#">תקנון</a>
+        <a href="#">פרטיות</a>
+        <a href="#">נגישות</a>
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- Mobile cart bar -->
+<!-- MOBILE CART BAR -->
 <div class="mobile-cart-bar" id="mobileCartBar">
-  <button class="btn btn-add btn-full" id="mobileAtcBtn">
+  <button class="btn-add btn-full btn-lg" id="mobileAtcBtn">
     <i class="ph ph-shopping-cart"></i>
     הוסף לסל
   </button>
@@ -212,12 +224,12 @@ const product  = PRODUCTS[prodId];
 
 /* State */
 let selectedScent   = '';
-let selectedQtyIdx  = 0;        // for priceVariants
+let selectedQtyIdx  = 0;
 let upsellsAdded    = new Set();
 
 function init() {
   if (!product) {
-    document.querySelector('.product-page').innerHTML = '<div class="container" style="padding:80px 0;text-align:center"><h2>מוצר לא נמצא</h2><a href="index.html" class="btn btn-dark" style="margin-top:20px">חזרה לדף הבית</a></div>';
+    document.querySelector('.product-page').innerHTML = '<div class="container" style="padding:80px 0;text-align:center"><h2>מוצר לא נמצא</h2><a href="index.html" class="btn-add" style="margin-top:20px;padding:13px 28px;display:inline-flex;border-radius:99px">חזרה לדף הבית</a></div>';
     return;
   }
 
@@ -228,7 +240,7 @@ function init() {
   document.getElementById('breadcrumbName').textContent = product.name;
 
   /* mark active nav */
-  document.querySelectorAll('.nav-links a').forEach(a => {
+  document.querySelectorAll('.site-nav__links a').forEach(a => {
     if (a.href.includes(`id=${prodId}`)) a.classList.add('active');
   });
 
@@ -331,7 +343,7 @@ function renderPrice_Variant() {
   document.getElementById('priceBlock').innerHTML = `
     <div class="price-block">
       <span class="price-now">₪${v.price.toLocaleString('he-IL')}</span>
-      ${selectedQtyIdx > 0 ? `<span style="font-size:.85rem;color:var(--green);font-weight:600">חסכון ₪${(product.priceVariants[0].price * v.qty - v.price).toLocaleString('he-IL')}</span>` : ''}
+      ${selectedQtyIdx > 0 ? `<span class="price-saving" style="font-size:.85rem">חסכון ₪${(product.priceVariants[0].price * v.qty - v.price).toLocaleString('he-IL')}</span>` : ''}
     </div>
   `;
 }
@@ -366,7 +378,7 @@ function handleAddToCart() {
   if (product.hasScent && !selectedScent) {
     const sel = document.getElementById('scentSelect');
     sel.focus();
-    sel.style.borderColor = 'var(--red)';
+    sel.style.borderColor = '#dc2626';
     setTimeout(() => sel.style.borderColor = '', 2000);
     cartToast('נא לבחור ניחוח תחילה');
     return;
@@ -379,13 +391,11 @@ function handleAddToCart() {
 
   cartAdd(prodId, { scent: selectedScent, qty });
 
-  /* auto-add upsells that were checked */
   upsellsAdded.forEach(uid => {
     const scent = document.getElementById(`upsell-scent-${uid}`)?.value || selectedScent || '';
     cartAddUpsell(uid, scent);
   });
 
-  /* redirect to cart */
   setTimeout(() => { location.href = 'cart.html'; }, 600);
 }
 
@@ -398,7 +408,6 @@ function renderUpsells() {
     return;
   }
 
-  /* dedupe */
   const ids = [...new Set(product.upsells)];
   list.innerHTML = ids.map(uid => {
     const u = UPSELLS[uid];
@@ -406,7 +415,7 @@ function renderUpsells() {
     const save = u.standAlonePrice - u.bundlePrice;
     const savePct = Math.round(save / u.standAlonePrice * 100);
     const scentRow = u.hasScent ? `
-      <div class="upsell-scent">
+      <div class="upsell-scent" onclick="event.stopPropagation()">
         <select id="upsell-scent-${uid}" class="scent-select" style="font-size:.78rem;padding:5px 8px;max-width:180px">
           <option value="">בחר ניחוח</option>
           ${SCENTS.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
@@ -436,7 +445,6 @@ function renderUpsells() {
 }
 
 function toggleUpsell(uid, el) {
-  /* prevent toggling on scent select click */
   if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION') return;
 
   el.classList.toggle('added');
@@ -465,31 +473,49 @@ function renderRelated() {
   const grid = document.getElementById('relatedGrid');
 
   grid.innerHTML = all.map(p => {
-    const saving = p.origPrice ? `<span class="saving">חסכון ₪${p.origPrice - p.price}</span>` : '';
-    const orig   = p.origPrice ? `<span class="original">₪${p.origPrice}</span>` : '';
+    const saving = p.origPrice ? `<span class="upsell-card__prices" style="display:inline;font-size:.78rem;font-weight:600;color:#16A34A">חסכון ₪${p.origPrice - p.price}</span>` : '';
+    const orig   = p.origPrice ? `<span style="font-size:13px;color:var(--light);text-decoration:line-through;font-weight:400">₪${p.origPrice}</span>` : '';
     return `
     <a href="product.html?id=${p.id}" class="product-card">
-      <div class="product-card__img">
-        <img src="${p.img}" alt="${p.name}" loading="lazy">
-        ${p.badge ? `<div class="product-card__badge"><span class="badge badge-sale">${p.badge}</span></div>` : ''}
+      <div class="product-card__img-wrap">
+        <img class="product-card__img" src="${p.img}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<span class="product-card__badge product-card__badge--hot">${p.badge}</span>` : ''}
       </div>
       <div class="product-card__body">
-        <span class="product-card__cat">${p.categoryLabel}</span>
-        <h3 class="product-card__name">${p.name}</h3>
-        <div class="product-card__price">
-          <span class="current">₪${p.price}</span>${orig}${saving}
+        <div class="product-card__name">${p.name}</div>
+        <div class="product-card__scent">${p.categoryLabel}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+          <span class="product-card__price">₪${p.price}</span>${orig}
         </div>
         <div class="product-card__cta">
-          <span class="btn btn-add btn-full btn-sm"><i class="ph ph-shopping-cart"></i> הוסף לסל</span>
+          <span class="product-card__btn">צפייה במוצר</span>
         </div>
       </div>
     </a>`;
   }).join('');
 }
 
-/* hamburger */
-document.getElementById('hamburger')?.addEventListener('click', () =>
-  document.getElementById('navLinks').classList.toggle('open'));
+/* Mobile nav */
+const hamburger      = document.getElementById('navHamburger');
+const mobileNav      = document.getElementById('mobileNav');
+const mobileOverlay  = document.getElementById('mobileNavOverlay');
+
+function openMobileNav() {
+  hamburger.classList.add('open');
+  mobileNav.classList.add('open');
+  mobileOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  hamburger.classList.remove('open');
+  mobileNav.classList.remove('open');
+  mobileOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburger?.addEventListener('click', () => {
+  mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
+});
+window.addEventListener('scroll', closeMobileNav, { passive: true });
 
 init();
 </script>
