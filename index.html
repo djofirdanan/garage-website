@@ -75,7 +75,7 @@
     <!-- Logo center -->
     <div class="site-nav__logo">
       <a href="index.html">
-        <img src="https://i.postimg.cc/BvYkP1LC/garage-logo.png" alt="GARAGE" onerror="this.style.display='none'; this.nextSibling.style.display='block'">
+        <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png" alt="GARAGE" onerror="this.style.display='none'; this.nextSibling.style.display='block'">
         <span style="display:none; font-size:22px; font-weight:900; letter-spacing:.06em;">GARAGE</span>
       </a>
     </div>
@@ -131,7 +131,7 @@
     </div>
   </div>
   <div class="hero__visual">
-    <img src="https://images.pexels.com/photos/7262897/pexels-photo-7262897.jpeg?w=800&auto=compress" alt="מפיץ ריח GARAGE" />
+    <img src="https://garage.org.il/wp-content/uploads/2024/05/%D7%91%D7%90%D7%A0%D7%A8-%D7%9E%D7%A4%D7%99%D7%A6%D7%99%D7%9D-%D7%90%D7%95%D7%93%D7%99-%D7%9B%D7%9C%D7%9C%D7%993.png" alt="מפיצי ריח GARAGE" onerror="this.src='https://garage.org.il/wp-content/uploads/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png'" />
   </div>
 </section>
 
@@ -426,8 +426,8 @@
         </div>
       </div>
       <div class="bundle-visual">
-        <img class="bundle-img" src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?w=300&auto=compress" alt="מפיץ GARAGE" />
-        <img class="bundle-img" src="https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?w=300&auto=compress" alt="בקבוק שמן GARAGE" />
+        <img class="bundle-img" src="https://garage.org.il/wp-content/uploads/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png" alt="מפיץ לרכב GARAGE" />
+        <img class="bundle-img" src="https://garage.org.il/wp-content/uploads/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png" alt="בקבוקי ריח GARAGE" />
       </div>
     </div>
   </div>
@@ -472,7 +472,7 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="https://i.postimg.cc/BvYkP1LC/garage-logo.png" alt="GARAGE" onerror="this.style.display='none'" />
+        <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png" alt="GARAGE" onerror="this.style.display='none'" />
         <p>מפיצי ריח איכותיים לבית, רכב ועסק. שמן טהור ב-14 ניחוחות יוקרתיים. נשמח לעזור!</p>
       </div>
       <div class="footer-col">
@@ -525,21 +525,22 @@
     const grid = document.getElementById('productGrid');
     if (!grid || typeof PRODUCTS === 'undefined') return;
 
-    const hot = PRODUCTS.filter(p => p.hot || p.featured).slice(0, 4);
-    const show = hot.length >= 4 ? hot : PRODUCTS.slice(0, 4);
+    // PRODUCTS is a keyed object - convert to array
+    const allProducts = Object.values(PRODUCTS);
+    const show = allProducts.slice(0, 4);
 
     grid.innerHTML = show.map(p => `
       <div class="product-card">
         <div class="product-card__img-wrap">
-          <img class="product-card__img" src="${p.image || 'https://images.pexels.com/photos/3685530/pexels-photo-3685530.jpeg?w=400&auto=compress'}" alt="${p.name}" loading="lazy" />
-          ${p.badge ? `<span class="product-card__badge${p.badge === 'חם' ? ' product-card__badge--hot' : ''}">${p.badge}</span>` : ''}
+          <img class="product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
+          ${p.badge ? `<span class="product-card__badge product-card__badge--hot">${p.badge}</span>` : ''}
         </div>
         <div class="product-card__body">
           <div class="product-card__name">${p.name}</div>
-          <div class="product-card__scent">${p.scents ? p.scents[0] : (p.category || '')}</div>
+          <div class="product-card__scent">${p.subtitle || p.categoryLabel || ''}</div>
           <div class="product-card__price-row">
             <span class="product-card__price">₪${p.price}</span>
-            ${p.oldPrice ? `<span class="product-card__old">₪${p.oldPrice}</span>` : ''}
+            ${p.origPrice ? `<span class="product-card__old">₪${p.origPrice}</span>` : ''}
           </div>
           <div class="product-card__cta">
             <button class="product-card__btn" onclick="location.href='product.html?id=${p.id}'">לצפייה במוצר</button>
