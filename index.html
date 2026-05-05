@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GARAGE — מפיצי ריח איכותיים לבית, רכב ועסק</title>
-  <meta name="description" content="GARAGE — מפיצי ריח מתקדמים ומוצרי ריח איכותיים לבית, למשרד, לרכב ולעסק. 14 ניחוחות יוקרתיים. משלוח מהיר. הזמן עכשיו." />
+  <meta name="description" content="GARAGE — מפיצי ריח מתקדמים לבית, משרד, רכב ועסק. 14 ניחוחות יוקרתיים. משלוח מהיר לכל הארץ." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -13,12 +13,19 @@
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  משלוח חינם מעל ₪250 &nbsp;·&nbsp; 14 ניחוחות יוקרתיים &nbsp;·&nbsp;
+  <a href="tel:0509723636">050-9723636</a>
+</div>
+
 <!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav-inner container">
     <a href="index.html" class="logo" aria-label="GARAGE דף הבית">
       <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
-           alt="GARAGE לוגו" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           alt="GARAGE לוגו" class="logo-img"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="logo-text" style="display:none">
         <strong>GARAGE</strong>
         <span>מפיציי הריח המתקדמים</span>
@@ -28,16 +35,15 @@
     <nav class="nav-links" id="navLinks">
       <a href="index.html" class="active">דף הבית</a>
       <a href="product.html?id=car">לרכב</a>
-      <a href="product.html?id=g60">לבית / משרד</a>
+      <a href="product.html?id=g60">לבית</a>
       <a href="product.html?id=s500">לעסק</a>
       <a href="product.html?id=bottles_100ml">בקבוקים</a>
       <a href="#contact">צור קשר</a>
     </nav>
 
     <div class="nav-actions">
-      <a href="tel:0509723636" class="nav-phone">
-        <i class="ph-fill ph-phone"></i>
-        <span class="phone-label">050-9723636</span>
+      <a href="tel:0509723636" class="nav-icon-btn" aria-label="טלפון">
+        <i class="ph ph-phone"></i>
       </a>
       <a href="cart.html" class="cart-btn">
         <i class="ph ph-shopping-cart"></i>
@@ -53,18 +59,14 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-bg">
-    <img src="https://garage.org.il/wp-content/uploads/2024/05/%D7%91%D7%90%D7%A0%D7%A8-%D7%9E%D7%A4%D7%99%D7%A6%D7%99%D7%9D-%D7%90%D7%95%D7%93%D7%99-%D7%9B%D7%9C%D7%9C%D7%993.png"
-         alt="" aria-hidden="true">
-  </div>
-  <div class="container hero-content">
+  <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge">
+      <div class="hero-eyebrow">
         <i class="ph-fill ph-sparkle"></i>
         14 ניחוחות יוקרתיים
       </div>
-      <h1>מפיצי ריח<br/><em>מתקדמים</em><br/>לכל מרחב</h1>
-      <p>בית, רכב, משרד, עסק — ריח שמרגיש כמו מלון חמישה כוכבים, כל יום.</p>
+      <h1>הריח שמרגיש<br/>כמו <em>מלון 5 כוכבים</em><br/>— בבית שלך</h1>
+      <p>מפיצי ריח מתקדמים לבית, רכב, משרד ועסק. שמני ריח טהורים ב-14 ניחוחות בהשראת המלונות הטובים בעולם.</p>
       <div class="hero-cta">
         <a href="#products" class="btn btn-primary btn-lg">
           <i class="ph ph-shopping-bag"></i>
@@ -75,18 +77,53 @@
           050-9723636
         </a>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stat"><strong>14</strong><span>ניחוחות</span></div>
-        <div class="hero-stat"><strong>1,000</strong><span>לקוחות מרוצים</span></div>
-        <div class="hero-stat"><strong>100%</strong><span>ריח טהור</span></div>
+      <div class="hero-trust">
+        <div class="hero-trust-item">
+          <i class="ph-fill ph-truck"></i>
+          משלוח חינם מ-₪250
+        </div>
+        <div class="hero-trust-item">
+          <i class="ph-fill ph-shield-check"></i>
+          שמן טהור בלבד
+        </div>
+        <div class="hero-trust-item">
+          <i class="ph-fill ph-users"></i>
+          1,000+ לקוחות מרוצים
+        </div>
       </div>
     </div>
-    <div class="hero-img-wrap">
+    <div class="hero-visual">
       <img src="https://garage.org.il/wp-content/uploads/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png"
            alt="מפיצי ריח GARAGE" loading="eager">
     </div>
   </div>
 </section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-bar-item">
+      <i class="ph-fill ph-truck"></i>
+      משלוח מהיר לכל הארץ
+    </div>
+    <div class="trust-bar-item">
+      <i class="ph-fill ph-leaf"></i>
+      שמן ריח טהור 100%
+    </div>
+    <div class="trust-bar-item">
+      <i class="ph-fill ph-shield-check"></i>
+      בטוח לבית ולילדים
+    </div>
+    <div class="trust-bar-item">
+      <i class="ph-fill ph-headset"></i>
+      שירות אישי בוואטסאפ
+    </div>
+    <div class="trust-bar-item">
+      <i class="ph-fill ph-star"></i>
+      דירוג 5 כוכבים
+    </div>
+  </div>
+</div>
 
 <!-- MARQUEE -->
 <div class="marquee-wrap" aria-hidden="true">
@@ -129,7 +166,7 @@
 <!-- CATEGORIES -->
 <section class="section">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head-row">
       <h2>מה מחפשים?</h2>
     </div>
     <div class="cats-grid">
@@ -159,7 +196,7 @@
         <div class="cat-overlay"></div>
         <div class="cat-info">
           <h3>לעסק / חנות</h3>
-          <span>S500 / S1000 עד 1,000 מ"ר</span>
+          <span>S500 / S1000 — עד 1,000 מ"ר</span>
         </div>
         <div class="cat-arrow"><i class="ph ph-arrow-left"></i></div>
       </a>
@@ -178,14 +215,61 @@
 </section>
 
 <!-- PRODUCTS -->
-<section class="section section--surface" id="products">
+<section class="section" style="background:var(--surface)" id="products">
   <div class="container">
-    <div class="section-head">
+    <div class="section-head-row">
       <h2>המוצרים שלנו</h2>
       <a href="#products">כל המוצרים <i class="ph ph-arrow-left"></i></a>
     </div>
-    <div class="products-grid" id="productsGrid">
+    <div class="products-row" id="productsGrid">
       <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- UGC SOCIAL PROOF -->
+<section class="ugc-section">
+  <div class="container">
+    <div class="section-head">
+      <h2>אנשים אמיתיים — תוצאות אמיתיות</h2>
+      <p>לקוחות שלנו מספרים ומראים — חוויות אמיתיות מהבית, הרכב והעסק</p>
+    </div>
+    <div class="ugc-grid">
+      <div class="ugc-card">
+        <img src="https://garage.org.il/wp-content/uploads/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png"
+             alt="לקוח GARAGE" loading="lazy">
+        <div class="ugc-card__overlay"></div>
+        <div class="ugc-card__play"><i class="ph-fill ph-play"></i></div>
+        <div class="ugc-card__label">AirCules לרכב</div>
+      </div>
+      <div class="ugc-card">
+        <img src="https://garage.org.il/wp-content/uploads/2023/05/%D7%9E%D7%A4%D7%99%D7%A5-300-%D7%A0%D7%A7%D7%99-%D7%A2%D7%9D-%D7%91%D7%A7%D7%91%D7%95%D7%A7-%D7%9E%D7%AA%D7%A0%D7%94.png"
+             alt="לקוח GARAGE G60" loading="lazy">
+        <div class="ugc-card__overlay"></div>
+        <div class="ugc-card__play"><i class="ph-fill ph-play"></i></div>
+        <div class="ugc-card__label">G60 לסלון</div>
+      </div>
+      <div class="ugc-card">
+        <img src="https://garage.org.il/wp-content/uploads/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png"
+             alt="בקבוקי ריח GARAGE" loading="lazy">
+        <div class="ugc-card__overlay"></div>
+        <div class="ugc-card__play"><i class="ph-fill ph-play"></i></div>
+        <div class="ugc-card__label">בקבוקי ריח</div>
+      </div>
+      <div class="ugc-card">
+        <img src="https://garage.org.il/wp-content/uploads/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-4-%D7%A0%D7%A7%D7%99.png"
+             alt="מפיץ לעסק GARAGE" loading="lazy">
+        <div class="ugc-card__overlay"></div>
+        <div class="ugc-card__play"><i class="ph-fill ph-play"></i></div>
+        <div class="ugc-card__label">S500 לעסק</div>
+      </div>
+      <div class="ugc-card">
+        <img src="https://garage.org.il/wp-content/uploads/2025/07/%D7%91%D7%90%D7%A0%D7%93%D7%9C-%D7%9E%D7%A4%D7%99%D7%A5-copy.webp"
+             alt="חבילת GARAGE" loading="lazy">
+        <div class="ugc-card__overlay"></div>
+        <div class="ugc-card__play"><i class="ph-fill ph-play"></i></div>
+        <div class="ugc-card__label">חבילת הבית</div>
+      </div>
     </div>
   </div>
 </section>
@@ -195,6 +279,7 @@
   <div class="container">
     <div class="section-head">
       <h2>למה GARAGE?</h2>
+      <p>מפיצי ריח מקצועיים שעושים את ההבדל — בבית, ברכב ובעסק</p>
     </div>
     <div class="why-grid">
       <div class="why-card">
@@ -209,56 +294,100 @@
       </div>
       <div class="why-card">
         <div class="why-icon"><i class="ph-fill ph-shield-check"></i></div>
-        <h3>איכות מוכחת</h3>
-        <p>שמני ריח טהורים בלבד — ללא כימיקלים מזיקים. בטוחים לבית, לילדים ולחיות</p>
+        <h3>שמן ריח טהור בלבד</h3>
+        <p>ללא כימיקלים מזיקים. בטוחים לבית, לילדים ולחיות מחמד</p>
       </div>
       <div class="why-card">
         <div class="why-icon"><i class="ph-fill ph-headset"></i></div>
-        <h3>שירות אישי</h3>
-        <p>יש שאלה? מתלבטים איזה ניחוח לבחור? אנחנו כאן לעזור — בטלפון ובוואטסאפ</p>
+        <h3>שירות אישי ומהיר</h3>
+        <p>בטלפון ובוואטסאפ — עוזרים לך לבחור את הניחוח המושלם</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" style="background:var(--surface)">
+  <div class="container">
+    <div class="section-head">
+      <h2>מה הלקוחות אומרים</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+        </div>
+        <p class="testimonial-text">"קיבלתי את ה-AirCules לרכב — לא האמנתי שמפיץ ריח יכול לעשות כזה הבדל. הריח נשאר ימים שלמים. הזמנתי עוד אחד למשרד."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">מ</div>
+          <div>
+            <div class="testimonial-author-name">מיכאל כ.</div>
+            <div class="testimonial-author-meta">תל אביב · רכב</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+        </div>
+        <p class="testimonial-text">"קניתי את ה-G60 לסלון — כל מי שנכנס לבית שואל מה הריח הזה. מרגיש ממש כמו מלון. שירות מהיר ומקצועי."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ש</div>
+          <div>
+            <div class="testimonial-author-name">שירה ל.</div>
+            <div class="testimonial-author-meta">חיפה · בית</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+        </div>
+        <p class="testimonial-text">"הS500 בחנות שלי שינה הכל. לקוחות מעירים על הריח, נשארים יותר זמן. ממליץ בחום לכל בעל עסק."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">א</div>
+          <div>
+            <div class="testimonial-author-name">אבי ר.</div>
+            <div class="testimonial-author-meta">ירושלים · עסק</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- BUNDLE BANNER -->
-<section class="section section--surface">
+<section class="section">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:var(--dark);border-radius:24px;overflow:hidden;padding:48px">
-      <div>
-        <div class="hero-badge" style="margin-bottom:16px">
-          <i class="ph-fill ph-tag"></i> חסכון ₪185
+    <div class="bundle-banner">
+      <div class="bundle-banner__text">
+        <div class="bundle-eyebrow">
+          <i class="ph-fill ph-tag"></i>
+          חסכון ₪185
         </div>
-        <h2 style="color:white;font-size:clamp(1.4rem,3vw,2rem);font-weight:900;margin-bottom:12px">
-          באנדל שנה — מפיץ + 6 בקבוקים
-        </h2>
-        <p style="color:rgba(255,255,255,.65);margin-bottom:24px;font-size:.95rem">
-          מפיץ G60 + 6 בקבוקי ריח לבחירתך — ריח לשנה שלמה ב-₪465 בלבד (במקום ₪650)
-        </p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <a href="product.html?id=bundle" class="btn btn-primary btn-lg">
-            <i class="ph ph-shopping-cart"></i>
-            הזמן עכשיו — ₪465
-          </a>
-        </div>
+        <h2>באנדל שנה —<br/>מפיץ + 6 בקבוקים</h2>
+        <p>מפיץ G60 + 6 בקבוקי ריח לבחירתך — ריח לשנה שלמה ב-₪465 בלבד (במקום ₪650)</p>
+        <a href="product.html?id=bundle" class="btn btn-primary btn-lg">
+          <i class="ph ph-shopping-cart"></i>
+          הזמן עכשיו — ₪465
+        </a>
       </div>
-      <div style="display:flex;justify-content:center">
+      <div class="bundle-banner__img">
         <img src="https://garage.org.il/wp-content/uploads/2025/07/%D7%91%D7%90%D7%A0%D7%93%D7%9C-%D7%9E%D7%A4%D7%99%D7%A5-copy.webp"
-             alt="באנדל מפיץ ריח" style="max-height:280px;object-fit:contain;filter:drop-shadow(0 12px 32px rgba(0,0,0,.4))">
+             alt="באנדל מפיץ ריח GARAGE" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="section" id="contact">
+<section class="contact-section" id="contact">
   <div class="container">
-    <div style="max-width:600px;margin:0 auto;text-align:center">
-      <h2 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:8px">יש שאלה?</h2>
-      <p style="color:var(--muted);margin-bottom:36px">אנחנו פה לעזור — ניחוח, התקנה, הזמנת עסקים גדולות</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
-        <a href="https://wa.me/972509723636" target="_blank" rel="noopener"
-           class="btn btn-dark btn-lg" style="background:#25D366">
+    <div class="contact-inner">
+      <h2>יש שאלה?</h2>
+      <p>אנחנו פה לעזור — ניחוח, התקנה, הזמנות עסקים</p>
+      <div class="contact-btns">
+        <a href="https://wa.me/972509723636" target="_blank" rel="noopener" class="wa-btn">
           <i class="ph-fill ph-whatsapp-logo"></i>
           וואטסאפ
         </a>
@@ -267,14 +396,14 @@
           050-9723636
         </a>
       </div>
-      <form id="contactForm" style="display:flex;gap:10px">
-        <input type="text" class="form-input" placeholder="מספר טלפון" id="contactPhone" style="flex:1">
-        <button type="submit" class="btn btn-primary" style="white-space:nowrap">
+      <form id="contactForm" class="contact-form">
+        <input type="text" class="form-input" placeholder="מספר טלפון" id="contactPhone">
+        <button type="submit" class="btn btn-primary">
           <i class="ph ph-paper-plane-tilt"></i>
           נחזור אליך
         </button>
       </form>
-      <p style="margin-top:10px;font-size:.78rem;color:var(--muted)">כתובת: הארום 82, נתיבות</p>
+      <p class="contact-address">כתובת: הארום 82, נתיבות</p>
     </div>
   </div>
 </section>
@@ -284,7 +413,10 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo-text">
+        <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+             alt="GARAGE" class="footer-logo-img"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-text" style="display:none">
           <strong>GARAGE</strong>
           <span>מפיציי הריח המתקדמים בעולם</span>
         </div>
@@ -302,14 +434,15 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>קטגוריות</h4>
+        <h4>מוצרים</h4>
         <ul>
-          <li><a href="product.html?id=car">מפיץ לרכב</a></li>
-          <li><a href="product.html?id=g60">מפיץ לבית/משרד</a></li>
+          <li><a href="product.html?id=car">מפיץ לרכב AirCules</a></li>
+          <li><a href="product.html?id=g60">מפיץ G60 לבית</a></li>
+          <li><a href="product.html?id=g30">מפיץ G30 לבית</a></li>
           <li><a href="product.html?id=g100">מפיץ G100 גדול</a></li>
-          <li><a href="product.html?id=s500">מפיץ לעסק S500</a></li>
-          <li><a href="product.html?id=s1000">מפיץ לעסק S1000</a></li>
+          <li><a href="product.html?id=s500">מפיץ S500 לעסק</a></li>
           <li><a href="product.html?id=bottles_100ml">בקבוקי ריח</a></li>
+          <li><a href="product.html?id=bundle">חבילת הבית המלא</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -318,7 +451,6 @@
           <li><a href="#about">מי אנחנו</a></li>
           <li><a href="#shipping">משלוחים</a></li>
           <li><a href="#returns">ביטולים והחזרות</a></li>
-          <li><a href="#contact">צור קשר</a></li>
           <li><a href="cart.html">סל הקניות</a></li>
         </ul>
       </div>
@@ -333,7 +465,7 @@
           <span>הארום 82, נתיבות</span>
         </div>
         <div class="footer-contact-item">
-          <i class="ph ph-whatsapp-logo"></i>
+          <i class="ph-fill ph-whatsapp-logo"></i>
           <a href="https://wa.me/972509723636" target="_blank" rel="noopener">וואטסאפ</a>
         </div>
       </div>
@@ -369,8 +501,8 @@ function renderProducts() {
   grid.innerHTML = featured.map(id => {
     const p = PRODUCTS[id];
     if (!p) return '';
-    const savings = p.origPrice ? `<span class="saving">חסכון ₪${p.origPrice - p.price}</span>` : '';
-    const origTag = p.origPrice ? `<span class="original">₪${p.origPrice.toLocaleString('he-IL')}</span>` : '';
+    const savings  = p.origPrice ? `<span class="saving">חסכון ₪${p.origPrice - p.price}</span>` : '';
+    const origTag  = p.origPrice ? `<span class="original">₪${p.origPrice.toLocaleString('he-IL')}</span>` : '';
     const badgeHtml = p.badge
       ? `<span class="badge ${p.id==='ipad'?'badge-popular':p.id==='bundle'?'badge-saving':'badge-sale'}">${p.badge}</span>`
       : '';
@@ -386,11 +518,10 @@ function renderProducts() {
         <p class="product-card__sub">${p.subtitle}</p>
         <div class="product-card__price">
           <span class="current">₪${p.price.toLocaleString('he-IL')}</span>
-          ${origTag}
-          ${savings}
+          ${origTag}${savings}
         </div>
         <div class="product-card__cta">
-          <span class="btn btn-add btn-full btn-sm">
+          <span class="btn btn-add">
             <i class="ph ph-shopping-cart"></i> הוסף לסל
           </span>
         </div>
