@@ -39,8 +39,9 @@
       <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
     </a>
 
-    <!-- Column 3 LEFT (RTL): cart only -->
+    <!-- Column 3 LEFT (RTL): customer + cart -->
     <div class="site-nav__end">
+      <div id="navCustomerSlot"></div>
       <a href="cart.html" class="site-nav__icon-btn" aria-label="סל קניות">
         <i class="ph ph-shopping-cart" style="font-size:20px"></i>
         <span class="cart-badge" id="cartBadge">0</span>
@@ -524,5 +525,6 @@ window.addEventListener('scroll', closeMobileNav, { passive: true });
 
 init();
 </script>
+<script src="customer-auth.js"></script>
 </body>
 </html>

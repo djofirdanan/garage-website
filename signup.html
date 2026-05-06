@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>הרשמה — GARAGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="site-nav__inner">
+    <div class="site-nav__start">
+      <nav class="site-nav__links">
+        <a href="index.html">דף הבית</a>
+        <a href="product.html?id=car">לרכב</a>
+        <a href="product.html?id=g60">לבית / משרד</a>
+        <a href="product.html?id=s500">לעסק</a>
+        <a href="product.html?id=bottles_100ml">בקבוקים</a>
+      </nav>
+    </div>
+    <a href="index.html" class="site-nav__logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
+    </a>
+    <div class="site-nav__end">
+      <div id="navCustomerSlot"></div>
+      <a href="cart.html" class="site-nav__icon-btn" aria-label="סל קניות">
+        <i class="ph ph-shopping-cart" style="font-size:20px"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <h1>הרשמה</h1>
+    <p class="auth-sub">פתח חשבון GARAGE - מעקב הזמנות והזמנה חוזרת בקליק</p>
+
+    <form class="auth-form" id="signupForm">
+      <div id="formError" class="auth-error" hidden></div>
+      <div>
+        <label for="name">שם מלא</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div>
+        <label for="phone">טלפון</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="050-1234567" />
+      </div>
+      <div>
+        <label for="email">אימייל (לא חובה)</label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+      </div>
+      <div>
+        <label for="password">סיסמה (6+ תווים)</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" required minlength="6" />
+      </div>
+      <div>
+        <label for="confirm">אישור סיסמה</label>
+        <input id="confirm" name="confirm" type="password" autocomplete="new-password" required minlength="6" />
+      </div>
+      <button type="submit" class="auth-submit" id="submitBtn">הרשמה</button>
+    </form>
+
+    <p class="auth-footer">כבר יש לך חשבון? <a href="login.html" id="loginLink">התחבר</a></p>
+  </div>
+</main>
+
+<script src="customer-auth.js"></script>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const ret = params.get('return') || 'account.html';
+  document.getElementById('loginLink').href = 'login.html?return=' + encodeURIComponent(ret);
+
+  const form = document.getElementById('signupForm');
+  const errBox = document.getElementById('formError');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    errBox.hidden = true;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm').value;
+    if (password !== confirm) {
+      errBox.textContent = 'סיסמאות לא תואמות';
+      errBox.hidden = false;
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'נרשם...';
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify({
+          phone: document.getElementById('phone').value.trim(),
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim() || undefined,
+          password: password,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'שגיאה בהרשמה');
+      GarageAuth.setToken(data.token);
+      GarageAuth.setCustomer(data.customer);
+      location.href = ret;
+    } catch (err) {
+      errBox.textContent = err.message;
+      errBox.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'הרשמה';
+    }
+  });
+})();
+</script>
+</body>
+</html>

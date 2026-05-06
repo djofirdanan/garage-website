@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>החשבון שלי — GARAGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="site-nav__inner">
+    <div class="site-nav__start">
+      <nav class="site-nav__links">
+        <a href="index.html">דף הבית</a>
+        <a href="product.html?id=car">לרכב</a>
+        <a href="product.html?id=g60">לבית / משרד</a>
+        <a href="product.html?id=s500">לעסק</a>
+        <a href="product.html?id=bottles_100ml">בקבוקים</a>
+      </nav>
+    </div>
+    <a href="index.html" class="site-nav__logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
+    </a>
+    <div class="site-nav__end">
+      <div id="navCustomerSlot"></div>
+      <a href="cart.html" class="site-nav__icon-btn" aria-label="סל קניות">
+        <i class="ph ph-shopping-cart" style="font-size:20px"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="account-page">
+  <div class="account-header">
+    <div>
+      <h1 id="greeting">שלום</h1>
+      <p style="color:var(--mid);font-size:14px" id="subgreeting"></p>
+    </div>
+    <button class="account-logout" id="logoutBtn">התנתק</button>
+  </div>
+
+  <div class="account-tabs" role="tablist">
+    <button class="account-tab is-active" data-tab="profile" role="tab">פרטים שלי</button>
+    <button class="account-tab" data-tab="orders" role="tab">ההזמנות שלי</button>
+    <button class="account-tab" data-tab="password" role="tab">סיסמה</button>
+  </div>
+
+  <!-- Profile -->
+  <section class="account-panel" id="panel-profile">
+    <h2>פרטים שלי</h2>
+    <form id="profileForm" class="auth-form" style="gap:14px">
+      <div id="profileError" class="auth-error" hidden></div>
+      <div id="profileSuccess" class="auth-success" hidden></div>
+      <div class="account-grid">
+        <div>
+          <label for="p-name">שם</label>
+          <input id="p-name" type="text" required />
+        </div>
+        <div>
+          <label for="p-phone">טלפון</label>
+          <input id="p-phone" type="tel" disabled />
+        </div>
+        <div>
+          <label for="p-email">אימייל</label>
+          <input id="p-email" type="email" />
+        </div>
+        <div>
+          <label for="p-zip">מיקוד</label>
+          <input id="p-zip" type="text" />
+        </div>
+        <div>
+          <label for="p-address">כתובת</label>
+          <input id="p-address" type="text" />
+        </div>
+        <div>
+          <label for="p-city">עיר</label>
+          <input id="p-city" type="text" />
+        </div>
+      </div>
+      <button type="submit" class="auth-submit" id="profileSubmit" style="margin-top:8px;max-width:200px">שמור שינויים</button>
+    </form>
+  </section>
+
+  <!-- Orders -->
+  <section class="account-panel" id="panel-orders" hidden>
+    <h2>ההזמנות שלי</h2>
+    <div id="ordersLoading" style="color:var(--mid);font-size:14px">טוען הזמנות...</div>
+    <div id="ordersList"></div>
+    <div id="ordersEmpty" hidden style="text-align:center;color:var(--mid);padding:40px 0">
+      עדיין לא ביצעת הזמנות.
+      <br><br>
+      <a href="index.html" class="btn btn--primary" style="display:inline-block;margin-top:8px">לחנות</a>
+    </div>
+  </section>
+
+  <!-- Password -->
+  <section class="account-panel" id="panel-password" hidden>
+    <h2>שינוי סיסמה</h2>
+    <form id="passwordForm" class="auth-form" style="max-width:460px">
+      <div id="passwordError" class="auth-error" hidden></div>
+      <div id="passwordSuccess" class="auth-success" hidden></div>
+      <div>
+        <label for="oldPassword">סיסמה נוכחית</label>
+        <input id="oldPassword" type="password" required autocomplete="current-password" />
+      </div>
+      <div>
+        <label for="newPassword">סיסמה חדשה (6+ תווים)</label>
+        <input id="newPassword" type="password" required minlength="6" autocomplete="new-password" />
+      </div>
+      <div>
+        <label for="confirmPassword">אישור סיסמה חדשה</label>
+        <input id="confirmPassword" type="password" required minlength="6" autocomplete="new-password" />
+      </div>
+      <button type="submit" class="auth-submit" id="passwordSubmit">עדכן סיסמה</button>
+    </form>
+  </section>
+</main>
+
+<script src="customer-auth.js"></script>
+<script>
+(function () {
+  if (!GarageAuth.requireAuth()) return;
+
+  const STATUS_LABELS = {
+    new: 'חדשה', processing: 'בטיפול', on_hold: 'בהשהייה', confirmed: 'אושרה',
+    shipped: 'נשלחה', delivered: 'נמסרה', completed: 'הושלם',
+    cancelled: 'בוטלה', refunded: 'הוחזר', pending_payment: 'ממתין לתשלום', payment_failed: 'תשלום נכשל'
+  };
+
+  let currentCustomer = GarageAuth.getCustomer();
+
+  function renderGreeting() {
+    const c = currentCustomer || {};
+    const first = (c.name || '').split(' ')[0] || '';
+    document.getElementById('greeting').textContent = 'שלום ' + first;
+    document.getElementById('subgreeting').textContent = c.phone || '';
+  }
+  renderGreeting();
+
+  // Tabs
+  const tabs = document.querySelectorAll('.account-tab');
+  const panels = {
+    profile: document.getElementById('panel-profile'),
+    orders: document.getElementById('panel-orders'),
+    password: document.getElementById('panel-password'),
+  };
+  function showTab(name) {
+    tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === name));
+    Object.keys(panels).forEach(k => panels[k].hidden = (k !== name));
+    if (name === 'orders') loadOrders();
+    history.replaceState(null, '', '#' + name);
+  }
+  tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+  if (location.hash === '#orders' || location.hash === '#password') showTab(location.hash.slice(1));
+
+  document.getElementById('logoutBtn').addEventListener('click', () => GarageAuth.logout());
+
+  // Load latest customer from server (in case admin updated)
+  (async function () {
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/account/me');
+      if (res.status === 401) { GarageAuth.clearToken(); GarageAuth.clearCustomer(); GarageAuth.requireAuth(); return; }
+      const data = await res.json();
+      if (res.ok && data.customer) {
+        currentCustomer = data.customer;
+        GarageAuth.setCustomer(data.customer);
+        renderGreeting();
+        fillProfileForm();
+        GarageAuth.renderNavSlot();
+      }
+    } catch (e) {}
+  })();
+
+  // Profile
+  function fillProfileForm() {
+    const c = currentCustomer || {};
+    document.getElementById('p-name').value = c.name || '';
+    document.getElementById('p-phone').value = c.phone || '';
+    document.getElementById('p-email').value = c.email || '';
+    document.getElementById('p-address').value = (c.defaultAddress && c.defaultAddress.address) || '';
+    document.getElementById('p-city').value = (c.defaultAddress && c.defaultAddress.city) || '';
+    document.getElementById('p-zip').value = (c.defaultAddress && c.defaultAddress.zip) || '';
+  }
+  fillProfileForm();
+
+  document.getElementById('profileForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const err = document.getElementById('profileError');
+    const ok = document.getElementById('profileSuccess');
+    err.hidden = true; ok.hidden = true;
+    const btn = document.getElementById('profileSubmit');
+    btn.disabled = true; btn.textContent = 'שומר...';
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/account/me', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: document.getElementById('p-name').value.trim(),
+          email: document.getElementById('p-email').value.trim(),
+          defaultAddress: {
+            address: document.getElementById('p-address').value.trim(),
+            city: document.getElementById('p-city').value.trim(),
+            zip: document.getElementById('p-zip').value.trim(),
+          }
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'שגיאה');
+      currentCustomer = data.customer;
+      GarageAuth.setCustomer(data.customer);
+      ok.textContent = 'הפרטים נשמרו בהצלחה';
+      ok.hidden = false;
+      renderGreeting();
+      GarageAuth.renderNavSlot();
+    } catch (e) {
+      err.textContent = e.message; err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = 'שמור שינויים';
+    }
+  });
+
+  // Orders
+  let ordersLoaded = false;
+  async function loadOrders() {
+    if (ordersLoaded) return;
+    ordersLoaded = true;
+    const list = document.getElementById('ordersList');
+    const empty = document.getElementById('ordersEmpty');
+    const loading = document.getElementById('ordersLoading');
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/account/orders');
+      const data = await res.json();
+      loading.style.display = 'none';
+      const orders = data.orders || [];
+      if (!orders.length) { empty.hidden = false; return; }
+      list.innerHTML = orders.map(function (o) {
+        const date = new Date(o.createdAt).toLocaleDateString('he-IL');
+        const status = STATUS_LABELS[o.status] || o.status;
+        const items = (o.items || []).map(function (it) {
+          return '<li><span>' + escapeHTML(it.name) + (it.scent ? ' · ' + escapeHTML(it.scent) : '') + ' × ' + it.qty + '</span><span>₪' + (it.price * it.qty) + '</span></li>';
+        }).join('');
+        return '<div class="account-orders-row" data-order="' + escapeHTML(o.id) + '">' +
+          '<div class="account-orders-head" onclick="this.nextElementSibling.hidden = !this.nextElementSibling.hidden">' +
+            '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
+              '<span class="order-status">' + status + '</span>' +
+              '<span class="order-id">' + escapeHTML(o.id.slice(-8)) + '</span>' +
+              '<span style="color:var(--mid);font-size:13px">' + date + '</span>' +
+            '</div>' +
+            '<div class="order-total">₪' + Number(o.total || 0).toLocaleString('he-IL') + '</div>' +
+          '</div>' +
+          '<div class="account-orders-body" hidden>' +
+            '<ul>' + items + '</ul>' +
+            '<button class="account-reorder-btn" data-reorder="' + escapeHTML(o.id) + '">הזמן שוב</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      list.querySelectorAll('[data-reorder]').forEach(function (btn) {
+        btn.addEventListener('click', function () { reorder(btn.getAttribute('data-reorder'), btn); });
+      });
+    } catch (e) {
+      loading.textContent = 'שגיאה בטעינת הזמנות';
+    }
+  }
+
+  async function reorder(orderId, btn) {
+    if (!confirm('להזמין שוב את ההזמנה הזו? הזמנה חדשה תיווצר עם אותם המוצרים.')) return;
+    btn.disabled = true; btn.textContent = 'יוצר הזמנה...';
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/account/reorder', {
+        method: 'POST',
+        body: JSON.stringify({ orderId: orderId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'שגיאה');
+      btn.textContent = 'נוצרה הזמנה ' + data.newOrderId.slice(-6);
+      alert('הזמנה חדשה נוצרה בהצלחה. ניצור איתך קשר בקרוב לאישור.');
+      ordersLoaded = false;
+      loadOrders();
+    } catch (e) {
+      alert(e.message);
+      btn.disabled = false; btn.textContent = 'הזמן שוב';
+    }
+  }
+
+  // Password
+  document.getElementById('passwordForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const err = document.getElementById('passwordError');
+    const ok = document.getElementById('passwordSuccess');
+    err.hidden = true; ok.hidden = true;
+    const oldP = document.getElementById('oldPassword').value;
+    const newP = document.getElementById('newPassword').value;
+    const conf = document.getElementById('confirmPassword').value;
+    if (newP !== conf) { err.textContent = 'הסיסמאות החדשות לא תואמות'; err.hidden = false; return; }
+    const btn = document.getElementById('passwordSubmit');
+    btn.disabled = true; btn.textContent = 'מעדכן...';
+    try {
+      const res = await GarageAuth.apiFetch('/api/storefront/account/change-password', {
+        method: 'POST',
+        body: JSON.stringify({ oldPassword: oldP, newPassword: newP }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'שגיאה');
+      ok.textContent = 'הסיסמה עודכנה בהצלחה';
+      ok.hidden = false;
+      e.target.reset();
+    } catch (e) {
+      err.textContent = e.message; err.hidden = false;
+    } finally {
+      btn.disabled = false; btn.textContent = 'עדכן סיסמה';
+    }
+  });
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+})();
+</script>
+</body>
+</html>

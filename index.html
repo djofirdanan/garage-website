@@ -74,8 +74,9 @@
       <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
     </a>
 
-    <!-- Column 3 LEFT (RTL): cart only -->
+    <!-- Column 3 LEFT (RTL): customer + cart -->
     <div class="site-nav__end">
+      <div id="navCustomerSlot"></div>
       <button class="site-nav__icon-btn" onclick="openCart()" aria-label="סל קניות">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" width="20" height="20">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
@@ -672,5 +673,6 @@
   // Close mobile nav when scrolling
   window.addEventListener('scroll', closeMobileNav, { passive: true });
 </script>
+<script src="customer-auth.js"></script>
 </body>
 </html>
