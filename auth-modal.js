@@ -219,7 +219,7 @@
     return '<div id="garage-auth-modal-overlay">' +
       '<div id="garage-auth-modal-wrap">' +
         '<button id="garage-auth-modal-close" aria-label="סגור">' +
-          '<i class="ph ph-x"></i>' +
+          '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>' +
         '</button>' +
         /* Form panel (RTL col-1 = RIGHT visually) */
         '<div class="gam-form-panel">' +
