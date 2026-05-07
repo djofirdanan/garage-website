@@ -545,9 +545,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 .section__tag--lav { background: var(--lavender); }
 .section__title {
-  font-size: clamp(24px, 3vw, 38px);
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: clamp(28px, 3.8vw, 48px);
+  font-weight: 900;
+  line-height: 1.15;
   color: var(--black);
 }
 .section--dark .section__title { color: var(--white); }
@@ -1247,7 +1247,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   /* SECTIONS */
   .section             { padding: 48px 0; }
-  .section__title      { font-size: 22px; }
+  .section__title      { font-size: 26px; }
   .section__sub        { font-size: 14px; }
 
   /* CATEGORY CARD */
@@ -2476,11 +2476,37 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* ====================================================
-   HERO MOBILE – hide visual column
+   HERO MOBILE – show image below content
 ==================================================== */
 @media (max-width: 768px) {
-  .hero { flex-direction: column; }
-  .hero__visual { display: none; }
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0;
+    gap: 0;
+  }
+  .hero__container {
+    order: 1;
+    padding-bottom: 32px;
+  }
+  .hero__visual {
+    display: flex;
+    order: 2;
+    flex: unset;
+    width: 100%;
+    min-height: 220px;
+    height: 260px;
+    align-items: flex-end;
+    justify-content: center;
+    /* fade bottom into page */
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    margin-bottom: -1px;
+  }
+  .hero__product-img {
+    width: 200px;
+    height: 260px;
+  }
 }
 
 /* ====================================================
