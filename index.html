@@ -180,9 +180,12 @@
       </div>
     </div>
   </div>
+  <!-- ambient orbs -->
+  <div class="hero__orb hero__orb--1" aria-hidden="true"></div>
+  <div class="hero__orb hero__orb--2" aria-hidden="true"></div>
   <div class="hero__visual">
     <div class="hero__smoke" aria-hidden="true"></div>
-    <img src="imgs/s300-with-bottle.png" class="hero__product-img" alt="מפיץ ריח GARAGE" />
+    <img src="imgs/s300-with-bottle.png" class="hero__product-img" id="heroProduct" alt="מפיץ ריח GARAGE" />
     <div class="hero__smoke hero__smoke--2" aria-hidden="true"></div>
   </div>
 </section>
@@ -825,6 +828,9 @@
 </script>
 <script src="customer-auth.js"></script>
 
+<!-- Scroll progress bar -->
+<div id="scrollProgress"></div>
+
 <!-- Smoke canvas -->
 <canvas id="smokeCanvas"></canvas>
 <script>
@@ -893,6 +899,223 @@
     else if (i % 4 === 3) el.classList.add('reveal-delay-3');
     observer.observe(el);
   });
+})();
+</script>
+
+<!-- ================================================
+     ADVANCED ANIMATIONS
+================================================ -->
+<script>
+(function () {
+
+/* 1. SCROLL PROGRESS BAR */
+const progressEl = document.getElementById('scrollProgress');
+function updateProgress() {
+  const scrolled = window.scrollY;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  const pct      = total > 0 ? scrolled / total : 0;
+  if (progressEl) progressEl.style.transform = 'scaleX(' + pct + ')';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+/* 2. SECTION DECO – floating diffuser + smoke puffs */
+const decoImages = ['imgs/g30-diffuser.png', 'imgs/s300-diffuser.png', 'imgs/g60-diffuser.png', 'imgs/aircules-car.png'];
+function makeDeco(imgSrc, side) {
+  const wrap = document.createElement('div');
+  wrap.className = 'section-deco section-deco--' + side;
+  wrap.setAttribute('aria-hidden', 'true');
+  wrap.innerHTML =
+    '<div class="sdeco-smoke-wrap">' +
+      '<div class="sdeco-puff sdeco-puff--1"></div>' +
+      '<div class="sdeco-puff sdeco-puff--2"></div>' +
+      '<div class="sdeco-puff sdeco-puff--3"></div>' +
+    '</div>' +
+    '<img src="' + imgSrc + '" class="sdeco-img" alt="" loading="lazy">';
+  return wrap;
+}
+document.querySelectorAll('section.section, section.steps-section, section.anim-testi, section.bundle-section').forEach((sec, i) => {
+  const side = i % 2 === 0 ? 'left' : 'right';
+  sec.style.position = 'relative';
+  const img = decoImages[i % decoImages.length];
+  sec.appendChild(makeDeco(img, side));
+});
+
+/* 3. SPLIT-TEXT on section titles – letter-by-letter reveal */
+document.querySelectorAll('.section__title, .anim-testi__title, .hero__title').forEach(el => {
+  if (el.querySelector('mark')) return; // skip hero (has <mark>)
+  const text  = el.innerHTML;
+  const words = text.split(' ');
+  el.setAttribute('data-split', '1');
+  el.innerHTML = words.map(w =>
+    '<span class="sl-word">' +
+    w.split('').map((ch, ci) =>
+      '<span class="sl-char" style="transition-delay:' + (ci * 0.04) + 's">' + ch + '</span>'
+    ).join('') +
+    '</span>'
+  ).join(' ');
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('chars-in'); io.unobserve(el); }
+    });
+  }, { threshold: 0.3 });
+  io.observe(el);
+});
+
+/* 4. COUNT-UP for trust numbers */
+function countUp(el, target, duration) {
+  const start = performance.now();
+  const isDecimal = target % 1 !== 0;
+  function frame(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = isDecimal
+      ? current.toFixed(1)
+      : Math.round(current).toLocaleString('he-IL');
+    if (progress < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+const countTargets = [
+  { sel: '.trust-card:nth-child(3) .trust-card__title', target: 1000, suffix: '+', prefix: '' },
+];
+// Find trust card with "לקוחות" text
+document.querySelectorAll('.trust-card__title').forEach(el => {
+  if (el.textContent.includes('1,000') || el.textContent.includes('לקוחות')) {
+    el.dataset.countTarget = '1000';
+    el.dataset.countSuffix = '+';
+    el.dataset.countOriginal = el.textContent;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const span = el.querySelector('span') || el;
+          countUp({ set textContent(v) { el.textContent = '+' + v + ' לקוחות מרוצים'; } }, 1000, 1800);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    io.observe(el);
+  }
+});
+
+/* 5. PRODUCT CARD 3D TILT */
+document.addEventListener('DOMContentLoaded', () => {
+  function attachTilt(card) {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx   = rect.left + rect.width  / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (e.clientX - cx) / (rect.width  / 2);
+      const dy   = (e.clientY - cy) / (rect.height / 2);
+      card.style.transform = 'translateY(-6px) scale(1.01) rotateX(' + (-dy * 7) + 'deg) rotateY(' + (dx * 7) + 'deg)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  }
+  // Observe for dynamically-added product cards
+  const gridObserver = new MutationObserver(() => {
+    document.querySelectorAll('.product-card').forEach(c => {
+      if (!c.dataset.tiltInit) { c.dataset.tiltInit = '1'; attachTilt(c); }
+    });
+  });
+  const grid = document.getElementById('productGrid');
+  if (grid) gridObserver.observe(grid, { childList: true });
+  document.querySelectorAll('.product-card').forEach(c => {
+    if (!c.dataset.tiltInit) { c.dataset.tiltInit = '1'; attachTilt(c); }
+  });
+});
+
+/* 6. HERO PRODUCT MOUSE PARALLAX */
+const heroProduct = document.getElementById('heroProduct');
+if (heroProduct) {
+  document.addEventListener('mousemove', e => {
+    const cx = window.innerWidth  / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
+    heroProduct.style.transform = 'translateY(-12px) translateX(' + (dx * -14) + 'px) translateY(' + (dy * -8) + 'px)';
+  });
+}
+
+/* 7. CURSOR TRAIL (fragrance mist) – desktop only */
+if (window.matchMedia('(pointer:fine)').matches) {
+  const TRAIL_COUNT = 8;
+  const dots = [];
+  for (let i = 0; i < TRAIL_COUNT; i++) {
+    const d = document.createElement('div');
+    d.className = 'trail-dot';
+    d.style.opacity = (1 - i / TRAIL_COUNT) * 0.6 + '';
+    d.style.width = d.style.height = (7 - i * 0.5) + 'px';
+    document.body.appendChild(d);
+    dots.push({ el: d, x: 0, y: 0 });
+  }
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  (function animTrail() {
+    let prevX = mouseX, prevY = mouseY;
+    dots.forEach((dot, i) => {
+      const delay = 0.15 + i * 0.08;
+      dot.x += (prevX - dot.x) * (1 - delay);
+      dot.y += (prevY - dot.y) * (1 - delay);
+      dot.el.style.left = dot.x + 'px';
+      dot.el.style.top  = dot.y + 'px';
+      prevX = dot.x; prevY = dot.y;
+    });
+    requestAnimationFrame(animTrail);
+  })();
+}
+
+/* 8. MAGNETIC BUTTONS */
+document.querySelectorAll('.btn--primary, .btn--mint').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const dx = e.clientX - (rect.left + rect.width  / 2);
+    const dy = e.clientY - (rect.top  + rect.height / 2);
+    btn.style.transform = 'translate(' + dx * 0.25 + 'px, ' + dy * 0.25 + 'px)';
+  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
+/* 9. UGC CARD HOVER – subtle scale + overlay reveal */
+document.querySelectorAll('.ugc-card').forEach(card => {
+  card.style.transition = 'transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s';
+  card.addEventListener('mouseenter', () => {
+    card.style.transform  = 'scale(1.04) translateY(-4px)';
+    card.style.boxShadow  = '0 16px 40px rgba(0,0,0,.18)';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform  = '';
+    card.style.boxShadow  = '';
+  });
+});
+
+/* 10. STAGGER SECTION ITEMS via IntersectionObserver */
+document.querySelectorAll('.why-grid, .steps-grid, .categories-grid').forEach(grid => {
+  const children = [...grid.children];
+  children.forEach((el, i) => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(28px)';
+    el.style.transition = 'opacity .55s ease ' + (i * 0.1) + 's, transform .55s cubic-bezier(.16,1,.3,1) ' + (i * 0.1) + 's';
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        children.forEach(el => {
+          el.style.opacity   = '1';
+          el.style.transform = 'translateY(0)';
+        });
+        io.unobserve(grid);
+      }
+    });
+  }, { threshold: 0.15 });
+  io.observe(grid);
+});
+
 })();
 </script>
 </body>
