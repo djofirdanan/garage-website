@@ -358,7 +358,7 @@ const PM_DEFAULTS_CO = {
   bit:    { enabled: true,  phone: '050-9723636' },
   paybox: { enabled: false, link: '' },
   bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
-  cash:   { enabled: false },
+  cash:   { enabled: true },
 };
 
 let pmCfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS_CO;

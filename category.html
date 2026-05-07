@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="imgs/logo.png" />
+  <link rel="apple-touch-icon" href="imgs/logo.png" />
+  <title id="page-title">קטגוריה — GARAGE</title>
+  <meta id="page-desc" name="description" content="מפיצי ריח איכותיים — GARAGE" />
+  <meta name="robots" content="index, follow" />
+  <link id="canonical-link" rel="canonical" href="https://garage-beryl-sigma.vercel.app/category.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GARAGE" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Category page specific styles */
+    .cat-hero {
+      background: linear-gradient(145deg, #1a0f3a 0%, #2d1b69 60%, #4a3a9e 100%);
+      padding: 80px 0 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(120,80,255,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cat-hero__breadcrumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 20px;
+    }
+    .cat-hero__breadcrumb a { color: rgba(255,255,255,.5); text-decoration: none; }
+    .cat-hero__breadcrumb a:hover { color: rgba(255,255,255,.8); }
+    .cat-hero__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,.9);
+      margin-bottom: 20px;
+    }
+    .cat-hero__title {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .cat-hero__title mark {
+      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cat-hero__sub {
+      font-size: 17px;
+      color: rgba(255,255,255,.65);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .cat-hero__stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .cat-hero__stat {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      color: rgba(255,255,255,.72);
+      font-weight: 500;
+    }
+    .cat-hero__stat i { font-size: 16px; color: #a78bfa; }
+    .cat-page-body {
+      padding: 60px 0 80px;
+      background: var(--bg);
+    }
+    .cat-filters {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .cat-filters__count {
+      font-size: 14px;
+      color: var(--mid);
+      font-weight: 500;
+    }
+    .cat-products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .cat-product-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    .cat-product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(80,40,200,.14);
+    }
+    .cat-product-card__img-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: var(--off-white, #f8f7ff);
+      overflow: hidden;
+    }
+    .cat-product-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 16px;
+      transition: transform .4s;
+    }
+    .cat-product-card:hover .cat-product-card__img { transform: scale(1.06); }
+    .cat-product-card__badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--accent, #7c3aed);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+    .cat-product-card__body {
+      padding: 18px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .cat-product-card__cat {
+      font-size: 11px;
+      font-weight: 600;
+      color: #7c3aed;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 6px;
+    }
+    .cat-product-card__name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .cat-product-card__sub {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    .cat-product-card__price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .cat-product-card__price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .cat-product-card__orig {
+      font-size: 14px;
+      color: var(--mid);
+      text-decoration: line-through;
+    }
+    .cat-product-card__save {
+      font-size: 12px;
+      font-weight: 700;
+      color: #16a34a;
+      background: #dcfce7;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .cat-product-card__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 11px;
+      background: var(--black);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-pill, 99px);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      font-family: inherit;
+    }
+    .cat-product-card__btn:hover {
+      background: #2d1b69;
+      transform: translateY(-1px);
+    }
+    .cat-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--mid);
+    }
+    .cat-empty h2 { font-size: 22px; margin-bottom: 10px; color: var(--black); }
+    .cat-empty p { font-size: 15px; }
+    /* Category desc block */
+    .cat-desc-block {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 36px 40px;
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .cat-desc-block__title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+    .cat-desc-block__text {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+    .cat-desc-block__features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cat-desc-block__feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .cat-desc-block__feature i {
+      font-size: 18px;
+      color: #7c3aed;
+      flex-shrink: 0;
+    }
+    @media (max-width: 1024px) {
+      .cat-products-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .cat-hero { padding: 52px 0 48px; }
+      .cat-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .cat-desc-block { grid-template-columns: 1fr; gap: 20px; padding: 24px 20px; }
+    }
+    @media (max-width: 480px) {
+      .cat-products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .cat-hero__stats { gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="siteHeader"></div>
+
+<!-- CATEGORY HERO -->
+<section class="cat-hero" id="catHero">
+  <div class="container">
+    <div class="cat-hero__breadcrumb">
+      <a href="index.html">דף הבית</a>
+      <i class="ph ph-caret-left" style="font-size:11px"></i>
+      <span id="heroCatLabel">קטגוריה</span>
+    </div>
+    <div class="cat-hero__tag" id="heroTag">
+      <i class="ph ph-sparkle"></i>
+      <span id="heroTagText">קולקציה</span>
+    </div>
+    <h1 class="cat-hero__title" id="heroTitle">
+      <mark id="heroTitleMark">מפיצי ריח</mark>
+      <br><span id="heroTitleSub">לכל מקום</span>
+    </h1>
+    <p class="cat-hero__sub" id="heroSub">גלה את הקולקציה המושלמת</p>
+    <div class="cat-hero__stats" id="heroStats"></div>
+  </div>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<section class="cat-page-body">
+  <div class="container">
+
+    <!-- DESCRIPTION BLOCK -->
+    <div class="cat-desc-block" id="catDescBlock">
+      <div>
+        <div class="cat-desc-block__title" id="descTitle">אודות הקטגוריה</div>
+        <p class="cat-desc-block__text" id="descText"></p>
+      </div>
+      <div class="cat-desc-block__features" id="descFeatures"></div>
+    </div>
+
+    <!-- FILTERS BAR -->
+    <div class="cat-filters">
+      <div class="cat-filters__count" id="productsCount"></div>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <div class="cat-products-grid" id="catGrid"></div>
+
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+
+<script src="site-components.js"></script>
+<script src="products.js"></script>
+<script src="cart.js"></script>
+<script>
+const CAT_META = {
+  car: {
+    label: 'לרכב',
+    tagText: 'מפיצי רכב',
+    titleMark: 'ריח יוקרה',
+    titleSub: 'בכל נסיעה',
+    sub: 'מפיצי ריח חכמים לרכב — עם חיישן תנועה, שמן טהור 100% ועד 45 יום שימוש. הנסיעה שלך לעולם לא תהיה אותו דבר.',
+    icon: 'ph-car',
+    descTitle: 'מפיצי ריח לרכב',
+    descText: 'אנחנו מאמינים שגם בתוך הרכב מגיע לך ריח יוקרתי. מפיצי הריח שלנו לרכב משתמשים בשמן ריח טהור 100%, מופעלים על ידי USB ומצוידים בחיישן תנועה שמריח בדיוק כשנכנסים. 14 ניחוחות להיבחר.',
+    features: [
+      { icon: 'ph-usb', text: 'טעינה דרך USB — לא צריך סוללות' },
+      { icon: 'ph-eye', text: 'חיישן תנועה חכם — מריח כשנכנסים' },
+      { icon: 'ph-drop', text: 'שמן ריח טהור 100% — ללא מים' },
+      { icon: 'ph-timer', text: 'עד 45 יום לבקבוק 100 מ"ל' },
+    ],
+    stats: [
+      { icon: 'ph-star-fill', text: '+1,000 לקוחות מרוצים' },
+      { icon: 'ph-drop', text: 'שמן טהור 100%' },
+      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+    ],
+  },
+  home: {
+    label: 'לבית',
+    tagText: 'מפיצי בית',
+    titleMark: 'בית שמריח',
+    titleSub: 'כמו מלון 5 כוכבים',
+    sub: 'מפיצי ריח חשמליים לבית — מכסים עד 100 מ"ר, שמן ריח טהור 100% ב-14 ניחוחות. תהפכו את הסלון לחוויה.',
+    icon: 'ph-house',
+    descTitle: 'מפיצי ריח לבית ומשרד',
+    descText: 'הבית שלכם ראוי לריח שמחזיק שעות. מפיצי GARAGE לבית מכסים שטחים של עד 100 מ"ר, פועלים בשקט מוחלט ומשתלבים בכל עיצוב פנים. כולם כוללים שמן ריח טהור 100% ב-14 ניחוחות לבחירה.',
+    features: [
+      { icon: 'ph-house', text: 'כיסוי עד 100 מ"ר בקלות' },
+      { icon: 'ph-speaker-none', text: 'פעולה שקטה לחלוטין' },
+      { icon: 'ph-drop', text: 'שמן טהור 100% — ללא כימיקלים' },
+      { icon: 'ph-palette', text: 'עיצוב מינימליסטי — משתלב בכל דקור' },
+    ],
+    stats: [
+      { icon: 'ph-house', text: 'עד 100 מ"ר כיסוי' },
+      { icon: 'ph-drop', text: 'שמן טהור 100%' },
+      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+    ],
+  },
+  biz: {
+    label: 'לעסק',
+    tagText: 'פתרון עסקי',
+    titleMark: 'ריח עסקי',
+    titleSub: 'שמרשים לקוחות',
+    sub: 'מפיצי ריח מסחריים לעסקים — מכסים עד 1,000 מ"ר, מתאימים למסעדות, מלונות, חנויות ומשרדים. לקוחות זוכרים את הריח.',
+    icon: 'ph-buildings',
+    descTitle: 'פתרון ריח מקצועי לעסקים',
+    descText: 'מחקרים מראים שלקוחות מבלים 20% יותר זמן בחנויות עם ריח נעים. מפיצי GARAGE לעסקים מכסים שטחים גדולים, פועלים ברציפות ומפוקחים מרחוק. מושלמים למסעדות, חנויות, מלונות ומשרדים.',
+    features: [
+      { icon: 'ph-buildings', text: 'כיסוי עד 1,000 מ"ר לפתרון S1000' },
+      { icon: 'ph-clock', text: 'פעולה רציפה 24/7 ללא הפסקה' },
+      { icon: 'ph-wrench', text: 'תמיכה ושירות עסקי ייעודי' },
+      { icon: 'ph-trend-up', text: 'לקוחות מבלים יותר עם ריח נעים' },
+    ],
+    stats: [
+      { icon: 'ph-buildings', text: 'עד 1,000 מ"ר כיסוי' },
+      { icon: 'ph-phone', text: 'תמיכה עסקית ייעודית' },
+      { icon: 'ph-truck', text: 'משלוח חינם' },
+    ],
+  },
+  bottles: {
+    label: 'בקבוקי שמן',
+    tagText: 'שמן ריח',
+    titleMark: '14 ניחוחות',
+    titleSub: 'שמן טהור 100%',
+    sub: 'בקבוקי שמן ריח טהור 100% — ללא מים, ללא כימיקלים. 100 מ"ל ועד ליטר שלם. מתאים לכל מפיצי GARAGE.',
+    icon: 'ph-drop',
+    descTitle: 'שמן ריח טהור 100%',
+    descText: 'בקבוקי שמן הריח שלנו מכילים שמן טהור לחלוטין — ללא מים, ללא דילולים. כל ניחוח מבוסס על בושמים יוקרתיים מהעולם. 100 מ"ל מחזיקים 30-60 יום בשימוש יומי. מתאימים לכל מפיצי GARAGE.',
+    features: [
+      { icon: 'ph-drop', text: 'שמן טהור 100% — ללא מים' },
+      { icon: 'ph-flask', text: '14 ניחוחות יוקרתיים לבחירה' },
+      { icon: 'ph-timer', text: '30-60 יום לבקבוק 100 מ"ל' },
+      { icon: 'ph-star', text: 'מבוסס על בושמים מהעולם' },
+    ],
+    stats: [
+      { icon: 'ph-drop', text: 'שמן טהור 100%' },
+      { icon: 'ph-flask', text: '14 ניחוחות' },
+      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+    ],
+  },
+};
+
+const params  = new URLSearchParams(location.search);
+const catKey  = params.get('cat') || 'car';
+const meta    = CAT_META[catKey] || CAT_META.car;
+
+/* update page meta */
+document.title = `${meta.label} — GARAGE | מפיצי ריח`;
+document.getElementById('page-title').textContent = document.title;
+document.getElementById('page-desc').setAttribute('content', meta.sub);
+document.getElementById('canonical-link').setAttribute('href',
+  `https://garage-beryl-sigma.vercel.app/category.html?cat=${catKey}`);
+
+/* hero */
+document.getElementById('heroCatLabel').textContent   = meta.label;
+document.getElementById('heroTagText').textContent     = meta.tagText;
+document.getElementById('heroTitleMark').textContent   = meta.titleMark;
+document.getElementById('heroTitleSub').textContent    = meta.titleSub;
+document.getElementById('heroSub').textContent         = meta.sub;
+document.getElementById('heroStats').innerHTML = meta.stats.map(s => `
+  <div class="cat-hero__stat">
+    <i class="ph-fill ${s.icon}"></i>
+    <span>${s.text}</span>
+  </div>`).join('');
+
+/* desc block */
+document.getElementById('descTitle').textContent = meta.descTitle;
+document.getElementById('descText').textContent  = meta.descText;
+document.getElementById('descFeatures').innerHTML = meta.features.map(f => `
+  <div class="cat-desc-block__feature">
+    <i class="ph-fill ${f.icon}"></i>
+    <span>${f.text}</span>
+  </div>`).join('');
+
+/* products grid */
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof PRODUCTS === 'undefined') return;
+
+  const products = Object.values(PRODUCTS).filter(p => p.category === catKey);
+  const grid = document.getElementById('catGrid');
+  const count = document.getElementById('productsCount');
+
+  count.textContent = `${products.length} מוצרים`;
+
+  if (products.length === 0) {
+    grid.innerHTML = `
+      <div class="cat-empty">
+        <h2>אין מוצרים בקטגוריה זו</h2>
+        <p><a href="index.html">חזרה לדף הבית</a></p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = products.map(p => {
+    const saving = p.origPrice ? p.origPrice - p.price : 0;
+    return `
+    <a href="product.html?id=${p.id}" class="cat-product-card">
+      <div class="cat-product-card__img-wrap">
+        <img class="cat-product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
+        ${p.badge ? `<span class="cat-product-card__badge">${p.badge}</span>` : ''}
+      </div>
+      <div class="cat-product-card__body">
+        <div class="cat-product-card__cat">${p.categoryLabel}</div>
+        <div class="cat-product-card__name">${p.name}</div>
+        <div class="cat-product-card__sub">${p.subtitle || p.desc?.slice(0, 60) + '...' || ''}</div>
+        <div class="cat-product-card__price-row">
+          <span class="cat-product-card__price">₪${p.price.toLocaleString('he-IL')}</span>
+          ${p.origPrice ? `<span class="cat-product-card__orig">₪${p.origPrice.toLocaleString('he-IL')}</span>` : ''}
+          ${saving > 0 ? `<span class="cat-product-card__save">חיסכון ₪${saving}</span>` : ''}
+        </div>
+        <button class="cat-product-card__btn">
+          <i class="ph ph-eye"></i>
+          צפייה ורכישה
+        </button>
+      </div>
+    </a>`;
+  }).join('');
+});
+</script>
+<script src="customer-auth.js"></script>
+<script src="auth-modal.js"></script>
+</body>
+</html>
