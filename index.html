@@ -52,28 +52,28 @@
 <nav class="site-nav">
   <div class="site-nav__inner">
 
-    <!-- Column 1 RIGHT (RTL): nav links on desktop, hamburger on mobile -->
+    <!-- Column 1 RIGHT (RTL): logo on desktop / hamburger on mobile -->
     <div class="site-nav__start">
-      <nav class="site-nav__links" id="siteNavLinks">
-        <a href="index.html">דף הבית</a>
-        <a href="product.html?id=car">לרכב</a>
-        <a href="product.html?id=g60">לבית</a>
-        <a href="product.html?id=s500">לעסק</a>
-        <a href="product.html?id=bottles_100ml">בקבוקים</a>
-        <a href="#contact">צור קשר</a>
-        <a href="subscriptions.html" class="site-nav__sub-cta">מנויים</a>
-      </nav>
+      <a href="index.html" class="site-nav__logo">
+        <img src="imgs/logo.png"
+             alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
+      </a>
       <button class="nav-hamburger" id="navHamburger" aria-label="תפריט">
         <span></span><span></span><span></span>
       </button>
     </div>
 
-    <!-- Column 2 CENTER: logo -->
-    <a href="index.html" class="site-nav__logo">
-      <img src="imgs/logo.png"
-           alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
-    </a>
+    <!-- Column 2 CENTER: nav links on desktop (absolute), hidden on mobile -->
+    <nav class="site-nav__links" id="siteNavLinks">
+      <a href="index.html">דף הבית</a>
+      <a href="product.html?id=car">לרכב</a>
+      <a href="product.html?id=g60">לבית</a>
+      <a href="product.html?id=s500">לעסק</a>
+      <a href="product.html?id=bottles_100ml">בקבוקים</a>
+      <a href="#contact">צור קשר</a>
+      <a href="subscriptions.html" class="site-nav__sub-cta">מנויים</a>
+    </nav>
 
     <!-- Column 3 LEFT (RTL): customer + cart -->
     <div class="site-nav__end">
