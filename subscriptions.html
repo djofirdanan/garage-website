@@ -438,10 +438,27 @@
   }
   @media (max-width: 640px) {
     .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
-    .pricing-hero { padding: 60px 0 40px; }
+    .pricing-hero { padding: 56px 0 36px; }
+    .pricing-hero__title { font-size: 28px; }
+    .pricing-hero__sub { font-size: 15px; margin-bottom: 28px; }
+    .pricing-hero__tag { font-size: 11px; margin-bottom: 14px; }
     .pricing-card { padding: 28px 22px 24px; }
     .pricing-card__badge-wrap { top: -14px; left: -14px; }
     .pricing-card__badge-circle { width: 58px; height: 58px; }
+    /* Guarantee bar: clean 2x2 grid on mobile */
+    .pricing-guarantee {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 8px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .pricing-guarantee span { justify-content: center; font-size: 12px; }
+    /* Toggle center on mobile */
+    .pricing-toggle { gap: 10px; margin-bottom: 32px; }
+    .pricing-toggle__label { font-size: 13px; }
+    /* FAQ */
+    .pricing-faq__grid { max-width: 100%; }
   }
   </style>
 </head>

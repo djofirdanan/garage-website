@@ -93,18 +93,38 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 .site-nav__links {
   display: flex;
-  gap: 28px;
+  gap: 20px;
   align-items: center;
 }
 .site-nav__links a {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--black);
   transition: color .2s;
   white-space: nowrap;
 }
+@media (max-width: 1200px) {
+  .site-nav__links { gap: 14px; }
+  .site-nav__links a { font-size: 13px; }
+}
 .site-nav__links a:hover,
 .site-nav__links a.active { color: var(--mid); }
+/* "מנויים" highlighted CTA in nav */
+.site-nav__sub-cta {
+  background: var(--mint);
+  border: 1.5px solid var(--mint-dark);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: var(--black) !important;
+  transition: background .2s, transform .15s !important;
+}
+.site-nav__sub-cta:hover {
+  background: var(--mint-dark) !important;
+  color: var(--black) !important;
+  transform: translateY(-1px);
+}
 
 /* Column 2 – CENTER: logo */
 .site-nav__logo {
