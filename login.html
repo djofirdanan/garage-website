@@ -357,7 +357,7 @@
         border: none;
         box-shadow: none;
         border-radius: 0;
-        min-height: 100vh;
+        min-height: 100dvh;
       }
 
       .auth-slider { display: none; }
@@ -370,28 +370,24 @@
       .auth-form-panel::before {
         content: '';
         display: block;
-        height: 180px;
+        height: 220px;
         background:
-          linear-gradient(to top, rgba(18,18,18,.7) 0%, transparent 60%),
-          url('https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=800') center/cover no-repeat;
+          linear-gradient(to top, rgba(18,18,18,.75) 0%, rgba(18,18,18,.1) 70%),
+          url('https://images.pexels.com/photos/6915261/pexels-photo-6915261.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=440&w=800') center/cover no-repeat;
         flex-shrink: 0;
       }
 
       .auth-form-inner {
         flex: 1;
-        padding: 28px 24px 40px;
+        padding: 28px 24px 48px;
         overflow-y: auto;
       }
 
-      .auth-logo {
-        display: none;
-      }
+      .auth-logo { display: none; }
     }
 
     @media (min-width: 681px) {
-      .auth-form-inner {
-        width: 100%;
-      }
+      .auth-form-inner { width: 100%; }
     }
   </style>
 </head>
@@ -400,60 +396,7 @@
 <main class="auth-page">
   <div class="auth-wrap">
 
-    <!-- LEFT: Image Slider -->
-    <div class="auth-slider" id="authSlider">
-      <div class="auth-slider__track" id="sliderTrack">
-
-        <div class="auth-slider__slide">
-          <img src="https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=800"
-               alt="ריח הבית" loading="eager" />
-          <div class="auth-slider__overlay"></div>
-          <div class="auth-slider__caption">
-            <span class="auth-slider__caption-tag">מנוי חדש</span>
-            <h2>הבית שלך מגיע לריח הכי טוב</h2>
-            <p>גלה את קולקציית הניחוחות הפרמיום שלנו</p>
-          </div>
-        </div>
-
-        <div class="auth-slider__slide">
-          <img src="https://images.pexels.com/photos/3270223/pexels-photo-3270223.jpeg?auto=compress&cs=tinysrgb&w=800"
-               alt="ריח לרכב" loading="lazy" />
-          <div class="auth-slider__overlay"></div>
-          <div class="auth-slider__caption">
-            <span class="auth-slider__caption-tag">לרכב</span>
-            <h2>כל נסיעה - חוויה אחרת</h2>
-            <p>ניחוחות איכותיים שמחזיקים לאורך זמן</p>
-          </div>
-        </div>
-
-        <div class="auth-slider__slide">
-          <img src="https://images.pexels.com/photos/1616406/pexels-photo-1616406.jpeg?auto=compress&cs=tinysrgb&w=800"
-               alt="מוצרי ניחוח" loading="lazy" />
-          <div class="auth-slider__overlay"></div>
-          <div class="auth-slider__caption">
-            <span class="auth-slider__caption-tag">פרמיום</span>
-            <h2>ריח שמדבר בעד עצמו</h2>
-            <p>חומרי גלם מהמובחרים בעולם</p>
-          </div>
-        </div>
-
-        <div class="auth-slider__slide">
-          <img src="https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=800"
-               alt="GARAGE ריחות" loading="lazy" />
-          <div class="auth-slider__overlay"></div>
-          <div class="auth-slider__caption">
-            <span class="auth-slider__caption-tag">GARAGE</span>
-            <h2>הזמנות מהירות. מעקב קל</h2>
-            <p>הצטרף לאלפי לקוחות מרוצים</p>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="auth-slider__dots" id="sliderDots"></div>
-    </div>
-
-    <!-- RIGHT: Form Panel -->
+    <!-- RIGHT (RTL col-1): Form Panel -->
     <div class="auth-form-panel">
       <div class="auth-form-inner">
 
@@ -544,6 +487,58 @@
 
       </div><!-- /auth-form-inner -->
     </div><!-- /auth-form-panel -->
+
+    <!-- LEFT (RTL col-2): Image Slider -->
+    <div class="auth-slider" id="authSlider">
+      <div class="auth-slider__track" id="sliderTrack">
+
+        <div class="auth-slider__slide">
+          <img src="https://images.pexels.com/photos/6915261/pexels-photo-6915261.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
+               alt="מפיץ ריח עם אור ורוד" loading="eager" />
+          <div class="auth-slider__overlay"></div>
+          <div class="auth-slider__caption">
+            <span class="auth-slider__caption-tag">מנוי חדש</span>
+            <h2>הבית שלך מגיע לריח הכי טוב</h2>
+            <p>גלה את קולקציית הניחוחות הפרמיום שלנו</p>
+          </div>
+        </div>
+
+        <div class="auth-slider__slide">
+          <img src="https://images.pexels.com/photos/6915313/pexels-photo-6915313.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
+               alt="מפיץ ריח עץ עם אדים" loading="lazy" />
+          <div class="auth-slider__overlay"></div>
+          <div class="auth-slider__caption">
+            <span class="auth-slider__caption-tag">פרמיום</span>
+            <h2>ריח שמדבר בעד עצמו</h2>
+            <p>חומרי גלם מהמובחרים בעולם</p>
+          </div>
+        </div>
+
+        <div class="auth-slider__slide">
+          <img src="https://images.pexels.com/photos/6915107/pexels-photo-6915107.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
+               alt="מפיץ ריח אטמוספרי" loading="lazy" />
+          <div class="auth-slider__overlay"></div>
+          <div class="auth-slider__caption">
+            <span class="auth-slider__caption-tag">לבית</span>
+            <h2>אווירה שמתחילה מהריח</h2>
+            <p>14 ניחוחות יוקרתיים לכל סגנון</p>
+          </div>
+        </div>
+
+        <div class="auth-slider__slide">
+          <img src="https://images.pexels.com/photos/6914778/pexels-photo-6914778.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800"
+               alt="מפיץ ריח עץ אלגנטי" loading="lazy" />
+          <div class="auth-slider__overlay"></div>
+          <div class="auth-slider__caption">
+            <span class="auth-slider__caption-tag">GARAGE</span>
+            <h2>הזמנות מהירות. מעקב קל</h2>
+            <p>הצטרף לאלפי לקוחות מרוצים</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="auth-slider__dots" id="sliderDots"></div>
+    </div>
 
   </div><!-- /auth-wrap -->
 </main>
