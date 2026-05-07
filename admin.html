@@ -328,6 +328,81 @@
     .exit-modal__btn--stay { background: var(--mint); color: var(--dark); }
     .exit-modal__btn--leave { background: var(--gray-100); color: var(--gray-700); }
 
+    /* ---- PAYMENT SETTINGS ---- */
+    .pay-method-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--gray-100);
+      flex-wrap: wrap;
+    }
+    .pay-method-row:last-of-type { border-bottom: none; }
+    .pay-method-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .pay-logo {
+      width: 52px; height: 32px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 13px; letter-spacing: -.5px;
+      flex-shrink: 0;
+    }
+    .pay-logo.bit   { background: #0e2d7b; color: #fff; font-style: italic; }
+    .pay-logo.paybox{ background: #e91e63; color: #fff; font-size: 10px; }
+    .pay-logo.bank  { background: #1e40af; color: #fff; font-size: 11px; }
+    .pay-logo.cash  { background: #16a34a; color: #fff; font-size: 11px; }
+    .pay-method-name { font-size: 14px; font-weight: 700; }
+    .pay-method-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+    .toggle-sw { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; margin-top: 4px; cursor: pointer; }
+    .toggle-sw input { opacity: 0; width: 0; height: 0; }
+    .toggle-sw__track {
+      position: absolute; inset: 0;
+      background: var(--gray-200); border-radius: 99px;
+      transition: .2s;
+    }
+    .toggle-sw__track::before {
+      content: ''; position: absolute;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; top: 3px; right: 3px;
+      transition: .2s; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+    .toggle-sw input:checked + .toggle-sw__track { background: var(--mint); }
+    .toggle-sw input:checked + .toggle-sw__track::before { transform: translateX(-20px); }
+    .pay-method-fields {
+      width: 100%;
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: 4px;
+      padding: 12px 16px;
+      background: var(--gray-50); border-radius: 10px;
+      border: 1px solid var(--gray-200);
+    }
+    .pay-method-fields input {
+      padding: 8px 12px; border: 1px solid var(--gray-200);
+      border-radius: 8px; font-size: 13px; font-family: inherit;
+      background: #fff; direction: ltr; text-align: left;
+    }
+    .pay-method-fields input:focus { outline: none; border-color: var(--mint); }
+    .pay-method-fields label { font-size: 12px; color: var(--gray-500); }
+    .pm-hidden { display: none !important; }
+    .btn-save-pay {
+      margin-top: 20px; padding: 11px 28px;
+      background: var(--mint); color: var(--dark);
+      border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+    }
+    .btn-save-pay:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,200,160,.35); }
+    .save-confirm {
+      display: none; margin-top: 10px;
+      color: #16a34a; font-size: 13px; font-weight: 600;
+    }
+    .save-confirm.show { display: flex; align-items: center; gap: 6px; }
+
     /* ---- RESPONSIVE ---- */
     @media (max-width: 1100px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -381,6 +456,10 @@
       <a href="#products-panel" onclick="setActive(this)">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
         מוצרים
+      </a>
+      <a href="#payment-settings" onclick="setActive(this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+        שיטות תשלום
       </a>
       <a href="#" onclick="setActive(this)">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -543,6 +622,100 @@
       </div>
     </div>
 
+    <!-- PAYMENT SETTINGS PANEL -->
+    <div class="panel" id="payment-settings" style="margin-bottom:24px">
+      <div class="panel__header">
+        <div class="panel__title">שיטות תשלום</div>
+        <span class="badge badge--blue" id="pmEnabledCount">טוען...</span>
+      </div>
+      <div class="panel__body" style="padding:8px 24px 24px">
+
+        <!-- BIT -->
+        <div class="pay-method-row">
+          <div class="pay-method-info">
+            <div class="pay-logo bit">bit</div>
+            <div>
+              <div class="pay-method-name">ביט</div>
+              <div class="pay-method-desc">תשלום דרך אפליקציית ביט</div>
+            </div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="pm-bit-enabled" onchange="togglePmFields('bit')">
+            <span class="toggle-sw__track"></span>
+          </label>
+          <div class="pay-method-fields pm-hidden" id="pm-bit-fields">
+            <label>מספר טלפון לקבלת ביט</label>
+            <input type="tel" id="pm-bit-phone" placeholder="050-0000000" dir="ltr">
+          </div>
+        </div>
+
+        <!-- PAYBOX -->
+        <div class="pay-method-row">
+          <div class="pay-method-info">
+            <div class="pay-logo paybox">PayBox</div>
+            <div>
+              <div class="pay-method-name">PayBox</div>
+              <div class="pay-method-desc">תשלום דרך אפליקציית PayBox</div>
+            </div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="pm-paybox-enabled" onchange="togglePmFields('paybox')">
+            <span class="toggle-sw__track"></span>
+          </label>
+          <div class="pay-method-fields pm-hidden" id="pm-paybox-fields">
+            <label>לינק לתשלום PayBox שלך</label>
+            <input type="url" id="pm-paybox-link" placeholder="https://payboxapp.com/..." dir="ltr">
+          </div>
+        </div>
+
+        <!-- BANK TRANSFER -->
+        <div class="pay-method-row">
+          <div class="pay-method-info">
+            <div class="pay-logo bank">בנק</div>
+            <div>
+              <div class="pay-method-name">העברה בנקאית</div>
+              <div class="pay-method-desc">העברת כסף ישירות לחשבון</div>
+            </div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="pm-bank-enabled" onchange="togglePmFields('bank')">
+            <span class="toggle-sw__track"></span>
+          </label>
+          <div class="pay-method-fields pm-hidden" id="pm-bank-fields">
+            <label>שם הבנק</label>
+            <input type="text" id="pm-bank-name" placeholder="לדוגמה: הפועלים">
+            <label>מספר חשבון</label>
+            <input type="text" id="pm-bank-account" placeholder="12-345-678901" dir="ltr">
+            <label>סניף</label>
+            <input type="text" id="pm-bank-branch" placeholder="123" dir="ltr">
+            <label>שם בעל החשבון</label>
+            <input type="text" id="pm-bank-owner" placeholder="שם מלא">
+          </div>
+        </div>
+
+        <!-- CASH -->
+        <div class="pay-method-row">
+          <div class="pay-method-info">
+            <div class="pay-logo cash">מזומן</div>
+            <div>
+              <div class="pay-method-name">מזומן / אספקה עצמית</div>
+              <div class="pay-method-desc">תשלום בעת קבלת ההזמנה</div>
+            </div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="pm-cash-enabled" onchange="togglePmFields('cash')">
+            <span class="toggle-sw__track"></span>
+          </label>
+        </div>
+
+        <button class="btn-save-pay" onclick="savePaymentMethods()">שמור הגדרות</button>
+        <div class="save-confirm" id="pmSaveConfirm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          הגדרות נשמרו!
+        </div>
+      </div>
+    </div>
+
     <!-- PRODUCTS PANEL -->
     <div class="panel" id="products-panel">
       <div class="panel__header">
@@ -643,7 +816,82 @@ window.addEventListener('load', () => {
   countUp(document.getElementById('statRevenue'), 14320, 1600, '₪', '');
   countUp(document.getElementById('statCustomers'), 1043, 1800, '', '');
   countUp(document.getElementById('statSubs'), 28, 1000, '', '');
+  loadPaymentMethods();
 });
+
+/* ---- PAYMENT METHODS SETTINGS ---- */
+const PM_KEY = 'garage_payment_cfg';
+
+const PM_DEFAULTS = {
+  bit:    { enabled: true,  phone: '050-9723636' },
+  paybox: { enabled: false, link: '' },
+  bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
+  cash:   { enabled: false },
+};
+
+function loadPaymentMethods() {
+  const cfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS;
+
+  document.getElementById('pm-bit-enabled').checked   = cfg.bit.enabled;
+  document.getElementById('pm-bit-phone').value        = cfg.bit.phone || '';
+
+  document.getElementById('pm-paybox-enabled').checked = cfg.paybox.enabled;
+  document.getElementById('pm-paybox-link').value       = cfg.paybox.link || '';
+
+  document.getElementById('pm-bank-enabled').checked   = cfg.bank.enabled;
+  document.getElementById('pm-bank-name').value         = cfg.bank.bankName || '';
+  document.getElementById('pm-bank-account').value      = cfg.bank.account || '';
+  document.getElementById('pm-bank-branch').value       = cfg.bank.branch || '';
+  document.getElementById('pm-bank-owner').value        = cfg.bank.owner || '';
+
+  document.getElementById('pm-cash-enabled').checked   = cfg.cash.enabled;
+
+  ['bit','paybox','bank','cash'].forEach(m => togglePmFields(m));
+  updatePmCount(cfg);
+}
+
+function togglePmFields(method) {
+  const enabled = document.getElementById(`pm-${method}-enabled`).checked;
+  const fields  = document.getElementById(`pm-${method}-fields`);
+  if (fields) fields.classList.toggle('pm-hidden', !enabled);
+}
+
+function savePaymentMethods() {
+  const cfg = {
+    bit: {
+      enabled: document.getElementById('pm-bit-enabled').checked,
+      phone:   document.getElementById('pm-bit-phone').value.trim(),
+    },
+    paybox: {
+      enabled: document.getElementById('pm-paybox-enabled').checked,
+      link:    document.getElementById('pm-paybox-link').value.trim(),
+    },
+    bank: {
+      enabled:  document.getElementById('pm-bank-enabled').checked,
+      bankName: document.getElementById('pm-bank-name').value.trim(),
+      account:  document.getElementById('pm-bank-account').value.trim(),
+      branch:   document.getElementById('pm-bank-branch').value.trim(),
+      owner:    document.getElementById('pm-bank-owner').value.trim(),
+    },
+    cash: {
+      enabled: document.getElementById('pm-cash-enabled').checked,
+    },
+  };
+
+  localStorage.setItem(PM_KEY, JSON.stringify(cfg));
+  updatePmCount(cfg);
+
+  const confirm = document.getElementById('pmSaveConfirm');
+  confirm.classList.add('show');
+  setTimeout(() => confirm.classList.remove('show'), 2500);
+}
+
+function updatePmCount(cfg) {
+  const count = Object.values(cfg).filter(m => m.enabled).length;
+  const el = document.getElementById('pmEnabledCount');
+  el.textContent = `${count} פעיל${count !== 1 ? 'ות' : ''}`;
+  el.className = `badge badge--${count > 0 ? 'green' : 'orange'}`;
+}
 </script>
 </body>
 </html>

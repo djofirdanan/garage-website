@@ -138,9 +138,9 @@
           <div class="summary-cta">
             <a href="checkout.html" class="btn-add btn-full btn-lg" id="checkoutBtn" style="justify-content:center;gap:10px;text-decoration:none">
               <i class="ph ph-credit-card"></i>
-              לתשלום בביט
+              לתשלום
             </a>
-            <a href="index.html#products" class="summary-continue">
+            <a href="index.html#products" class="summary-continue" id="continueShopping">
               <i class="ph ph-arrow-right" style="margin-left:4px"></i>
               המשך קניות
             </a>
@@ -320,6 +320,13 @@ function closeMobileNav() {
 hamburger?.addEventListener('click', () => {
   mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
 });
+
+/* "המשך קניות" — return to last viewed product */
+const lastProduct = sessionStorage.getItem('garage_last_product');
+if (lastProduct) {
+  const link = document.getElementById('continueShopping');
+  if (link) link.href = lastProduct;
+}
 
 renderCart();
 </script>

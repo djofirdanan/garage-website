@@ -259,6 +259,7 @@ function init() {
   }
 
   document.title = `${product.name} — GARAGE | שמן טהור 100%`;
+  sessionStorage.setItem('garage_last_product', location.href);
 
   /* SEO meta */
   const pageUrl = `https://garage-beryl-sigma.vercel.app/product.html?id=${prodId}`;

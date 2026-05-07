@@ -28,6 +28,87 @@
     .step.done + .step .step-line,
     .step.done .step-line { background:var(--green); }
 
+    /* ---- PAYMENT METHOD CARDS ---- */
+    .pm-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+    }
+    .pm-card:has(input:checked),
+    .pm-card.selected {
+      border-color: var(--gold);
+      background: rgba(255,200,0,.05);
+    }
+    .pm-card input[type=radio] { display: none; }
+    .pm-radio {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      transition: border-color .15s;
+    }
+    .pm-card.selected .pm-radio {
+      border-color: var(--gold);
+    }
+    .pm-card.selected .pm-radio::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .pm-logo {
+      width: 48px; height: 30px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 13px; letter-spacing: -.5px;
+      flex-shrink: 0;
+    }
+    .pm-logo.bit    { background: #0e2d7b; color: #fff; font-style: italic; }
+    .pm-logo.paybox { background: #e91e63; color: #fff; font-size: 9px; }
+    .pm-logo.bank   { background: #1e40af; color: #fff; font-size: 10px; }
+    .pm-logo.cash   { background: #16a34a; color: #fff; font-size: 10px; }
+    .pm-label { flex: 1; }
+    .pm-label strong { display: block; font-size: .9rem; }
+    .pm-label span   { font-size: .78rem; color: var(--muted); }
+
+    /* Bit instructions inside checkout */
+    .bit-detail { padding: 14px 16px; background: var(--surface); border-radius: var(--radius-sm); }
+    .bit-detail .bit-phone {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 700; font-size: 1rem; flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .bit-detail .bit-steps { display: flex; flex-direction: column; gap: 10px; }
+    .bit-detail .bit-step  { display: flex; gap: 10px; font-size: .84rem; align-items: flex-start; }
+    .bit-detail .bit-step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #0e2d7b; color: #fff;
+      font-size: .7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .bank-detail { padding: 14px 16px; background: var(--surface); border-radius: var(--radius-sm); font-size: .87rem; display: flex; flex-direction: column; gap: 8px; }
+    .bank-detail-row { display: flex; justify-content: space-between; }
+    .bank-detail-row span:first-child { color: var(--muted); }
+    .bank-detail-row strong { font-weight: 700; }
+    .paybox-detail { padding: 14px 16px; background: var(--surface); border-radius: var(--radius-sm); text-align: center; }
+    .paybox-detail a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; background: #e91e63; color: #fff;
+      border-radius: 99px; font-weight: 700; text-decoration: none;
+      font-size: .9rem; margin-top: 8px;
+      transition: transform .15s;
+    }
+    .paybox-detail a:hover { transform: translateY(-1px); }
+    .cash-detail { padding: 14px 16px; background: #f0fdf4; border-radius: var(--radius-sm); color: #166534; font-size: .87rem; display: flex; gap: 10px; align-items: flex-start; }
+
     .success-screen {
       display:none; text-align:center; padding:80px 20px;
     }
@@ -170,40 +251,15 @@
                 <div id="couponMsg" style="font-size:.8rem;margin-top:4px;display:none"></div>
               </div>
 
-              <!-- BIT PAYMENT -->
-              <div class="bit-payment">
-                <div class="bit-payment__head">
-                  <div class="bit-logo">bit</div>
-                  <div>
-                    <h3>תשלום בביט</h3>
-                    <p>מהיר, מאובטח, ללא עמלות</p>
-                  </div>
-                </div>
-
-                <div class="bit-phone">
-                  <i class="ph-fill ph-device-mobile"></i>
-                  <span id="bitAmount">₪0</span>
-                  <span style="color:var(--muted);font-weight:400;font-size:.85rem">← שלח לביט:</span>
-                  <span>050-9723636</span>
-                </div>
-
-                <div class="bit-steps">
-                  <div class="bit-step">
-                    <div class="bit-step-num">1</div>
-                    <span>פתח את אפליקציית ביט בטלפון שלך</span>
-                  </div>
-                  <div class="bit-step">
-                    <div class="bit-step-num">2</div>
-                    <span>שלח <strong id="bitAmountStep">₪0</strong> למספר <strong>050-9723636</strong></span>
-                  </div>
-                  <div class="bit-step">
-                    <div class="bit-step-num">3</div>
-                    <span>לחץ על "שלח הזמנה" — ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span>
-                  </div>
-                </div>
+              <!-- PAYMENT METHOD SELECTION -->
+              <div id="paymentSection">
+                <div style="font-size:.9rem;font-weight:700;margin-bottom:12px;color:var(--dark)">שיטת תשלום</div>
+                <div id="payMethodCards" style="display:flex;flex-direction:column;gap:10px"></div>
+                <!-- dynamic payment detail panel -->
+                <div id="payDetailPanel" style="margin-top:14px"></div>
               </div>
 
-              <button type="submit" class="submit-order-btn">
+              <button type="submit" class="submit-order-btn" id="submitOrderBtn">
                 <i class="ph-fill ph-whatsapp-logo" style="font-size:1.5rem"></i>
                 שלח הזמנה בוואטסאפ
               </button>
@@ -280,7 +336,119 @@
 <script src="products.js"></script>
 <script src="cart.js"></script>
 <script>
-const ADMIN_API = 'https://garage-admin.vercel.app';
+const ADMIN_API  = 'https://garage-admin.vercel.app';
+const PM_KEY     = 'garage_payment_cfg';
+const PM_DEFAULTS_CO = {
+  bit:    { enabled: true,  phone: '050-9723636' },
+  paybox: { enabled: false, link: '' },
+  bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
+  cash:   { enabled: false },
+};
+
+let pmCfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS_CO;
+let selectedPayMethod = null;
+
+/* ---- Payment method rendering ---- */
+function renderPaymentMethods(total) {
+  const container = document.getElementById('payMethodCards');
+  const methods = [];
+
+  if (pmCfg.bit?.enabled)    methods.push('bit');
+  if (pmCfg.paybox?.enabled) methods.push('paybox');
+  if (pmCfg.bank?.enabled)   methods.push('bank');
+  if (pmCfg.cash?.enabled)   methods.push('cash');
+  if (methods.length === 0)  methods.push('bit'); // fallback
+
+  const labels = {
+    bit:    { logo: 'bit',    name: 'ביט',               desc: 'תשלום מהיר דרך אפליקציית ביט' },
+    paybox: { logo: 'paybox', name: 'PayBox',             desc: 'תשלום דרך אפליקציית PayBox' },
+    bank:   { logo: 'bank',   name: 'העברה בנקאית',      desc: 'העברה ישירה לחשבון הבנק' },
+    cash:   { logo: 'cash',   name: 'מזומן / אספקה',     desc: 'תשלום בעת קבלת ההזמנה' },
+  };
+
+  container.innerHTML = methods.map(m => `
+    <div class="pm-card${selectedPayMethod === m ? ' selected' : ''}" onclick="selectPayMethod('${m}', ${total})">
+      <input type="radio" name="payMethod" value="${m}"${selectedPayMethod === m ? ' checked' : ''}>
+      <div class="pm-radio"></div>
+      <div class="pm-logo ${labels[m].logo}">${labels[m].logo === 'bit' ? 'bit' : labels[m].logo === 'paybox' ? 'PayBox' : labels[m].logo === 'bank' ? 'בנק' : 'מזומן'}</div>
+      <div class="pm-label">
+        <strong>${labels[m].name}</strong>
+        <span>${labels[m].desc}</span>
+      </div>
+    </div>`).join('');
+
+  // Auto-select first
+  if (!selectedPayMethod && methods.length > 0) {
+    selectPayMethod(methods[0], total);
+  }
+}
+
+function selectPayMethod(method, total) {
+  selectedPayMethod = method;
+  // Update card styles
+  document.querySelectorAll('.pm-card').forEach(c => {
+    c.classList.toggle('selected', c.querySelector('input')?.value === method);
+  });
+  renderPayDetail(method, total);
+  updateSubmitBtn(method);
+}
+
+function renderPayDetail(method, total) {
+  const panel = document.getElementById('payDetailPanel');
+  const amt   = `₪${total.toLocaleString('he-IL')}`;
+
+  if (method === 'bit') {
+    const phone = pmCfg.bit?.phone || '050-9723636';
+    panel.innerHTML = `
+      <div class="bit-detail">
+        <div class="bit-phone">
+          <i class="ph-fill ph-device-mobile"></i>
+          <strong>${amt}</strong>
+          <span style="color:var(--muted);font-weight:400;font-size:.85rem">← שלח לביט:</span>
+          <strong>${phone}</strong>
+        </div>
+        <div class="bit-steps">
+          <div class="bit-step"><div class="bit-step-num">1</div><span>פתח את אפליקציית ביט בטלפון שלך</span></div>
+          <div class="bit-step"><div class="bit-step-num">2</div><span>שלח <strong>${amt}</strong> למספר <strong>${phone}</strong></span></div>
+          <div class="bit-step"><div class="bit-step-num">3</div><span>לחץ "שלח הזמנה" — ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span></div>
+        </div>
+      </div>`;
+  } else if (method === 'paybox') {
+    const link = pmCfg.paybox?.link || '#';
+    panel.innerHTML = `
+      <div class="paybox-detail">
+        <div style="font-size:.85rem;color:var(--muted)">לחץ להמשיך לתשלום מאובטח דרך PayBox</div>
+        <a href="${link}" target="_blank" rel="noopener">
+          <i class="ph ph-arrow-square-out"></i>
+          שלם ${amt} דרך PayBox
+        </a>
+      </div>`;
+  } else if (method === 'bank') {
+    const b = pmCfg.bank || {};
+    panel.innerHTML = `
+      <div class="bank-detail">
+        <div style="font-weight:700;margin-bottom:4px">פרטי חשבון להעברה:</div>
+        ${b.bankName  ? `<div class="bank-detail-row"><span>בנק</span><strong>${b.bankName}</strong></div>` : ''}
+        ${b.branch    ? `<div class="bank-detail-row"><span>סניף</span><strong>${b.branch}</strong></div>` : ''}
+        ${b.account   ? `<div class="bank-detail-row"><span>מספר חשבון</span><strong>${b.account}</strong></div>` : ''}
+        ${b.owner     ? `<div class="bank-detail-row"><span>שם בעל החשבון</span><strong>${b.owner}</strong></div>` : ''}
+        <div style="margin-top:8px;font-size:.8rem;color:var(--muted)">יש לציין את מספר ההזמנה בהערות ההעברה</div>
+      </div>`;
+  } else if (method === 'cash') {
+    panel.innerHTML = `
+      <div class="cash-detail">
+        <i class="ph-fill ph-check-circle" style="font-size:1.3rem;margin-top:1px"></i>
+        <div>תשלום במזומן יתבצע בעת קבלת ההזמנה. לאחר שליחת ההזמנה ניצור איתך קשר לתיאום.</div>
+      </div>`;
+  }
+}
+
+function updateSubmitBtn(method) {
+  const btn = document.getElementById('submitOrderBtn');
+  const icons = { bit: 'ph-whatsapp-logo', paybox: 'ph-arrow-square-out', bank: 'ph-paper-plane-tilt', cash: 'ph-check-circle' };
+  const labels = { bit: 'שלח הזמנה בוואטסאפ', paybox: 'המשך לתשלום', bank: 'שלח הזמנה', cash: 'שלח הזמנה' };
+  btn.innerHTML = `<i class="ph-fill ${icons[method] || 'ph-whatsapp-logo'}" style="font-size:1.5rem"></i> ${labels[method] || 'שלח הזמנה'}`;
+}
 
 function renderReview() {
   const items  = cartGet();
@@ -312,9 +480,8 @@ function renderReview() {
   if (totals.shipping === 0) document.getElementById('reviewShipRow').style.color = 'var(--green)';
   document.getElementById('reviewTotal').textContent    = `₪${totals.total.toLocaleString('he-IL')}`;
 
-  /* bit amount */
-  document.getElementById('bitAmount').textContent     = `₪${totals.total.toLocaleString('he-IL')}`;
-  document.getElementById('bitAmountStep').textContent = `₪${totals.total.toLocaleString('he-IL')}`;
+  /* payment methods */
+  renderPaymentMethods(totals.total);
 }
 
 /* coupon logic */
@@ -347,9 +514,9 @@ document.getElementById('applyCoupon')?.addEventListener('click', async () => {
       appliedCoupon = { code, discount: data.discountAmt };
       /* update review totals */
       const discountedTotal = totals.total - data.discountAmt;
-      document.getElementById('reviewTotal').textContent    = `₪${discountedTotal.toLocaleString('he-IL')}`;
-      document.getElementById('bitAmount').textContent     = `₪${discountedTotal.toLocaleString('he-IL')}`;
-      document.getElementById('bitAmountStep').textContent = `₪${discountedTotal.toLocaleString('he-IL')}`;
+      document.getElementById('reviewTotal').textContent = `₪${discountedTotal.toLocaleString('he-IL')}`;
+      /* re-render payment panel with new total */
+      renderPaymentMethods(discountedTotal);
     }
   } catch {
     msg.style.color = 'var(--red)';
@@ -420,19 +587,22 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
         total: appliedCoupon ? totals.total - appliedCoupon.discount : totals.total,
         notes: notes || undefined,
-        paymentMethod: 'bit',
+        paymentMethod: selectedPayMethod || 'bit',
       }),
     });
   } catch (err) {
     console.warn('admin save failed', err);
-    /* continue even if admin API is unreachable */
   }
 
   btn.disabled = false;
   btn.style.opacity = '';
 
-  /* open WhatsApp */
-  const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes);
+  /* WhatsApp / payment action */
+  const finalTotal = appliedCoupon ? totals.total - appliedCoupon.discount : totals.total;
+  if (selectedPayMethod === 'paybox' && pmCfg.paybox?.link) {
+    window.open(pmCfg.paybox.link, '_blank');
+  }
+  const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, selectedPayMethod, finalTotal);
   const waUrl = `https://wa.me/${WA_PHONE}?text=${waMsg}`;
   window.open(waUrl, '_blank');
 

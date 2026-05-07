@@ -132,24 +132,38 @@ function cartToast(msg) {
 }
 
 /* ---- WhatsApp order message ---- */
-function buildOrderMessage(customerName, phone, address, notes) {
+function buildOrderMessage(customerName, phone, address, notes, payMethod, finalTotal) {
   const items  = cartGet();
   const totals = cartTotals();
-  let msg      = `הזמנה חדשה מ-GARAGE 🛍️\n\n`;
-  msg += `👤 שם: ${customerName}\n📞 טלפון: ${phone}\n📍 כתובת: ${address}\n`;
-  if (notes) msg += `📝 הערות: ${notes}\n`;
-  msg += `\n🛒 מוצרים:\n`;
+  const total  = finalTotal ?? totals.total;
+
+  const pmLabels = { bit: 'ביט', paybox: 'PayBox', bank: 'העברה בנקאית', cash: 'מזומן' };
+
+  let msg = `הזמנה חדשה מ-GARAGE\n\n`;
+  msg += `שם: ${customerName}\nטלפון: ${phone}\nכתובת: ${address}\n`;
+  if (notes) msg += `הערות: ${notes}\n`;
+  msg += `\nמוצרים:\n`;
   items.forEach(i => {
     msg += `• ${i.name}`;
     if (i.scent) msg += ` [${i.scent}]`;
-    if (i.qty > 1) msg += ` ×${i.qty}`;
+    if (i.qty > 1) msg += ` x${i.qty}`;
     msg += ` — ₪${(i.price * i.qty).toLocaleString('he-IL')}\n`;
   });
-  msg += `\n💰 סכום: ₪${totals.subtotal.toLocaleString('he-IL')}`;
-  if (totals.shipping === 0) msg += `\n🚚 משלוח: חינם!`;
-  else msg += `\n🚚 משלוח: ₪${totals.shipping}`;
-  msg += `\n\n✅ סה"כ לתשלום: ₪${totals.total.toLocaleString('he-IL')}`;
-  msg += `\n\n💳 תשלום בביט למספר: ${BIT_PHONE}`;
+  msg += `\nסכום: ₪${totals.subtotal.toLocaleString('he-IL')}`;
+  msg += totals.shipping === 0 ? `\nמשלוח: חינם!` : `\nמשלוח: ₪${totals.shipping}`;
+  msg += `\n\nסה"כ לתשלום: ₪${total.toLocaleString('he-IL')}`;
+
+  const pm = payMethod || 'bit';
+  if (pm === 'bit') {
+    msg += `\n\nתשלום בביט למספר: ${BIT_PHONE}`;
+  } else if (pm === 'paybox') {
+    msg += `\n\nתשלום דרך PayBox`;
+  } else if (pm === 'bank') {
+    msg += `\n\nתשלום בהעברה בנקאית`;
+  } else if (pm === 'cash') {
+    msg += `\n\nתשלום במזומן בעת קבלת ההזמנה`;
+  }
+
   return encodeURIComponent(msg);
 }
 
