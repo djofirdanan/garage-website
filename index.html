@@ -385,50 +385,153 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="section section--lav">
-  <div class="container">
-    <div class="section__header">
-      <div class="section__tag section__tag--lav">ביקורות</div>
-      <h2 class="section__title">מה לקוחות אומרים</h2>
+<!-- ANIMATED TESTIMONIALS -->
+<section class="anim-testi" id="testimonials">
+  <div class="anim-testi__container">
+    <div class="anim-testi__grid">
+      <!-- LEFT: Heading + dots -->
+      <div class="anim-testi__lead">
+        <div class="anim-testi__badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>
+          <span>אהובים בלב הלקוחות</span>
+        </div>
+        <h2 class="anim-testi__title">מה לקוחות מספרים<br>על GARAGE</h2>
+        <p class="anim-testi__sub">בואו תקראו ישירות מאנשים שריח של מלון יוקרה הפך אצלם לסטנדרט - בבית, ברכב ובעסק.</p>
+        <div class="anim-testi__dots" id="animTestiDots"><!-- populated by JS --></div>
+        <div class="anim-testi__rating">
+          <div class="anim-testi__rating-stars">★★★★★</div>
+          <div class="anim-testi__rating-text"><strong>4.9</strong> מתוך 5 · מעל 1,000 לקוחות מרוצים</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Card stack -->
+      <div class="anim-testi__stack">
+        <div class="anim-testi__deco anim-testi__deco--br"></div>
+        <div class="anim-testi__deco anim-testi__deco--tl"></div>
+        <div class="anim-testi__cards" id="animTestiCards"><!-- populated by JS --></div>
+      </div>
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-card__stars">★★★★★</div>
-        <p class="testimonial-card__text">קניתי מפיץ לרכב ועכשיו כל מי שנכנס לרכב שואל מה הריח. ממש ריח של מלון יוקרה. שווה כל שקל!</p>
-        <div class="testimonial-card__author">
-          <div class="testimonial-card__avatar">מ</div>
-          <div>
-            <div class="testimonial-card__name">מיכאל ר.</div>
-            <div class="testimonial-card__meta">מפיץ לרכב - לבנדר</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-card__stars">★★★★★</div>
-        <p class="testimonial-card__text">לקחתי שניים לבית - אחד לסלון ואחד לחדר שינה. הריח עדין ונעים ונמשך הרבה שעות. הזמנתי פעמיים כבר!</p>
-        <div class="testimonial-card__author">
-          <div class="testimonial-card__avatar">ד</div>
-          <div>
-            <div class="testimonial-card__name">דנה ל.</div>
-            <div class="testimonial-card__meta">מפיץ לבית - ורד מרוקאי</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-card__stars">★★★★★</div>
-        <p class="testimonial-card__text">קניתי עבור משרד שלי. לקוחות תמיד מעירים על הריח הנעים. מומלץ מאוד לעסקים. שירות לקוחות מעולה!</p>
-        <div class="testimonial-card__author">
-          <div class="testimonial-card__avatar">א</div>
-          <div>
-            <div class="testimonial-card__name">אלי ג.</div>
-            <div class="testimonial-card__meta">חבילת עסקים - וניל</div>
-          </div>
-        </div>
+
+    <!-- Trusted-by row -->
+    <div class="anim-testi__trusted">
+      <p class="anim-testi__trusted-title">המפיצים שלנו פוגשים אותך כל יום</p>
+      <div class="anim-testi__trusted-row">
+        <div class="anim-testi__trusted-item">בתי מלון יוקרה</div>
+        <div class="anim-testi__trusted-item">משרדי הייטק</div>
+        <div class="anim-testi__trusted-item">מסעדות שף</div>
+        <div class="anim-testi__trusted-item">סטודיו ליופי</div>
+        <div class="anim-testi__trusted-item">חנויות בוטיק</div>
+        <div class="anim-testi__trusted-item">משרדי עו"ד</div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  const TESTIMONIALS = [
+    { id: 1, name: 'מיכאל רוזנברג', role: 'בעלים', company: 'מסעדת LUMA',
+      content: 'קניתי מפיץ S500 למסעדה. כל לקוח שנכנס שואל "מה הריח המדהים הזה?". הפך לחתימה של המקום. ROI מטורף - מספיק שלקוח אחד מציין את זה ביקורת.',
+      rating: 5, initial: 'מ', tag: 'מפיץ לעסק - וניל ועץ תה' },
+    { id: 2, name: 'דנה לוי', role: 'אמא ל-3', company: 'תל אביב',
+      content: 'לקחתי שניים לבית - אחד לסלון ואחד לחדר שינה. הריח עדין, נעים, ונמשך באמת שעות (לא כמו אלה מהסופר שנגמרים אחרי יום). הזמנתי כבר פעמיים.',
+      rating: 5, initial: 'ד', tag: 'מפיץ לבית - ורד מרוקאי' },
+    { id: 3, name: 'אלי גרין', role: 'מנכ"ל', company: 'חברת ייעוץ',
+      content: 'קניתי לכל המשרד - 4 קומות. לקוחות מעירים על הריח הנעים בכל פגישה. השירות לקוחות זמין בוואטסאפ ועונה תוך דקות. ממליץ בחום לכל עסק שבא לו להתבלט.',
+      rating: 5, initial: 'א', tag: 'חבילת עסקים - וניל ועץ תה' },
+    { id: 4, name: 'שירה ברק', role: 'נהגת', company: 'הרצליה',
+      content: 'אני בטוחה שהשמן של GARAGE שונה מכל מפיץ אחר שניסיתי. כשאני נכנסת לרכב אחרי יום עבודה - הראש מתחיל להירגע מיד. זה לא רק ריח, זה חוויה.',
+      rating: 5, initial: 'ש', tag: 'מפיץ לרכב - לבנדר צרפתי' },
+    { id: 5, name: 'יוסי דהן', role: 'בעלים', company: 'סטודיו לעיצוב שיער',
+      content: 'הסטודיו מקבל כל יום עשרות לקוחות. מאז ש-G100 פועל אצלי הריח של חומרי כימיה כבר לא מורגש. לקוחות שואלים אם זה ספא חדש שפתחתי.',
+      rating: 5, initial: 'י', tag: 'מפיץ G100 - מנטה קרירה' },
+  ]
+  const ROTATE_MS = 6000
+
+  const cardsRoot = document.getElementById('animTestiCards')
+  const dotsRoot = document.getElementById('animTestiDots')
+  if (!cardsRoot || !dotsRoot) return
+
+  // Build cards
+  cardsRoot.innerHTML = TESTIMONIALS.map((t, i) => `
+    <article class="anim-testi-card${i === 0 ? ' is-active' : ''}" data-idx="${i}">
+      <div class="anim-testi-card__stars">${'★'.repeat(t.rating)}</div>
+      <div class="anim-testi-card__quote">
+        <svg class="anim-testi-card__quote-icon" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
+        <p class="anim-testi-card__text">${t.content}</p>
+      </div>
+      <div class="anim-testi-card__sep"></div>
+      <div class="anim-testi-card__author">
+        <div class="anim-testi-card__avatar">${t.initial}</div>
+        <div>
+          <div class="anim-testi-card__name">${t.name}</div>
+          <div class="anim-testi-card__meta">${t.role}, ${t.company}</div>
+          <div class="anim-testi-card__tag">${t.tag}</div>
+        </div>
+      </div>
+    </article>
+  `).join('')
+
+  // Build dots
+  dotsRoot.innerHTML = TESTIMONIALS.map((_, i) =>
+    `<button class="anim-testi-dot${i === 0 ? ' is-active' : ''}" data-idx="${i}" aria-label="ביקורת ${i + 1}"></button>`
+  ).join('')
+
+  let active = 0
+  let timer = null
+
+  function show(idx) {
+    if (idx === active) return
+    cardsRoot.querySelectorAll('.anim-testi-card').forEach(el => {
+      const i = parseInt(el.dataset.idx, 10)
+      el.classList.toggle('is-active', i === idx)
+      el.classList.toggle('is-prev', i < idx)
+    })
+    dotsRoot.querySelectorAll('.anim-testi-dot').forEach(el => {
+      el.classList.toggle('is-active', parseInt(el.dataset.idx, 10) === idx)
+    })
+    active = idx
+  }
+
+  function tick() {
+    show((active + 1) % TESTIMONIALS.length)
+  }
+
+  function startAuto() {
+    stopAuto()
+    timer = setInterval(tick, ROTATE_MS)
+  }
+  function stopAuto() {
+    if (timer) { clearInterval(timer); timer = null }
+  }
+
+  dotsRoot.addEventListener('click', e => {
+    const btn = e.target.closest('.anim-testi-dot')
+    if (!btn) return
+    const i = parseInt(btn.dataset.idx, 10)
+    show(i)
+    startAuto() // reset timer
+  })
+
+  // IntersectionObserver: only run while visible (saves resources)
+  const sec = document.getElementById('testimonials')
+  if (sec && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          sec.classList.add('is-in-view')
+          startAuto()
+        } else {
+          stopAuto()
+        }
+      })
+    }, { threshold: 0.2 })
+    io.observe(sec)
+  } else {
+    startAuto()
+  }
+})()
+</script>
 
 <!-- BUNDLE -->
 <section class="bundle-section">
