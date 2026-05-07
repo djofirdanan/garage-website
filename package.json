@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@paper-design/shaders": "^0.0.76",
+    "framer-motion": "^12.38.0"
+  }
+}

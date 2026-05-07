@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מנויים — GARAGE ריח חודשי</title>
+  <meta name="description" content="מנוי ריח חודשי מ-GARAGE. קבל מפיצי ריח ובקבוקי שמן טהור עד הדלת כל חודש. 3 תכניות לבחירה." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  /* ── PRICING PAGE ─────────────────────────────────── */
+  .pricing-hero {
+    background: linear-gradient(160deg, var(--lav-bg) 0%, var(--white) 100%);
+    padding: 80px 0 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, var(--lavender) 0%, transparent 70%);
+    opacity: .35;
+    pointer-events: none;
+  }
+  .pricing-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, var(--mint) 0%, transparent 70%);
+    opacity: .4;
+    pointer-events: none;
+  }
+  .pricing-hero__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--mint);
+    border: 1.5px solid var(--mint-dark);
+    border-radius: var(--radius-pill);
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: .03em;
+    margin-bottom: 20px;
+  }
+  .pricing-hero__title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 16px;
+  }
+  .pricing-hero__title em {
+    font-style: normal;
+    background: var(--lavender);
+    border-radius: 8px;
+    padding: 0 8px;
+  }
+  .pricing-hero__sub {
+    font-size: 17px;
+    color: var(--mid);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  /* Toggle */
+  .pricing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+  .pricing-toggle__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mid);
+    transition: color .2s;
+  }
+  .pricing-toggle__label.active { color: var(--black); }
+  .pricing-toggle__track {
+    width: 52px; height: 28px;
+    background: var(--border);
+    border-radius: 99px;
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 rgba(0,0,0,.85);
+    cursor: pointer;
+    position: relative;
+    transition: background .2s;
+  }
+  .pricing-toggle__track.yearly { background: var(--mint); }
+  .pricing-toggle__thumb {
+    width: 20px; height: 20px;
+    background: var(--white);
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    position: absolute;
+    top: 2px; right: 2px;
+    transition: transform .3s cubic-bezier(.76,0,.24,1);
+    box-shadow: 1px 1px 0 rgba(0,0,0,.5);
+  }
+  .pricing-toggle__track.yearly .pricing-toggle__thumb {
+    transform: translateX(-24px);
+  }
+  .pricing-toggle__save {
+    font-size: 12px;
+    font-weight: 700;
+    color: #16a34a;
+    background: #dcfce7;
+    border: 1.5px solid #86efac;
+    border-radius: var(--radius-pill);
+    padding: 3px 10px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity .3s, transform .3s;
+  }
+  .pricing-toggle__save.show { opacity: 1; transform: translateX(0); }
+
+  /* Grid */
+  .pricing-section {
+    padding: 0 0 96px;
+    background: var(--white);
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  /* Cards */
+  .pricing-card {
+    position: relative;
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    box-shadow: 6px 6px 0 rgba(0,0,0,.9);
+    transition: box-shadow .2s, transform .2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .pricing-card:hover {
+    box-shadow: 8px 8px 0 rgba(0,0,0,.9);
+    transform: translateY(-2px);
+  }
+  .pricing-card--popular {
+    border-color: var(--black);
+    background: linear-gradient(160deg, var(--lav-bg) 0%, var(--white) 100%);
+  }
+
+  /* Price badge (top corner) */
+  .pricing-card__badge-wrap {
+    position: absolute;
+    top: -18px;
+    left: -18px;
+  }
+  .pricing-card__badge-circle {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2.5px solid var(--black);
+    box-shadow: 3px 3px 0 rgba(0,0,0,.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: badge-float 4s ease-in-out infinite;
+  }
+  .pricing-card__badge-circle--mint { background: var(--mint-dark); }
+  .pricing-card__badge-circle--lav  { background: #C9A8E8; }
+  .pricing-card__badge-circle--black { background: var(--black); }
+  @keyframes badge-float {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    25%      { transform: translateY(-5px) rotate(5deg); }
+    75%      { transform: translateY(3px) rotate(-3deg); }
+  }
+  .pricing-card__badge-price {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1;
+  }
+  .pricing-card__badge-circle--black .pricing-card__badge-price { color: var(--white); }
+  .pricing-card__badge-per {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--black);
+    opacity: .7;
+    line-height: 1;
+  }
+  .pricing-card__badge-circle--black .pricing-card__badge-per { color: var(--white); }
+
+  /* Popular chip */
+  .pricing-card__popular {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #C9A8E8;
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 rgba(0,0,0,.85);
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 10px;
+    width: fit-content;
+    animation: popular-bounce 2.5s ease-in-out infinite;
+  }
+  @keyframes popular-bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+
+  .pricing-card__name {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+  .pricing-card__desc {
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 20px;
+  }
+
+  /* Features list */
+  .pricing-card__features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .pricing-card__feature {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 12px;
+    background: var(--gray-bg);
+    border: 2px solid var(--black);
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,.85);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--black);
+    transition: transform .15s;
+  }
+  .pricing-card__feature:hover { transform: translateX(-3px); }
+  .pricing-card__feature-check {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--black);
+    box-shadow: 1px 1px 0 rgba(0,0,0,.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .pricing-card__feature-check--mint  { background: var(--mint-dark); }
+  .pricing-card__feature-check--lav   { background: #C9A8E8; }
+  .pricing-card__feature-check--black { background: var(--black); color: var(--white); }
+
+  /* CTA Liquid Metal Button */
+  .btn-metal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 13px 24px;
+    border-radius: 100px;
+    border: 2.5px solid rgba(0,0,0,.85);
+    cursor: pointer;
+    font-family: var(--font);
+    font-weight: 800;
+    font-size: 14px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.85);
+    transition: box-shadow .2s, transform .15s;
+    color: var(--black);
+    text-decoration: none;
+    user-select: none;
+    letter-spacing: .02em;
+  }
+  .btn-metal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg,
+      var(--m1) 0%, rgba(255,255,255,.92) 28%,
+      var(--m2) 52%, rgba(255,255,255,.88) 72%,
+      var(--m1) 100%
+    );
+    background-size: 280% 280%;
+    animation: metal-flow 3.5s ease infinite;
+    border-radius: 100px;
+  }
+  .btn-metal::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 55%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+    transition: left .5s ease;
+  }
+  .btn-metal:hover::after { left: 145%; }
+  .btn-metal:hover {
+    box-shadow: 6px 6px 0 rgba(0,0,0,.85);
+    transform: translateY(-1px);
+  }
+  .btn-metal:active {
+    box-shadow: 2px 2px 0 rgba(0,0,0,.85);
+    transform: translateY(1px);
+  }
+  .btn-metal span { position: relative; z-index: 1; }
+  @keyframes metal-flow {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  /* Mint variant */
+  .btn-metal--mint { --m1: #D2FFF3; --m2: #a8f0dc; }
+  /* Lavender variant */
+  .btn-metal--lav  { --m1: #DFC8EF; --m2: #C9A8E8; }
+  /* Black variant */
+  .btn-metal--dark {
+    --m1: #1a1a1a; --m2: #444;
+    color: var(--white);
+    border-color: rgba(255,255,255,.25);
+  }
+  .btn-metal--dark::before {
+    background: linear-gradient(120deg, #111 0%, #555 25%, #1a1a1a 50%, #666 72%, #111 100%);
+    background-size: 280% 280%;
+    animation: metal-flow 3.5s ease infinite;
+  }
+  .btn-metal--dark::after {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  }
+  /* Ripple */
+  .btn-metal__ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    background: radial-gradient(circle, rgba(255,255,255,.55) 0%, transparent 70%);
+    animation: ripple .6s ease-out forwards;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  @keyframes ripple {
+    to { transform: translate(-50%, -50%) scale(5); opacity: 0; }
+  }
+
+  /* FAQ section */
+  .pricing-faq {
+    background: var(--lav-bg);
+    padding: 72px 0;
+  }
+  .pricing-faq__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 800px;
+    margin: 40px auto 0;
+  }
+  .pricing-faq__item {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    cursor: pointer;
+  }
+  .pricing-faq__q {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .pricing-faq__icon {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--mid);
+    flex-shrink: 0;
+    transition: transform .25s;
+  }
+  .pricing-faq__item.open .pricing-faq__icon { transform: rotate(45deg); }
+  .pricing-faq__a {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-top: 10px;
+    display: none;
+  }
+  .pricing-faq__item.open .pricing-faq__a { display: block; }
+
+  /* Guarantee bar */
+  .pricing-guarantee {
+    background: var(--mint);
+    border-top: 2px solid var(--mint-dark);
+    border-bottom: 2px solid var(--mint-dark);
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .pricing-guarantee span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr 1fr; max-width: 700px; }
+    .pricing-faq__grid { grid-template-columns: 1fr; max-width: 480px; }
+  }
+  @media (max-width: 640px) {
+    .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .pricing-hero { padding: 60px 0 40px; }
+    .pricing-card { padding: 28px 22px 24px; }
+    .pricing-card__badge-wrap { top: -14px; left: -14px; }
+    .pricing-card__badge-circle { width: 58px; height: 58px; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>הסל שלי (<span id="cartCount">0</span>)</h2>
+    <button class="cart-close" onclick="closeCart()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span>הסל ריק</span>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-totals">
+      <div class="cart-total-row"><span>סכום ביניים</span><span id="cartSubtotal">₪0</span></div>
+      <div class="cart-total-row"><span>משלוח</span><span id="cartShipping">חינם מ-₪250</span></div>
+      <div class="cart-total-row total"><span>סה"כ</span><span id="cartTotal">₪0</span></div>
+    </div>
+    <button class="cart-checkout-btn" onclick="location.href='checkout.html'">המשך לתשלום</button>
+    <p class="cart-free-ship">משלוח חינם בהזמנות מעל <span>₪250</span></p>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <div class="announcement-bar__inner">
+    <span>ביטול בכל עת</span>
+    <span class="announcement-bar__sep">|</span>
+    <span>חיסכון 20% במנוי שנתי</span>
+    <span class="announcement-bar__sep">|</span>
+    <span>משלוח חינם לכל המנויים</span>
+    <span class="announcement-bar__sep">|</span>
+    <a href="tel:050-9723636">050-9723636</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <div class="site-nav__start">
+      <nav class="site-nav__links" id="siteNavLinks">
+        <a href="index.html">דף הבית</a>
+        <a href="product.html?id=car">לרכב</a>
+        <a href="product.html?id=g60">לבית</a>
+        <a href="product.html?id=s500">לעסק</a>
+        <a href="subscriptions.html" class="active">מנויים</a>
+        <a href="#contact">צור קשר</a>
+      </nav>
+      <button class="nav-hamburger" id="navHamburger" aria-label="תפריט">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <a href="index.html" class="site-nav__logo">
+      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
+           alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
+    </a>
+    <div class="site-nav__end">
+      <div id="navCustomerSlot"></div>
+      <button class="site-nav__icon-btn" onclick="openCart()" aria-label="סל קניות">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="22" height="22"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="nav-cart-badge" id="navCartBadge" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- CURVED MOBILE NAV -->
+<div class="cnav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+<div class="cnav" id="mobileNav">
+  <div class="cnav__curve-strip" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100" preserveAspectRatio="none">
+      <path d="M60 0 L0 0 C30 25,30 75,0 100 L60 100 Z" fill="#0f0f0f"/>
+    </svg>
+  </div>
+  <div class="cnav__panel">
+    <nav class="cnav__links">
+      <a href="index.html" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">01</span>
+        <span class="cnav__text"><span>ד</span><span>פ</span><span> </span><span>ה</span><span>ב</span><span>י</span><span>ת</span></span>
+      </a>
+      <a href="product.html?id=car" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">02</span>
+        <span class="cnav__text"><span>ל</span><span>ר</span><span>כ</span><span>ב</span></span>
+      </a>
+      <a href="product.html?id=g60" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">03</span>
+        <span class="cnav__text"><span>ל</span><span>ב</span><span>י</span><span>ת</span></span>
+      </a>
+      <a href="product.html?id=s500" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">04</span>
+        <span class="cnav__text"><span>ל</span><span>ע</span><span>ס</span><span>ק</span></span>
+      </a>
+      <a href="subscriptions.html" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">05</span>
+        <span class="cnav__text"><span>מ</span><span>נ</span><span>ו</span><span>י</span><span>י</span><span>ם</span></span>
+      </a>
+      <a href="#contact" class="cnav__link" onclick="closeMobileNav()">
+        <span class="cnav__num">06</span>
+        <span class="cnav__text"><span>צ</span><span>ו</span><span>ר</span><span> </span><span>ק</span><span>ש</span><span>ר</span></span>
+      </a>
+    </nav>
+    <div class="cnav__footer">
+      <a href="https://wa.me/972509723636" target="_blank" rel="noopener" class="cnav__footer-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/garage_scents" target="_blank" rel="noopener" class="cnav__footer-link">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="tel:050-9723636" class="cnav__footer-link">
+        <svg viewBox="0 0 256 256" fill="currentColor" width="22" height="22"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-25.72a7.93,7.93,0,0,0,.56-.75,16,16,0,0,0,1.36-15.19l-.06-.13L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
+      </a>
+      <a href="product.html?id=car" class="cnav__footer-cta" onclick="closeMobileNav()">לקנות עכשיו</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="pricing-hero">
+  <div class="container">
+    <div class="pricing-hero__tag">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+      מנוי ריח חודשי
+    </div>
+    <h1 class="pricing-hero__title">
+      ריח חדש כל חודש<br />
+      <em>ישירות עד הבית</em>
+    </h1>
+    <p class="pricing-hero__sub">בחרו תכנית, קבלו מפיצי ריח ובקבוקי שמן טהור בדואר, ותהנו מניחוח מרענן בכל מקום.</p>
+
+    <!-- Toggle -->
+    <div class="pricing-toggle">
+      <span class="pricing-toggle__label active" id="labelMonthly">חודשי</span>
+      <div class="pricing-toggle__track" id="toggleTrack" onclick="toggleBilling()">
+        <div class="pricing-toggle__thumb"></div>
+      </div>
+      <span class="pricing-toggle__label" id="labelYearly">שנתי</span>
+      <span class="pricing-toggle__save" id="saveBadge">חיסכון 20%</span>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE BAR -->
+<div class="pricing-guarantee">
+  <span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+    ביטול בכל עת
+  </span>
+  <span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+    משלוח חינם לכל תכנית
+  </span>
+  <span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+    שמן טהור 100%
+  </span>
+  <span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    שליחה ב-3 ימי עסקים
+  </span>
+</div>
+
+<!-- PRICING CARDS -->
+<section class="pricing-section">
+  <div class="container">
+    <div class="pricing-grid" id="pricingGrid">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pricing-faq" id="contact">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__tag">שאלות נפוצות</div>
+      <h2 class="section__title" style="margin-top:12px;">כל מה שרציתם לדעת</h2>
+    </div>
+    <div class="pricing-faq__grid">
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>איך עובד המנוי?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">כל חודש נשלח אליכם מפיצי ריח ובקבוקי שמן טהור לפי התכנית שבחרתם. ניתן לבחור ניחוחות מתוך 14 האפשרויות שלנו.</p>
+      </div>
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>האם אפשר לבטל?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">כן, ניתן לבטל את המנוי בכל עת ללא עלות. הביטול ייכנס לתוקף בסיום תקופת החיוב הנוכחית.</p>
+      </div>
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>האם אפשר לשנות תכנית?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">כמובן! ניתן לשדרג או להוריד תכנית בכל עת. השינוי ייכנס לתוקף בחיוב הבא.</p>
+      </div>
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>כמה זמן לוקח המשלוח?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">החבילה יוצאת בתוך 2-3 ימי עסקים מיום חיוב המנוי. משלוח חינם לכל מנויי GARAGE.</p>
+      </div>
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>האם אני בוחר את הניחוחות?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">כן! לאחר הרשמה תקבלו קישור לבחירת ניחוחות מתוך 14 האפשרויות שלנו. ניתן לשנות את הבחירה עד 5 ימים לפני השליחה.</p>
+      </div>
+      <div class="pricing-faq__item">
+        <div class="pricing-faq__q">
+          <span>מה ההבדל בין חיוב חודשי לשנתי?</span>
+          <span class="pricing-faq__icon">+</span>
+        </div>
+        <p class="pricing-faq__a">מנוי שנתי נחסך 20% מהמחיר הכולל. החיוב מתבצע פעם אחת בשנה ועדיף למי שיודע שיעשה שימוש רציף.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png" alt="GARAGE" onerror="this.style.display='none'" />
+        <p>מפיצי ריח איכותיים לבית, רכב ועסק. שמן טהור ב-14 ניחוחות יוקרתיים. נשמח לעזור!</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col__title">ניווט</div>
+        <ul>
+          <li><a href="index.html">דף הבית</a></li>
+          <li><a href="products.html">כל המוצרים</a></li>
+          <li><a href="subscriptions.html">מנויים</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col__title">מידע</div>
+        <ul>
+          <li><a href="#contact">שאלות נפוצות</a></li>
+          <li><a href="#">מדיניות משלוחים</a></li>
+          <li><a href="#">מדיניות פרטיות</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 GARAGE. כל הזכויות שמורות.</span>
+      <div style="display:flex; gap:16px;">
+        <a href="#">פרטיות</a>
+        <a href="#">תנאים</a>
+        <a href="tel:050-9723636">050-9723636</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Subscription Plans ──────────────────────────────
+const PLANS = [
+  {
+    id: 'basic',
+    name: 'ריח',
+    desc: 'מושלם להתחלה',
+    monthlyPrice: 89,
+    yearlyPrice: 71,
+    accent: 'mint',
+    popular: false,
+    ctaText: 'התחל מנוי',
+    ctaLink: 'https://wa.me/972509723636?text=%D7%94%D7%99%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%A6%D7%98%D7%A8%D7%A3%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%99%D7%AA%20%D7%A8%D7%99%D7%97',
+    features: [
+      'מפיץ ריח × 1',
+      'בקבוק ריח 100מ"ל × 1',
+      'ניחוח אחד לבחירה',
+      'משלוח חינם',
+    ]
+  },
+  {
+    id: 'pro',
+    name: 'ריח+',
+    desc: 'הכי פופולרי אצלנו',
+    monthlyPrice: 149,
+    yearlyPrice: 119,
+    accent: 'lav',
+    popular: true,
+    ctaText: 'התחל מנוי',
+    ctaLink: 'https://wa.me/972509723636?text=%D7%94%D7%99%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%A6%D7%98%D7%A8%D7%A3%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%99%D7%AA%20%D7%A8%D7%99%D7%97%2B',
+    features: [
+      'מפיץ ריח × 2',
+      'בקבוק ריח 100מ"ל × 3',
+      '3 ניחוחות לבחירה',
+      'החלפה חודשית',
+      'עדיפות בשירות',
+    ]
+  },
+  {
+    id: 'home',
+    name: 'בית מבושם',
+    desc: 'כל הבית עטוף בריח',
+    monthlyPrice: 229,
+    yearlyPrice: 183,
+    accent: 'black',
+    popular: false,
+    ctaText: 'התחל מנוי',
+    ctaLink: 'https://wa.me/972509723636?text=%D7%94%D7%99%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%A6%D7%98%D7%A8%D7%A3%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%99%D7%AA%20%D7%91%D7%99%D7%AA%20%D7%9E%D7%91%D7%95%D7%A9%D7%9D',
+    features: [
+      'מפיץ ריח × 5 (לכל חדר)',
+      'בקבוק ריח 100מ"ל × 5',
+      'כל הניחוחות',
+      'החלפה חודשית',
+      'ייעוץ אישי',
+      'שירות VIP',
+    ]
+  }
+];
+
+let isYearly = false;
+
+function toggleBilling() {
+  isYearly = !isYearly;
+  document.getElementById('toggleTrack').classList.toggle('yearly', isYearly);
+  document.getElementById('labelMonthly').classList.toggle('active', !isYearly);
+  document.getElementById('labelYearly').classList.toggle('active', isYearly);
+  document.getElementById('saveBadge').classList.toggle('show', isYearly);
+  renderPlans();
+}
+
+function renderPlans() {
+  const grid = document.getElementById('pricingGrid');
+  grid.innerHTML = PLANS.map(plan => {
+    const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
+    const per = isYearly ? 'לחודש' : 'לחודש';
+    const accentClass = `pricing-card__badge-circle--${plan.accent}`;
+    const checkClass  = `pricing-card__feature-check--${plan.accent}`;
+    const btnClass    = `btn-metal--${plan.accent === 'black' ? 'dark' : plan.accent}`;
+    return `
+      <div class="pricing-card${plan.popular ? ' pricing-card--popular' : ''}">
+        <div class="pricing-card__badge-wrap">
+          <div class="pricing-card__badge-circle ${accentClass}">
+            <div class="pricing-card__badge-price">₪${price}</div>
+            <div class="pricing-card__badge-per">${per}</div>
+          </div>
+        </div>
+        ${plan.popular ? `<div class="pricing-card__popular">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          הכי פופולרי
+        </div>` : ''}
+        <div class="pricing-card__name">${plan.name}</div>
+        <div class="pricing-card__desc">${plan.desc}</div>
+        <div class="pricing-card__features">
+          ${plan.features.map(f => `
+            <div class="pricing-card__feature">
+              <div class="pricing-card__feature-check ${checkClass}">✓</div>
+              <span>${f}</span>
+            </div>
+          `).join('')}
+        </div>
+        <a href="${plan.ctaLink}" target="_blank" class="btn-metal ${btnClass}" onclick="addRipple(event, this)">
+          <span>${plan.ctaText} ←</span>
+        </a>
+      </div>
+    `;
+  }).join('');
+}
+
+function addRipple(e, btn) {
+  const rect = btn.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const ripple = document.createElement('span');
+  ripple.className = 'btn-metal__ripple';
+  ripple.style.left = x + 'px';
+  ripple.style.top  = y + 'px';
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 700);
+}
+
+// FAQ accordion
+document.querySelectorAll('.pricing-faq__item').forEach(item => {
+  item.addEventListener('click', () => {
+    item.classList.toggle('open');
+  });
+});
+
+// Cart
+function openCart() {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartSidebar').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Mobile nav
+const hamburger     = document.getElementById('navHamburger');
+const mobileNav     = document.getElementById('mobileNav');
+const mobileOverlay = document.getElementById('mobileNavOverlay');
+function openMobileNav() {
+  hamburger.classList.add('open'); mobileNav.classList.add('open');
+  mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeMobileNav() {
+  hamburger.classList.remove('open'); mobileNav.classList.remove('open');
+  mobileOverlay.classList.remove('open'); document.body.style.overflow = '';
+}
+hamburger?.addEventListener('click', () =>
+  mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav()
+);
+window.addEventListener('scroll', closeMobileNav, { passive: true });
+
+// Cart badge
+function updateCartBadge() {
+  const cart = JSON.parse(localStorage.getItem('garage_cart') || '[]');
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const badge = document.getElementById('navCartBadge');
+  if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none'; }
+}
+updateCartBadge();
+window.addEventListener('storage', updateCartBadge);
+
+// Init
+renderPlans();
+</script>
+<script src="customer-auth.js"></script>
+</body>
+</html>
