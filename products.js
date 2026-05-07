@@ -2,7 +2,7 @@
    GARAGE – כל נתוני המוצרים, ניחוחות ואפסיילים
    ========================================================= */
 
-const BASE = 'https://garage.org.il/wp-content/uploads';
+const BASE = 'imgs';
 
 const SCENTS = [
   { id: 'eilat',    name: 'אילת',           desc: 'בהשראת מלון רויאל ביץ\'' },
@@ -29,7 +29,7 @@ const UPSELLS = {
     note: 'חסכון ₪10 עם ההזמנה',
     standAlonePrice: 69,
     bundlePrice: 59,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-refill.png`,
     hasScent: true,
   },
   'bottle-3': {
@@ -38,7 +38,7 @@ const UPSELLS = {
     note: 'חסכון ₪58 לעומת קנייה נפרדת',
     standAlonePrice: 207,
     bundlePrice: 149,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-3-large.png`,
     hasScent: true,
     qty: 3,
   },
@@ -48,7 +48,7 @@ const UPSELLS = {
     note: 'חסכון ₪248! ריח לכל השנה',
     standAlonePrice: 414,
     bundlePrice: 166,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-6-bundle.webp`,
     hasScent: true,
     qty: 6,
   },
@@ -58,7 +58,7 @@ const UPSELLS = {
     note: 'ריח לחודשים — חסכון על כמות',
     standAlonePrice: 329,
     bundlePrice: 289,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottle-large.jpg`,
     hasScent: true,
   },
   'samples': {
@@ -67,7 +67,7 @@ const UPSELLS = {
     note: 'גלה את הניחוח המושלם',
     standAlonePrice: 49,
     bundlePrice: 29,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-refill.png`,
     hasScent: false,
   },
   'laundry': {
@@ -76,7 +76,7 @@ const UPSELLS = {
     note: 'חסכון ₪6 עם ההזמנה',
     standAlonePrice: 45,
     bundlePrice: 39,
-    img: `${BASE}/2025/11/%D7%9E%D7%91%D7%A9%D7%9D-%D7%9B%D7%91%D7%99%D7%A1%D7%94-%D7%9E%D7%A8%D7%95%D7%9B%D7%96.png`,
+    img: `imgs/laundry-concentrate.png`,
     hasScent: false,
   },
   'hand-cream': {
@@ -85,7 +85,7 @@ const UPSELLS = {
     note: 'מוצר בסטים',
     standAlonePrice: 10,
     bundlePrice: 8,
-    img: `${BASE}/2026/02/%D7%A7%D7%A8%D7%9D-%D7%99%D7%93%D7%99%D7%99%D7%9D-%D7%A0%D7%A7%D7%991.png`,
+    img: `imgs/hand-cream.png`,
     hasScent: false,
   },
   'g100-upgrade': {
@@ -94,7 +94,7 @@ const UPSELLS = {
     note: 'כיסוי פי 3 — שלם רק ₪350 נוסף',
     standAlonePrice: 649,
     bundlePrice: 649,
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-2-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/g100-white.png`,
     hasScent: true,
     isUpgrade: true,
     upgradeTarget: 'g100',
@@ -105,7 +105,7 @@ const UPSELLS = {
     note: 'פי 2 שטח — שלם רק ₪200 נוסף',
     standAlonePrice: 1399,
     bundlePrice: 1399,
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-6-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/s600-diffuser.png`,
     hasScent: true,
     isUpgrade: true,
     upgradeTarget: 's1000',
@@ -125,11 +125,11 @@ const PRODUCTS = {
     price: 349,
     origPrice: 499,
     badge: 'מבצע',
-    img: `${BASE}/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/aircules-car.png`,
     thumbs: [
-      `${BASE}/2024/04/%D7%90%D7%99%D7%A8%D7%A7%D7%95%D7%9C%D7%A1-%D7%9C%D7%A8%D7%9B%D7%91-%D7%A0%D7%A7%D7%99.png`,
-      `${BASE}/2024/04/OV-1-%E8%8B%B1%E6%96%87%E7%89%88-1.png`,
-      `${BASE}/2024/04/OV-1-6.jpg`,
+      `imgs/aircules-car.png`,
+      `imgs/env-install-1.jpg`,
+      `imgs/env-install-2.jpg`,
     ],
     hasScent: true,
     features: [
@@ -152,9 +152,10 @@ const PRODUCTS = {
     price: 299,
     origPrice: 399,
     badge: 'מבצע',
-    img: `${BASE}/2023/05/%D7%9E%D7%A4%D7%99%D7%A5-300-%D7%A0%D7%A7%D7%99-%D7%A2%D7%9D-%D7%91%D7%A7%D7%91%D7%95%D7%A7-%D7%9E%D7%AA%D7%A0%D7%94.png`,
+    img: `imgs/s300-with-bottle.png`,
     thumbs: [
-      `${BASE}/2023/05/%D7%9E%D7%A4%D7%99%D7%A5-300-%D7%A0%D7%A7%D7%99-%D7%A2%D7%9D-%D7%91%D7%A7%D7%91%D7%95%D7%A7-%D7%9E%D7%AA%D7%A0%D7%94.png`,
+      `imgs/s300-with-bottle.png`,
+      `imgs/s300-diffuser.png`,
     ],
     hasScent: true,
     features: [
@@ -176,9 +177,9 @@ const PRODUCTS = {
     price: 329,
     origPrice: 429,
     badge: 'מבצע',
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-11-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/g100-diffuser.png`,
     thumbs: [
-      `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-11-%D7%A0%D7%A7%D7%99.png`,
+      `imgs/g100-diffuser.png`,
     ],
     hasScent: true,
     features: [
@@ -200,9 +201,10 @@ const PRODUCTS = {
     price: 649,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-2-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/g100-white.png`,
     thumbs: [
-      `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-2-%D7%A0%D7%A7%D7%99.png`,
+      `imgs/g100-white.png`,
+      `imgs/g100-black.png`,
     ],
     hasScent: true,
     features: [
@@ -224,9 +226,10 @@ const PRODUCTS = {
     price: 499,
     origPrice: null,
     badge: 'פופולרי',
-    img: `${BASE}/2023/11/%D7%9E%D7%A4%D7%99%D7%A5-8-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/s800-diffuser.png`,
     thumbs: [
-      `${BASE}/2023/11/%D7%9E%D7%A4%D7%99%D7%A5-8-%D7%A0%D7%A7%D7%99.png`,
+      `imgs/s800-diffuser.png`,
+      `imgs/env-office-1.jpg`,
     ],
     hasScent: true,
     features: [
@@ -249,9 +252,10 @@ const PRODUCTS = {
     price: 1199,
     origPrice: 1499,
     badge: 'מבצע',
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-4-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/g60-diffuser.png`,
     thumbs: [
-      `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-4-%D7%A0%D7%A7%D7%99.png`,
+      `imgs/g60-diffuser.png`,
+      `imgs/env-office-2.jpg`,
     ],
     hasScent: true,
     features: [
@@ -273,9 +277,9 @@ const PRODUCTS = {
     price: 1399,
     origPrice: 1699,
     badge: 'מבצע',
-    img: `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-6-%D7%A0%D7%A7%D7%99.png`,
+    img: `imgs/s600-diffuser.png`,
     thumbs: [
-      `${BASE}/2024/04/%D7%9E%D7%A4%D7%99%D7%A5-6-%D7%A0%D7%A7%D7%99.png`,
+      `imgs/s600-diffuser.png`,
     ],
     hasScent: true,
     features: [
@@ -298,9 +302,9 @@ const PRODUCTS = {
     price: 465,
     origPrice: 650,
     badge: 'חיסכון ₪185',
-    img: `${BASE}/2025/07/%D7%91%D7%90%D7%A0%D7%93%D7%9C-%D7%9E%D7%A4%D7%99%D7%A5-copy.webp`,
+    img: `imgs/bundle-product.webp`,
     thumbs: [
-      `${BASE}/2025/07/%D7%91%D7%90%D7%A0%D7%93%D7%9C-%D7%9E%D7%A4%D7%99%D7%A5-copy.webp`,
+      `imgs/bundle-product.webp`,
     ],
     hasScent: true,
     features: [
@@ -329,9 +333,9 @@ const PRODUCTS = {
       { qty: 3, price: 169, label: '3 בקבוקים (₪56 כ"א)' },
       { qty: 5, price: 259, label: '5 בקבוקים (₪52 כ"א)' },
     ],
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-refill.png`,
     thumbs: [
-      `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+      `imgs/bottles-refill.png`,
     ],
     hasScent: true,
     features: [
@@ -353,9 +357,9 @@ const PRODUCTS = {
     price: 329,
     origPrice: null,
     badge: 'כלכלי',
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottle-large.jpg`,
     thumbs: [
-      `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+      `imgs/bottle-large.jpg`,
     ],
     hasScent: true,
     features: [
@@ -378,7 +382,7 @@ const PRODUCTS = {
     price: 49,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2022/06/3-%D7%91%D7%A7%D7%91%D7%95%D7%A7%D7%99%D7%9D-%D7%92%D7%93%D7%95%D7%9C%D7%99%D7%9D-%D7%A0%D7%A7%D7%99-300x300.png`,
+    img: `imgs/bottles-refill.png`,
     hasScent: false,
     features: [
       { icon: 'ph-test-tube', text: '10 ניחוחות שונים' },
@@ -399,7 +403,7 @@ const PRODUCTS = {
     price: 45,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2025/11/%D7%9E%D7%91%D7%A9%D7%9D-%D7%9B%D7%91%D7%99%D7%A1%D7%94-%D7%9E%D7%A8%D7%95%D7%9B%D7%96.png`,
+    img: `imgs/laundry-concentrate.png`,
     hasScent: false,
     features: [
       { icon: 'ph-washing-machine', text: 'עד 25 כביסות' },
@@ -420,7 +424,7 @@ const PRODUCTS = {
     price: 10,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2026/02/%D7%A7%D7%A8%D7%9D-%D7%99%D7%93%D7%99%D7%99%D7%9D-%D7%A0%D7%A7%D7%991.png`,
+    img: `imgs/hand-cream.png`,
     hasScent: false,
     features: [
       { icon: 'ph-hand', text: 'קרם עדין' },
@@ -440,7 +444,7 @@ const PRODUCTS = {
     price: 99,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2024/03/%D7%91%D7%95%D7%A9%D7%9D-%D7%A9%D7%9E%D7%9F-%D7%9C%D7%92%D7%91%D7%A8-%D7%95%D7%9C%D7%90%D7%99%D7%A9%D7%94.jpg`,
+    img: `imgs/perfume-oil.jpg`,
     hasScent: false,
     features: [
       { icon: 'ph-sparkle', text: 'ניחוח יוקרתי' },
@@ -460,7 +464,7 @@ const PRODUCTS = {
     price: 99,
     origPrice: null,
     badge: null,
-    img: `${BASE}/2024/03/%D7%91%D7%95%D7%A9%D7%9D-%D7%A9%D7%9E%D7%9F-%D7%9C%D7%92%D7%91%D7%A8-%D7%95%D7%9C%D7%90%D7%99%D7%A9%D7%94.jpg`,
+    img: `imgs/perfume-oil.jpg`,
     hasScent: false,
     features: [
       { icon: 'ph-sparkle', text: 'ניחוח יוקרתי' },
