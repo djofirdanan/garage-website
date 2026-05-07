@@ -36,8 +36,12 @@
 
   function requireAuth() {
     if (!getToken()) {
-      const ret = encodeURIComponent(location.pathname + location.search);
-      location.href = 'login.html?return=' + ret;
+      if (window.GarageAuthModal) {
+        GarageAuthModal.open('login');
+      } else {
+        const ret = encodeURIComponent(location.pathname + location.search);
+        location.href = 'login.html?return=' + ret;
+      }
       return false;
     }
     return true;
@@ -56,7 +60,11 @@
     if (!slot) return;
     const customer = getCustomer();
     if (!customer) {
-      slot.innerHTML = '<a href="login.html" class="site-nav__icon-btn" aria-label="התחבר" title="התחבר">' + USER_SVG + '</a>';
+      if (window.GarageAuthModal) {
+        slot.innerHTML = '<button class="site-nav__icon-btn" aria-label="התחבר" title="התחבר" onclick="GarageAuthModal.open(\'login\')">' + USER_SVG + '</button>';
+      } else {
+        slot.innerHTML = '<a href="login.html" class="site-nav__icon-btn" aria-label="התחבר" title="התחבר">' + USER_SVG + '</a>';
+      }
     } else {
       const firstName = (customer.name || '').split(' ')[0] || 'חשבון';
       slot.innerHTML =
