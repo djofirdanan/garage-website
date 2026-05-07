@@ -1,7 +1,12 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://garage-beryl-sigma.vercel.app/sitemap.xml
-
-# Block admin page from indexing
+# Do not index utility/transactional pages
 Disallow: /admin.html
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /login.html
+Disallow: /signup.html
+Disallow: /account.html
+
+Sitemap: https://garage-beryl-sigma.vercel.app/sitemap.xml

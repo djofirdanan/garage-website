@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="imgs/logo.png" />
+  <link rel="apple-touch-icon" href="imgs/logo.png" />
+
   <!-- Primary SEO -->
   <title>GARAGE | מפיצי ריח איכותיים לבית, רכב ועסק — שמן טהור 100%</title>
   <meta name="description" content="מפיצי ריח מתקדמים לבית, רכב ועסק. שמן ריח טהור 100% ב-14 ניחוחות יוקרתיים. ריח נמשך שעות, משלוח חינם מ-₪250. +1,000 לקוחות מרוצים. הזמן עכשיו!" />
@@ -39,7 +43,10 @@
     "url": "https://garage-beryl-sigma.vercel.app/",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://garage-beryl-sigma.vercel.app/products.html?q={search_term_string}",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://garage-beryl-sigma.vercel.app/index.html?q={search_term_string}"
+      },
       "query-input": "required name=search_term_string"
     }
   }

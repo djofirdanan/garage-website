@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="imgs/logo.png" />
+  <link rel="apple-touch-icon" href="imgs/logo.png" />
   <title id="page-title">מפיץ ריח — GARAGE | שמן טהור 100%</title>
   <meta id="page-desc" name="description" content="מפיצי ריח מתקדמים לבית, רכב ועסק עם שמן ריח טהור 100%. ריח נמשך שעות, 14 ניחוחות יוקרתיים, משלוח חינם מ-₪250. הזמן עכשיו!" />
   <meta name="keywords" content="מפיץ ריח, מפיצי ריח לבית, מפיץ ריח לרכב, מפיץ ריח לעסק, שמן ריח, GARAGE" />
@@ -269,9 +271,12 @@ function init() {
   document.getElementById('og-desc').setAttribute('content', seoDesc);
   document.getElementById('tw-title').setAttribute('content', document.title);
   document.getElementById('tw-desc').setAttribute('content', seoDesc);
-  if (product.images && product.images[0]) {
-    document.getElementById('og-img').setAttribute('content', product.images[0]);
-    document.getElementById('tw-img').setAttribute('content', product.images[0]);
+  const productImages = product.thumbs
+    ? product.thumbs.map(t => `https://garage-beryl-sigma.vercel.app/${t}`)
+    : (product.img ? [`https://garage-beryl-sigma.vercel.app/${product.img}`] : []);
+  if (productImages[0]) {
+    document.getElementById('og-img').setAttribute('content', productImages[0]);
+    document.getElementById('tw-img').setAttribute('content', productImages[0]);
   }
 
   /* JSON-LD Product schema */
@@ -283,7 +288,7 @@ function init() {
     "@type": "Product",
     "name": product.name,
     "description": seoDesc,
-    "image": product.images || [],
+    "image": productImages,
     "brand": { "@type": "Brand", "name": "GARAGE" },
     "url": pageUrl,
     "offers": {
