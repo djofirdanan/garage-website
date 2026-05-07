@@ -1048,7 +1048,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 /* Container: slides in from the right */
 .cnav {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0; right: 0;
   height: 100dvh;
@@ -1056,7 +1056,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   flex-direction: row;
   z-index: 99;
   pointer-events: none;
-  transform: translateX(100%);
+  transform: translateX(110%);
   transition: transform .65s cubic-bezier(0.76, 0, 0.24, 1);
 }
 .cnav.open {
