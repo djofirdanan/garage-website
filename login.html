@@ -14,6 +14,8 @@
     /* ─── Auth Page Layout ─── */
     .auth-page {
       min-height: 100vh;
+      max-width: none;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -26,7 +28,7 @@
       grid-template-columns: 1fr 1fr;
       width: 100%;
       max-width: 960px;
-      min-height: 620px;
+      height: clamp(580px, 80vh, 720px);
       border: 3px solid var(--black);
       box-shadow: 8px 8px 0 var(--black);
       border-radius: 4px;
@@ -354,10 +356,11 @@
 
       .auth-wrap {
         grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100dvh;
         border: none;
         box-shadow: none;
         border-radius: 0;
-        min-height: 100dvh;
       }
 
       .auth-slider { display: none; }
