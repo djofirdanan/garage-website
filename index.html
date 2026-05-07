@@ -919,26 +919,12 @@ function updateProgress() {
 window.addEventListener('scroll', updateProgress, { passive: true });
 updateProgress();
 
-/* 2. SECTION DECO – floating diffuser + smoke puffs */
-const decoImages = ['imgs/g30-diffuser.png', 'imgs/s300-diffuser.png', 'imgs/g60-diffuser.png', 'imgs/aircules-car.png'];
-function makeDeco(imgSrc, side) {
-  const wrap = document.createElement('div');
-  wrap.className = 'section-deco section-deco--' + side;
-  wrap.setAttribute('aria-hidden', 'true');
-  wrap.innerHTML =
-    '<div class="sdeco-smoke-wrap">' +
-      '<div class="sdeco-puff sdeco-puff--1"></div>' +
-      '<div class="sdeco-puff sdeco-puff--2"></div>' +
-      '<div class="sdeco-puff sdeco-puff--3"></div>' +
-    '</div>' +
-    '<img src="' + imgSrc + '" class="sdeco-img" alt="" loading="lazy">';
-  return wrap;
-}
-document.querySelectorAll('section.section, section.steps-section, section.anim-testi, section.bundle-section').forEach((sec, i) => {
-  const side = i % 2 === 0 ? 'left' : 'right';
-  sec.style.position = 'relative';
-  const img = decoImages[i % decoImages.length];
-  sec.appendChild(makeDeco(img, side));
+/* 2. SECTION HEADER GLOW – soft ambient light behind each tag */
+document.querySelectorAll('.section__header, .anim-testi__lead').forEach(header => {
+  const glow = document.createElement('div');
+  glow.className = 'section-header-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  header.insertBefore(glow, header.firstChild);
 });
 
 /* 3. SPLIT-TEXT on section titles – letter-by-letter reveal */
