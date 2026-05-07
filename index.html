@@ -1027,34 +1027,7 @@ if (heroProduct) {
   });
 }
 
-/* 7. CURSOR TRAIL (fragrance mist) – desktop only */
-if (window.matchMedia('(pointer:fine)').matches) {
-  const TRAIL_COUNT = 8;
-  const dots = [];
-  for (let i = 0; i < TRAIL_COUNT; i++) {
-    const d = document.createElement('div');
-    d.className = 'trail-dot';
-    d.style.opacity = (1 - i / TRAIL_COUNT) * 0.6 + '';
-    d.style.width = d.style.height = (7 - i * 0.5) + 'px';
-    document.body.appendChild(d);
-    dots.push({ el: d, x: 0, y: 0 });
-  }
-  let mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-
-  (function animTrail() {
-    let prevX = mouseX, prevY = mouseY;
-    dots.forEach((dot, i) => {
-      const delay = 0.15 + i * 0.08;
-      dot.x += (prevX - dot.x) * (1 - delay);
-      dot.y += (prevY - dot.y) * (1 - delay);
-      dot.el.style.left = dot.x + 'px';
-      dot.el.style.top  = dot.y + 'px';
-      prevX = dot.x; prevY = dot.y;
-    });
-    requestAnimationFrame(animTrail);
-  })();
-}
+/* 7. CURSOR TRAIL – removed */
 
 /* 8. MAGNETIC BUTTONS */
 document.querySelectorAll('.btn--primary, .btn--mint').forEach(btn => {
