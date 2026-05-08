@@ -32,6 +32,8 @@ function cartAdd(productId, opts = {}) {
     const match = p.priceVariants.find(v => v.qty === opts.qty);
     if (match) price = match.price;
   }
+  // Add scent surcharge (premium scents cost extra)
+  price += opts.scentSurcharge || 0;
 
   items.push({
     uid,
@@ -42,6 +44,7 @@ function cartAdd(productId, opts = {}) {
     scent: opts.scent || null,
     qty:   opts.qty   || 1,
     isUpsell: opts.isUpsell || false,
+    scentSurcharge: opts.scentSurcharge || 0,
   });
 
   cartSave(items);

@@ -739,8 +739,9 @@
           <thead>
             <tr>
               <th style="width:36px;text-align:center">#</th>
-              <th style="width:150px">שם ניחוח</th>
+              <th style="width:130px">שם ניחוח</th>
               <th>תיאור</th>
+              <th style="width:90px;text-align:center" title="תוספת מחיר לניחוח פרימיום (אופציונלי)">תוספת ₪</th>
               <th style="width:110px;text-align:center">סדר / מחק</th>
             </tr>
           </thead>
@@ -961,6 +962,12 @@ function renderScentsTable() {
                style="width:100%;border:1.5px solid transparent;padding:5px 8px;border-radius:6px;font-family:inherit;font-size:12px;color:var(--gray-500);background:transparent"
                onfocus="this.style.borderColor='var(--mint)'" onblur="this.style.borderColor='transparent'">
       </td>
+      <td style="text-align:center">
+        <input id="sn-price-${i}" type="number" min="0" step="1" value="${s.price||''}"
+               placeholder="0"
+               style="width:64px;text-align:center;border:1.5px solid transparent;padding:5px 6px;border-radius:6px;font-family:inherit;font-size:13px;font-weight:700;background:transparent;color:${s.price?'#059669':'var(--gray-500)'}"
+               onfocus="this.style.borderColor='var(--mint)'" onblur="this.style.borderColor='transparent'">
+      </td>
       <td>
         <div style="display:flex;gap:4px;justify-content:center">
           <button onclick="moveScentUp(${i})" title="למעלה"
@@ -1017,11 +1024,17 @@ function moveScentDown(idx) {
 }
 
 function flushScentsFromInputs() {
-  adminScents = adminScents.map((s, i) => ({
-    id:   s.id || ('scent-' + i),
-    name: (document.getElementById(`sn-name-${i}`)?.value || s.name).trim(),
-    desc: (document.getElementById(`sn-desc-${i}`)?.value || s.desc || '').trim(),
-  })).filter(s => s.name);
+  adminScents = adminScents.map((s, i) => {
+    const priceRaw = document.getElementById(`sn-price-${i}`)?.value;
+    const price    = priceRaw ? parseInt(priceRaw, 10) : 0;
+    const entry = {
+      id:   s.id || ('scent-' + i),
+      name: (document.getElementById(`sn-name-${i}`)?.value || s.name).trim(),
+      desc: (document.getElementById(`sn-desc-${i}`)?.value || s.desc || '').trim(),
+    };
+    if (price > 0) entry.price = price;
+    return entry;
+  }).filter(s => s.name);
 }
 
 function saveScents() {

@@ -1252,6 +1252,20 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.bsp-pill-price {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+  background: #dcfce7;
+  border-radius: 6px;
+  padding: 1px 5px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.bsp-pill--active .bsp-pill-price {
+  background: #bbf7d0;
+}
 .bsp-pill-desc {
   font-size: 11px;
   color: var(--mid);

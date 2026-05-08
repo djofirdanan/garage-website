@@ -3,7 +3,7 @@
    Inject into pages via <div id="siteHeader"> / <div id="siteFooter">
    ========================================================= */
 (function () {
-  const LOGO = 'https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png';
+  const LOGO = 'imgs/logo.png';
   const WA   = 'https://wa.me/972509723636';
   const IG   = 'https://www.instagram.com/garage_scents';
 
