@@ -299,9 +299,9 @@ const PRODUCTS = {
     subtitle: 'חבילת שנה מלאה — מפיץ G60 + 6 בקבוקים לבחירה',
     category: 'bundle',
     categoryLabel: 'חבילה',
-    price: 465,
+    price: 500,
     origPrice: 650,
-    badge: 'חיסכון ₪185',
+    badge: 'חיסכון ₪150',
     img: `imgs/bundle-product.webp`,
     thumbs: [
       `imgs/bundle-product.webp`,
