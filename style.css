@@ -2541,7 +2541,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   /* Bundle picker extra small */
   .bsp-grid          { gap: 6px; }
   .bsp-pill          { padding: 10px 12px; }
-  .bsp-pill-desc     { display: none; }   /* hide on very small screens to save space */
+  .bsp-pill-desc     { font-size: 11px; }
 }
 
 /* ====================================================
