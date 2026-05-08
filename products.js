@@ -302,6 +302,7 @@ const PRODUCTS = {
     price: 500,
     origPrice: 650,
     badge: 'חיסכון ₪150',
+    bundleBottleCount: 6,
     img: `imgs/bundle-product.webp`,
     thumbs: [
       `imgs/bundle-product.webp`,

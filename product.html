@@ -73,7 +73,7 @@
           <div class="qty-variants" id="qtyVariantsList"></div>
         </div>
 
-        <!-- SCENT SELECTOR -->
+        <!-- SCENT SELECTOR (single, for non-bundle products) -->
         <div class="scent-selector" id="scentSelector" style="display:none">
           <div class="scent-label">
             <i class="ph-fill ph-drop" style="color:var(--black);margin-left:6px;font-size:15px"></i>
@@ -83,6 +83,30 @@
             <option value="">— בחר ניחוח —</option>
           </select>
           <p class="scent-desc" id="scentDesc"></p>
+        </div>
+
+        <!-- BUNDLE SCENT PICKER (6 bottles) -->
+        <div class="bsp-wrap" id="bundleScentPicker" style="display:none">
+          <div class="bsp-header">
+            <div class="bsp-label">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6m-6 0a2 2 0 000 4h6a2 2 0 000-4M9 3v4m6-4v4M9 7v14m6-14v14M9 21h6"/></svg>
+              בחר 6 ניחוחות לחבילה <span class="bsp-required">*</span>
+            </div>
+            <div class="bsp-counter-badge" id="bspCounterBadge">
+              <span id="bspCount">0</span>/6
+            </div>
+          </div>
+          <div class="bsp-progress-track">
+            <div class="bsp-progress-fill" id="bspProgressFill" style="width:0%"></div>
+          </div>
+          <div class="bsp-grid" id="bspGrid"></div>
+          <div class="bsp-summary" id="bspSummary" style="display:none">
+            <div class="bsp-summary-title">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              הניחוחות שבחרת:
+            </div>
+            <div class="bsp-summary-chips" id="bspSummaryChips"></div>
+          </div>
         </div>
 
         <!-- FEATURES -->
@@ -155,6 +179,112 @@ const product  = PRODUCTS[prodId];
 let selectedScent   = '';
 let selectedQtyIdx  = 0;
 let upsellsAdded    = new Set();
+
+/* Bundle scent picker state */
+const bundleScentCounts = {}; // { 'ניחוח': count }
+const BUNDLE_TOTAL = product?.bundleBottleCount || 6;
+
+function bspGetTotal() {
+  return Object.values(bundleScentCounts).reduce((s, n) => s + n, 0);
+}
+
+function bspUpdate() {
+  const total = bspGetTotal();
+  const pct   = Math.min(total / BUNDLE_TOTAL * 100, 100);
+
+  document.getElementById('bspCount').textContent = total;
+  document.getElementById('bspProgressFill').style.width = pct + '%';
+
+  const badge = document.getElementById('bspCounterBadge');
+  badge.classList.toggle('bsp-counter-badge--done', total === BUNDLE_TOTAL);
+
+  // Update each pill
+  document.querySelectorAll('.bsp-pill').forEach(pill => {
+    const name  = pill.dataset.scent;
+    const count = bundleScentCounts[name] || 0;
+    const ctrl  = pill.querySelector('.bsp-pill-ctrl');
+    const countEl = pill.querySelector('.bsp-pill-count');
+
+    pill.classList.toggle('bsp-pill--active', count > 0);
+
+    if (ctrl) {
+      ctrl.style.display = count > 0 ? 'flex' : 'none';
+      if (countEl) countEl.textContent = count;
+    }
+
+    // Disable + when total reached (unless already selected this scent)
+    const plusBtn = pill.querySelector('.bsp-plus');
+    if (plusBtn) plusBtn.disabled = total >= BUNDLE_TOTAL && count === 0;
+  });
+
+  // Summary
+  const summary = document.getElementById('bspSummary');
+  const chips   = document.getElementById('bspSummaryChips');
+  const entries = Object.entries(bundleScentCounts).filter(([,c]) => c > 0);
+  if (entries.length > 0) {
+    summary.style.display = 'block';
+    chips.innerHTML = entries.map(([name, count]) =>
+      `<span class="bsp-chip">${name}${count > 1 ? ` ×${count}` : ''}</span>`
+    ).join('');
+  } else {
+    summary.style.display = 'none';
+  }
+}
+
+function bspInc(name, e) {
+  e && e.stopPropagation();
+  if (bspGetTotal() >= BUNDLE_TOTAL) return;
+  bundleScentCounts[name] = (bundleScentCounts[name] || 0) + 1;
+  bspUpdate();
+}
+
+function bspDec(name, e) {
+  e && e.stopPropagation();
+  if (!bundleScentCounts[name]) return;
+  bundleScentCounts[name]--;
+  if (bundleScentCounts[name] === 0) delete bundleScentCounts[name];
+  bspUpdate();
+}
+
+function bspPillClick(name) {
+  if (bundleScentCounts[name]) return; // already selected, use +/-
+  if (bspGetTotal() >= BUNDLE_TOTAL) return;
+  bundleScentCounts[name] = 1;
+  bspUpdate();
+}
+
+function bspGetScentString() {
+  return Object.entries(bundleScentCounts)
+    .filter(([,c]) => c > 0)
+    .map(([name, count]) => count > 1 ? `${name} ×${count}` : name)
+    .join(', ');
+}
+
+function initBundlePicker() {
+  const grid = document.getElementById('bspGrid');
+  if (!grid) return;
+
+  grid.innerHTML = SCENTS.map(s => `
+    <div class="bsp-pill" data-scent="${s.name}" onclick="bspPillClick('${s.name}')">
+      <div class="bsp-pill-main">
+        <span class="bsp-pill-name">${s.name}</span>
+        <span class="bsp-pill-desc">${s.desc}</span>
+      </div>
+      <div class="bsp-pill-ctrl" style="display:none">
+        <button class="bsp-dec" onclick="bspDec('${s.name}',event)" aria-label="הפחת">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+        </button>
+        <span class="bsp-pill-count">0</span>
+        <button class="bsp-plus" onclick="bspInc('${s.name}',event)" aria-label="הוסף">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+      </div>
+      <div class="bsp-pill-add">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+      </div>
+    </div>
+  `).join('');
+}
 
 function init() {
   if (!product) {
@@ -240,20 +370,27 @@ function init() {
 
   /* scent */
   if (product.hasScent) {
-    document.getElementById('scentSelector').style.display = 'block';
-    const sel = document.getElementById('scentSelect');
-    SCENTS.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.name;
-      opt.textContent = s.name;
-      opt.dataset.desc = s.desc;
-      sel.appendChild(opt);
-    });
-    sel.addEventListener('change', () => {
-      selectedScent = sel.value;
-      const opt = sel.querySelector(`option[value="${selectedScent}"]`);
-      document.getElementById('scentDesc').textContent = opt ? opt.dataset.desc : '';
-    });
+    if (product.bundleBottleCount) {
+      // Multi-scent picker for bundle products
+      document.getElementById('bundleScentPicker').style.display = 'block';
+      initBundlePicker();
+    } else {
+      // Single scent dropdown for regular products
+      document.getElementById('scentSelector').style.display = 'block';
+      const sel = document.getElementById('scentSelect');
+      SCENTS.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.name;
+        opt.textContent = s.name;
+        opt.dataset.desc = s.desc;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => {
+        selectedScent = sel.value;
+        const opt = sel.querySelector(`option[value="${selectedScent}"]`);
+        document.getElementById('scentDesc').textContent = opt ? opt.dataset.desc : '';
+      });
+    }
   }
 
   /* features */
@@ -351,7 +488,21 @@ function renderQtyVariants() {
 }
 
 function handleAddToCart() {
-  if (product.hasScent && !selectedScent) {
+  // Bundle: validate 6 scents selected
+  if (product.bundleBottleCount) {
+    const total = bspGetTotal();
+    if (total < BUNDLE_TOTAL) {
+      const picker = document.getElementById('bundleScentPicker');
+      picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      picker.classList.add('bsp-shake');
+      setTimeout(() => picker.classList.remove('bsp-shake'), 600);
+      cartToast(`נא לבחור ${BUNDLE_TOTAL - total} ניחוחות נוספים (${total}/${BUNDLE_TOTAL})`);
+      return;
+    }
+    selectedScent = bspGetScentString();
+  }
+
+  if (product.hasScent && !product.bundleBottleCount && !selectedScent) {
     const sel = document.getElementById('scentSelect');
     sel.focus();
     sel.style.borderColor = '#dc2626';

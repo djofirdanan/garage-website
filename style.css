@@ -1157,6 +1157,193 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   50%       { transform: translateY(-14px); }
 }
 
+/* ── BUNDLE SCENT PICKER ─────────────────────────────── */
+.bsp-wrap {
+  margin: 20px 0 24px;
+}
+.bsp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.bsp-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+}
+.bsp-required { color: #dc2626; }
+.bsp-counter-badge {
+  background: #f1f5f9;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 4px 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mid);
+  transition: background .25s, color .25s, border-color .25s;
+}
+.bsp-counter-badge--done {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #16a34a;
+}
+
+/* Progress bar */
+.bsp-progress-track {
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.bsp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint) 0%, #059669 100%);
+  border-radius: 10px;
+  transition: width .3s cubic-bezier(.16,1,.3,1);
+}
+
+/* Scent pill grid */
+.bsp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.bsp-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  user-select: none;
+  min-height: 56px;
+}
+.bsp-pill:hover:not(.bsp-pill--active) {
+  border-color: var(--mint-dark);
+  background: #f0fdf9;
+}
+.bsp-pill--active {
+  border-color: var(--mint-dark);
+  background: #f0fdf9;
+  box-shadow: 0 0 0 2px rgba(0,200,160,.18);
+  cursor: default;
+}
+.bsp-pill-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.bsp-pill-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bsp-pill-desc {
+  font-size: 11px;
+  color: var(--mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The +/- control (shown when selected) */
+.bsp-pill-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.bsp-dec, .bsp-plus {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mint-dark);
+  background: #fff;
+  color: var(--black);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background .15s;
+  padding: 0;
+}
+.bsp-dec:hover { background: #fee2e2; border-color: #dc2626; color: #dc2626; }
+.bsp-plus:hover:not(:disabled) { background: var(--mint); }
+.bsp-plus:disabled { opacity: .35; cursor: not-allowed; }
+.bsp-pill-count {
+  font-size: 14px;
+  font-weight: 800;
+  min-width: 16px;
+  text-align: center;
+  color: var(--black);
+}
+
+/* The "+" add icon (shown when not selected) */
+.bsp-pill-add {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--mid);
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.bsp-pill:hover .bsp-pill-add { background: var(--mint); color: var(--black); }
+.bsp-pill--active .bsp-pill-add { display: none; }
+
+/* Summary */
+.bsp-summary {
+  margin-top: 14px;
+  background: #f0fdf9;
+  border: 1.5px solid #86efac;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.bsp-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #16a34a;
+  margin-bottom: 8px;
+}
+.bsp-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bsp-chip {
+  background: #fff;
+  border: 1.5px solid #86efac;
+  border-radius: 20px;
+  padding: 4px 11px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+/* Shake animation on invalid submit */
+@keyframes bspShake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.bsp-shake { animation: bspShake .5s ease; }
+
 /* ── CONTACT ────────────────────────────────────────── */
 .contact-section {
   background: var(--lav-bg);
