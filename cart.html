@@ -134,16 +134,16 @@ function renderCart() {
         <div class="cart-item__name">${item.name}</div>
         ${item.scent ? `<div class="cart-item__scent"><i class="ph ph-drop" style="margin-left:4px;opacity:.6"></i>${item.scent}</div>` : ''}
         ${item.isUpsell ? `<div class="cart-item__upsell-tag"><i class="ph-fill ph-tag"></i> מחיר מיוחד</div>` : ''}
-        <button class="cart-item__remove" onclick="removeItem('${item.uid}')">
+        <button class="cart-item__remove" data-uid="${item.uid.replace(/"/g,'&quot;')}" onclick="removeItem(this.dataset.uid)">
           <i class="ph ph-trash"></i> הסר
         </button>
       </div>
       <div class="cart-item__right">
         <div class="cart-item__price">₪${lineTotal}</div>
-        <div class="cart-item__qty">
-          <button onclick="changeQty('${item.uid}',-1)"><i class="ph ph-minus"></i></button>
+        <div class="cart-item__qty" data-uid="${item.uid.replace(/"/g,'&quot;')}">
+          <button onclick="changeQty(this.parentElement.dataset.uid,-1)"><i class="ph ph-minus"></i></button>
           <span>${item.qty}</span>
-          <button onclick="changeQty('${item.uid}',1)"><i class="ph ph-plus"></i></button>
+          <button onclick="changeQty(this.parentElement.dataset.uid,1)"><i class="ph ph-plus"></i></button>
         </div>
       </div>
     </div>`;

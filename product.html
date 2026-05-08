@@ -226,16 +226,17 @@ function bspClearState() {
 }
 
 function bspUpdate() {
-  const total = bspGetTotal();
-  const pct   = Math.min(total / pickerMax * 100, 100);
+  const total     = bspGetTotal();
+  const freeTotal = bspGetFreeTotal(); // non-premium only — used for limit checks
+  const pct       = Math.min(freeTotal / pickerMax * 100, 100);
 
   bspSaveState(); // persist every change
 
   if (pickerMulti) {
-    document.getElementById('bspCount').textContent = total;
+    document.getElementById('bspCount').textContent = freeTotal;
     document.getElementById('bspProgressFill').style.width = pct + '%';
     const badge = document.getElementById('bspCounterBadge');
-    badge.classList.toggle('bsp-counter-badge--done', total === pickerMax);
+    badge.classList.toggle('bsp-counter-badge--done', freeTotal >= pickerMax);
   }
 
   // Update each pill
@@ -251,7 +252,8 @@ function bspUpdate() {
     if (addEl)  { addEl.style.display = count > 0 ? 'none' : ''; }
 
     const plusBtn = pill.querySelector('.bsp-plus');
-    if (plusBtn) plusBtn.disabled = total >= pickerMax && count === 0;
+    // Premium scents are never disabled — they bypass the free-slot limit
+    if (plusBtn) plusBtn.disabled = freeTotal >= pickerMax && count === 0 && !bspIsPremium(name);
   });
 
   // Summary
@@ -277,7 +279,8 @@ function bspUpdate() {
 
 function bspInc(name, e) {
   e && e.stopPropagation();
-  if (bspGetTotal() >= pickerMax) { bspFlashError(name); return; }
+  // Premium scents bypass the free-slot limit
+  if (!bspIsPremium(name) && bspGetFreeTotal() >= pickerMax) { bspFlashError(name); return; }
   bundleScentCounts[name] = (bundleScentCounts[name] || 0) + 1;
   bspUpdate();
 }
@@ -295,8 +298,9 @@ function bspPillClick(name) {
     if (!pickerMulti) { delete bundleScentCounts[name]; bspUpdate(); }
     return;
   }
-  const total = bspGetTotal();
-  if (total >= pickerMax) {
+  const freeTotal = bspGetFreeTotal();
+  // Premium scents bypass the free-slot limit entirely
+  if (!bspIsPremium(name) && freeTotal >= pickerMax) {
     if (!pickerMulti) {
       // Single mode: replace
       Object.keys(bundleScentCounts).forEach(k => delete bundleScentCounts[k]);
@@ -318,6 +322,19 @@ function bspGetSurcharge() {
       const sc = SCENTS.find(s => s.name === name);
       return total + (sc?.price || 0) * count;
     }, 0);
+}
+
+/* Premium = scent with extra price; not counted toward the free-slot limit */
+function bspIsPremium(name) {
+  const sc = SCENTS.find(s => s.name === name);
+  return !!(sc && sc.price > 0);
+}
+
+/* Count only non-premium selections for limit enforcement */
+function bspGetFreeTotal() {
+  return Object.entries(bundleScentCounts)
+    .filter(([name, c]) => c > 0 && !bspIsPremium(name))
+    .reduce((s, [, c]) => s + c, 0);
 }
 
 function initScentPicker(max, isMulti) {
@@ -554,14 +571,14 @@ function renderQtyVariants() {
 function handleAddToCart() {
   // Validate scent selection
   if (product.hasScent) {
-    const total = bspGetTotal();
-    if (pickerMulti && total < pickerMax) {
-      // Multi mode: must fill all slots (bundle)
+    const freeTotal = bspGetFreeTotal();
+    if (pickerMulti && freeTotal < pickerMax) {
+      // Multi mode: must fill all free slots (bundle)
       const picker = document.getElementById('scentPicker');
       picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
       picker.classList.add('bsp-shake');
       setTimeout(() => picker.classList.remove('bsp-shake'), 600);
-      cartToast(`נא לבחור ${pickerMax - total} ניחוחות נוספים (${total}/${pickerMax})`);
+      cartToast(`נא לבחור ${pickerMax - freeTotal} ניחוחות נוספים (${freeTotal}/${pickerMax})`);
       return;
     }
     if (!pickerMulti && total === 0) {
@@ -593,7 +610,10 @@ function handleAddToCart() {
     cartAddUpsell(uid, scent);
   });
 
-  setTimeout(() => { location.href = 'cart.html'; }, 600);
+  // Show cart transition overlay then redirect
+  const _overlay = document.getElementById('cartTransitionOverlay');
+  if (_overlay) _overlay.classList.add('show');
+  setTimeout(() => { location.href = 'cart.html'; }, 950);
 }
 
 function renderUpsells() {
@@ -727,5 +747,16 @@ init();
 </script>
 <script src="customer-auth.js"></script>
 <script src="auth-modal.js"></script>
+
+<!-- Cart transition overlay -->
+<div id="cartTransitionOverlay">
+  <div class="cto-card">
+    <div class="cto-icon">
+      <i class="ph-fill ph-shopping-cart-simple"></i>
+    </div>
+    <p class="cto-text">מעביר לסל הקניות...</p>
+    <p class="cto-sub">המוצר נוסף בהצלחה</p>
+  </div>
+</div>
 </body>
 </html>
