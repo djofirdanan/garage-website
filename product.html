@@ -73,37 +73,26 @@
           <div class="qty-variants" id="qtyVariantsList"></div>
         </div>
 
-        <!-- SCENT SELECTOR (single, for non-bundle products) -->
-        <div class="scent-selector" id="scentSelector" style="display:none">
-          <div class="scent-label">
-            <i class="ph-fill ph-drop" style="color:var(--black);margin-left:6px;font-size:15px"></i>
-            בחר ניחוח: <span style="color:#dc2626;margin-right:2px">*</span>
-          </div>
-          <select class="scent-select" id="scentSelect">
-            <option value="">— בחר ניחוח —</option>
-          </select>
-          <p class="scent-desc" id="scentDesc"></p>
-        </div>
-
-        <!-- BUNDLE SCENT PICKER (6 bottles) -->
-        <div class="bsp-wrap" id="bundleScentPicker" style="display:none">
+        <!-- UNIVERSAL SCENT PICKER (single / multi mode, set by JS) -->
+        <div class="bsp-wrap" id="scentPicker" style="display:none">
           <div class="bsp-header">
-            <div class="bsp-label">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6m-6 0a2 2 0 000 4h6a2 2 0 000-4M9 3v4m6-4v4M9 7v14m6-14v14M9 21h6"/></svg>
-              בחר 6 ניחוחות לחבילה <span class="bsp-required">*</span>
+            <div class="bsp-label bsp-label--hero" id="bspLabelEl">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6m-6 0a2 2 0 000 4h6a2 2 0 000-4M9 3v4m6-4v4M9 7v14m6-14v14M9 21h6"/></svg>
+              <span id="bspLabelText">בחר ניחוח</span>
+              <span class="bsp-required">*</span>
             </div>
-            <div class="bsp-counter-badge" id="bspCounterBadge">
-              <span id="bspCount">0</span>/6
+            <div class="bsp-counter-badge" id="bspCounterBadge" style="display:none">
+              <span id="bspCount">0</span>/<span id="bspMaxDisplay">6</span>
             </div>
           </div>
-          <div class="bsp-progress-track">
+          <div class="bsp-progress-track" id="bspProgressTrack" style="display:none">
             <div class="bsp-progress-fill" id="bspProgressFill" style="width:0%"></div>
           </div>
           <div class="bsp-grid" id="bspGrid"></div>
           <div class="bsp-summary" id="bspSummary" style="display:none">
             <div class="bsp-summary-title">
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              הניחוחות שבחרת:
+              <span id="bspSummaryTitle">הניחוחות שבחרת:</span>
             </div>
             <div class="bsp-summary-chips" id="bspSummaryChips"></div>
           </div>
@@ -168,6 +157,7 @@
 </div>
 
 <script src="site-components.js"></script>
+<script src="scents-data.js"></script>
 <script src="products.js"></script>
 <script src="cart.js"></script>
 <script>
@@ -180,41 +170,65 @@ let selectedScent   = '';
 let selectedQtyIdx  = 0;
 let upsellsAdded    = new Set();
 
-/* Bundle scent picker state */
+/* Universal scent picker state */
 const bundleScentCounts = {}; // { 'ניחוח': count }
-const BUNDLE_TOTAL = product?.bundleBottleCount || 6;
+let pickerMax   = 1;
+let pickerMulti = false;  // true = multi-select (bundle/qty>1), false = single-select
 
+/* Upsell compact chip state */
+const upsellScentMap = {}; // uid -> { scentName: count }
+
+/* ---- Picker core ---- */
 function bspGetTotal() {
   return Object.values(bundleScentCounts).reduce((s, n) => s + n, 0);
 }
 
+function bspGetScentString() {
+  return Object.entries(bundleScentCounts)
+    .filter(([,c]) => c > 0)
+    .map(([name, count]) => count > 1 ? `${name} ×${count}` : name)
+    .join(', ');
+}
+
+function bspFlashError(name) {
+  const pill = document.querySelector(`.bsp-pill[data-scent="${name.replace(/"/g,'\\"')}"]`);
+  if (pill) {
+    pill.classList.add('bsp-pill--error');
+    setTimeout(() => pill.classList.remove('bsp-pill--error'), 700);
+  }
+  const grid = document.getElementById('bspGrid');
+  if (grid) {
+    grid.classList.add('bsp-grid--error');
+    setTimeout(() => grid.classList.remove('bsp-grid--error'), 700);
+  }
+  cartToast(`הגעת ל-${pickerMax} ניחוחות — זהו המקסימום לחבילה זו`);
+}
+
 function bspUpdate() {
   const total = bspGetTotal();
-  const pct   = Math.min(total / BUNDLE_TOTAL * 100, 100);
+  const pct   = Math.min(total / pickerMax * 100, 100);
 
-  document.getElementById('bspCount').textContent = total;
-  document.getElementById('bspProgressFill').style.width = pct + '%';
-
-  const badge = document.getElementById('bspCounterBadge');
-  badge.classList.toggle('bsp-counter-badge--done', total === BUNDLE_TOTAL);
+  if (pickerMulti) {
+    document.getElementById('bspCount').textContent = total;
+    document.getElementById('bspProgressFill').style.width = pct + '%';
+    const badge = document.getElementById('bspCounterBadge');
+    badge.classList.toggle('bsp-counter-badge--done', total === pickerMax);
+  }
 
   // Update each pill
-  document.querySelectorAll('.bsp-pill').forEach(pill => {
-    const name  = pill.dataset.scent;
-    const count = bundleScentCounts[name] || 0;
-    const ctrl  = pill.querySelector('.bsp-pill-ctrl');
+  document.querySelectorAll('#bspGrid .bsp-pill').forEach(pill => {
+    const name    = pill.dataset.scent;
+    const count   = bundleScentCounts[name] || 0;
+    const ctrl    = pill.querySelector('.bsp-pill-ctrl');
     const countEl = pill.querySelector('.bsp-pill-count');
+    const addEl   = pill.querySelector('.bsp-pill-add');
 
     pill.classList.toggle('bsp-pill--active', count > 0);
+    if (ctrl)   { ctrl.style.display = count > 0 ? 'flex' : 'none'; if (countEl) countEl.textContent = count; }
+    if (addEl)  { addEl.style.display = count > 0 ? 'none' : ''; }
 
-    if (ctrl) {
-      ctrl.style.display = count > 0 ? 'flex' : 'none';
-      if (countEl) countEl.textContent = count;
-    }
-
-    // Disable + when total reached (unless already selected this scent)
     const plusBtn = pill.querySelector('.bsp-plus');
-    if (plusBtn) plusBtn.disabled = total >= BUNDLE_TOTAL && count === 0;
+    if (plusBtn) plusBtn.disabled = total >= pickerMax && count === 0;
   });
 
   // Summary
@@ -223,9 +237,16 @@ function bspUpdate() {
   const entries = Object.entries(bundleScentCounts).filter(([,c]) => c > 0);
   if (entries.length > 0) {
     summary.style.display = 'block';
-    chips.innerHTML = entries.map(([name, count]) =>
-      `<span class="bsp-chip">${name}${count > 1 ? ` ×${count}` : ''}</span>`
-    ).join('');
+    if (pickerMulti) {
+      chips.innerHTML = entries.map(([name, count]) =>
+        `<span class="bsp-chip">${name}${count > 1 ? ` ×${count}` : ''}</span>`
+      ).join('');
+    } else {
+      const scent = SCENTS.find(s => s.name === entries[0][0]);
+      chips.innerHTML = scent
+        ? `<span class="bsp-chip">${scent.name}</span><span style="font-size:12px;color:var(--mid);margin-right:6px">${scent.desc}</span>`
+        : `<span class="bsp-chip">${entries[0][0]}</span>`;
+    }
   } else {
     summary.style.display = 'none';
   }
@@ -233,7 +254,7 @@ function bspUpdate() {
 
 function bspInc(name, e) {
   e && e.stopPropagation();
-  if (bspGetTotal() >= BUNDLE_TOTAL) return;
+  if (bspGetTotal() >= pickerMax) { bspFlashError(name); return; }
   bundleScentCounts[name] = (bundleScentCounts[name] || 0) + 1;
   bspUpdate();
 }
@@ -247,43 +268,60 @@ function bspDec(name, e) {
 }
 
 function bspPillClick(name) {
-  if (bundleScentCounts[name]) return; // already selected, use +/-
-  if (bspGetTotal() >= BUNDLE_TOTAL) return;
+  if (bundleScentCounts[name]) {
+    if (!pickerMulti) { delete bundleScentCounts[name]; bspUpdate(); }
+    return;
+  }
+  const total = bspGetTotal();
+  if (total >= pickerMax) {
+    if (!pickerMulti) {
+      // Single mode: replace
+      Object.keys(bundleScentCounts).forEach(k => delete bundleScentCounts[k]);
+      bundleScentCounts[name] = 1;
+      bspUpdate();
+    } else {
+      bspFlashError(name);
+    }
+    return;
+  }
   bundleScentCounts[name] = 1;
   bspUpdate();
 }
 
-function bspGetScentString() {
-  return Object.entries(bundleScentCounts)
-    .filter(([,c]) => c > 0)
-    .map(([name, count]) => count > 1 ? `${name} ×${count}` : name)
-    .join(', ');
-}
+function initScentPicker(max, isMulti) {
+  pickerMax   = max;
+  pickerMulti = isMulti;
 
-function initBundlePicker() {
-  const grid = document.getElementById('bspGrid');
-  if (!grid) return;
+  // Label text
+  document.getElementById('bspLabelText').textContent = isMulti
+    ? `בחר ${max} ניחוחות לחבילה`
+    : 'בחר ניחוח';
+  document.getElementById('bspSummaryTitle').textContent = isMulti ? 'הניחוחות שבחרת:' : 'הניחוח שבחרת:';
 
-  grid.innerHTML = SCENTS.map(s => `
-    <div class="bsp-pill" data-scent="${s.name}" onclick="bspPillClick('${s.name}')">
+  // Show/hide multi-only elements
+  document.getElementById('bspCounterBadge').style.display  = isMulti ? '' : 'none';
+  document.getElementById('bspProgressTrack').style.display = isMulti ? '' : 'none';
+  if (isMulti) document.getElementById('bspMaxDisplay').textContent = max;
+
+  // Build grid
+  const SVG_MINUS = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>`;
+  const SVG_PLUS  = `<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>`;
+
+  document.getElementById('bspGrid').innerHTML = SCENTS.map(s => `
+    <div class="bsp-pill" data-scent="${s.name}" onclick="bspPillClick(this.dataset.scent)">
       <div class="bsp-pill-main">
         <span class="bsp-pill-name">${s.name}</span>
         <span class="bsp-pill-desc">${s.desc}</span>
       </div>
-      <div class="bsp-pill-ctrl" style="display:none">
-        <button class="bsp-dec" onclick="bspDec('${s.name}',event)" aria-label="הפחת">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
-        </button>
+      ${isMulti ? `<div class="bsp-pill-ctrl" style="display:none">
+        <button class="bsp-dec" onclick="bspDec(this.closest('.bsp-pill').dataset.scent,event)" aria-label="הפחת">${SVG_MINUS}</button>
         <span class="bsp-pill-count">0</span>
-        <button class="bsp-plus" onclick="bspInc('${s.name}',event)" aria-label="הוסף">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-        </button>
-      </div>
-      <div class="bsp-pill-add">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-      </div>
-    </div>
-  `).join('');
+        <button class="bsp-plus" onclick="bspInc(this.closest('.bsp-pill').dataset.scent,event)" aria-label="הוסף">${SVG_PLUS}</button>
+      </div>` : ''}
+      <div class="bsp-pill-add">${SVG_PLUS}</div>
+    </div>`).join('');
+
+  bspUpdate();
 }
 
 function init() {
@@ -368,29 +406,14 @@ function init() {
     renderQtyVariants();
   }
 
-  /* scent */
+  /* scent picker (universal) */
   if (product.hasScent) {
-    if (product.bundleBottleCount) {
-      // Multi-scent picker for bundle products
-      document.getElementById('bundleScentPicker').style.display = 'block';
-      initBundlePicker();
-    } else {
-      // Single scent dropdown for regular products
-      document.getElementById('scentSelector').style.display = 'block';
-      const sel = document.getElementById('scentSelect');
-      SCENTS.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.name;
-        opt.textContent = s.name;
-        opt.dataset.desc = s.desc;
-        sel.appendChild(opt);
-      });
-      sel.addEventListener('change', () => {
-        selectedScent = sel.value;
-        const opt = sel.querySelector(`option[value="${selectedScent}"]`);
-        document.getElementById('scentDesc').textContent = opt ? opt.dataset.desc : '';
-      });
-    }
+    document.getElementById('scentPicker').style.display = 'block';
+    const isMulti   = !!(product.bundleBottleCount || (product.priceVariants && product.priceVariants[0].qty > 1));
+    const initialMax = product.bundleBottleCount
+      ? product.bundleBottleCount
+      : (product.priceVariants ? product.priceVariants[0].qty : 1);
+    initScentPicker(initialMax, isMulti);
   }
 
   /* features */
@@ -483,32 +506,39 @@ function renderQtyVariants() {
       list.querySelectorAll('.qty-variant').forEach(e => e.classList.remove('selected'));
       el.classList.add('selected');
       renderPrice_Variant();
+      // Reset scent picker when qty changes
+      if (product.hasScent) {
+        Object.keys(bundleScentCounts).forEach(k => delete bundleScentCounts[k]);
+        const newMax = product.priceVariants[i].qty;
+        initScentPicker(newMax, newMax > 1);
+      }
     });
   });
 }
 
 function handleAddToCart() {
-  // Bundle: validate 6 scents selected
-  if (product.bundleBottleCount) {
+  // Validate scent selection
+  if (product.hasScent) {
     const total = bspGetTotal();
-    if (total < BUNDLE_TOTAL) {
-      const picker = document.getElementById('bundleScentPicker');
+    if (pickerMulti && total < pickerMax) {
+      // Multi mode: must fill all slots (bundle)
+      const picker = document.getElementById('scentPicker');
       picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
       picker.classList.add('bsp-shake');
       setTimeout(() => picker.classList.remove('bsp-shake'), 600);
-      cartToast(`נא לבחור ${BUNDLE_TOTAL - total} ניחוחות נוספים (${total}/${BUNDLE_TOTAL})`);
+      cartToast(`נא לבחור ${pickerMax - total} ניחוחות נוספים (${total}/${pickerMax})`);
+      return;
+    }
+    if (!pickerMulti && total === 0) {
+      // Single mode: must pick at least one
+      const picker = document.getElementById('scentPicker');
+      picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      picker.classList.add('bsp-shake');
+      setTimeout(() => picker.classList.remove('bsp-shake'), 600);
+      cartToast('נא לבחור ניחוח תחילה');
       return;
     }
     selectedScent = bspGetScentString();
-  }
-
-  if (product.hasScent && !product.bundleBottleCount && !selectedScent) {
-    const sel = document.getElementById('scentSelect');
-    sel.focus();
-    sel.style.borderColor = '#dc2626';
-    setTimeout(() => sel.style.borderColor = '', 2000);
-    cartToast('נא לבחור ניחוח תחילה');
-    return;
   }
 
   let qty = 1;
@@ -519,7 +549,10 @@ function handleAddToCart() {
   cartAdd(prodId, { scent: selectedScent, qty });
 
   upsellsAdded.forEach(uid => {
-    const scent = document.getElementById(`upsell-scent-${uid}`)?.value || selectedScent || '';
+    const counts = upsellScentMap[uid];
+    const scent  = counts && Object.keys(counts).length
+      ? Object.entries(counts).filter(([,c]) => c > 0).map(([n,c]) => c > 1 ? `${n} ×${c}` : n).join(', ')
+      : (selectedScent || '');
     cartAddUpsell(uid, scent);
   });
 
@@ -539,14 +572,16 @@ function renderUpsells() {
   list.innerHTML = ids.map(uid => {
     const u = UPSELLS[uid];
     if (!u) return '';
-    const save = u.standAlonePrice - u.bundlePrice;
+    const save    = u.standAlonePrice - u.bundlePrice;
     const savePct = Math.round(save / u.standAlonePrice * 100);
+    const uspMax  = u.qty || 1;
     const scentRow = u.hasScent ? `
-      <div class="upsell-scent" onclick="event.stopPropagation()">
-        <select id="upsell-scent-${uid}" class="scent-select" style="font-size:.78rem;padding:5px 8px;max-width:180px">
-          <option value="">בחר ניחוח</option>
-          ${SCENTS.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
-        </select>
+      <div class="usp-wrap" onclick="event.stopPropagation()">
+        <div class="usp-label">בחר ניחוח${uspMax > 1 ? ` (עד ${uspMax})` : ''}:</div>
+        <div class="usp-chips" id="usp-chips-${uid}">
+          ${SCENTS.map(s => `<button class="usp-chip" data-scent="${s.name}"
+            onclick="event.stopPropagation();uspToggle('${uid}',this.dataset.scent,${uspMax})" type="button">${s.name}</button>`).join('')}
+        </div>
       </div>` : '';
 
     return `
@@ -572,7 +607,8 @@ function renderUpsells() {
 }
 
 function toggleUpsell(uid, el) {
-  if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION') return;
+  // Ignore clicks inside the scent chip area (they stopPropagation already, but guard anyway)
+  if (event.target.closest('.usp-wrap')) return;
 
   el.classList.toggle('added');
   const btn = el.querySelector('.upsell-card__btn i');
@@ -585,6 +621,34 @@ function toggleUpsell(uid, el) {
     upsellsAdded.delete(uid);
     if (btn) btn.className = 'ph ph-plus';
   }
+}
+
+/* ---- Compact upsell chip picker ---- */
+function uspToggle(uid, name, max) {
+  if (!upsellScentMap[uid]) upsellScentMap[uid] = {};
+  const counts = upsellScentMap[uid];
+  const total  = Object.values(counts).reduce((s, c) => s + c, 0);
+  if (counts[name]) {
+    counts[name]--;
+    if (!counts[name]) delete counts[name];
+  } else if (total < max) {
+    counts[name] = 1;
+  } else if (max === 1) {
+    // Single mode: replace
+    Object.keys(counts).forEach(k => delete counts[k]);
+    counts[name] = 1;
+  }
+  // For max>1 and at cap: silently ignore (user must deselect first)
+  uspRender(uid);
+}
+
+function uspRender(uid) {
+  const counts = upsellScentMap[uid] || {};
+  const container = document.getElementById(`usp-chips-${uid}`);
+  if (!container) return;
+  container.querySelectorAll('.usp-chip').forEach(chip => {
+    chip.classList.toggle('usp-chip--active', !!(counts[chip.dataset.scent]));
+  });
 }
 
 function renderRelated() {

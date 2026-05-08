@@ -1171,8 +1171,8 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--black);
 }
 .bsp-required { color: #dc2626; }
@@ -1343,6 +1343,72 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   80%       { transform: translateX(4px); }
 }
 .bsp-shake { animation: bspShake .5s ease; }
+
+/* Error flash when trying to exceed picker max */
+@keyframes bspErrorFlash {
+  0%   { background: #fee2e2; border-color: #dc2626; transform: scale(1.02); }
+  60%  { background: #fecaca; border-color: #ef4444; }
+  100% { background: transparent; border-color: var(--border); transform: scale(1); }
+}
+.bsp-pill--error {
+  animation: bspErrorFlash .55s ease forwards !important;
+  pointer-events: none;
+}
+@keyframes bspGridFlash {
+  0%,100% { box-shadow: none; }
+  40%     { box-shadow: 0 0 0 3px rgba(220,38,38,.25); border-radius: 14px; }
+}
+.bsp-grid--error { animation: bspGridFlash .55s ease; }
+
+/* Prominent label (bigger "בחר ניחוח" heading) */
+.bsp-label--hero {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  gap: 8px !important;
+}
+.bsp-label--hero .bsp-required {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* ── COMPACT UPSELL SCENT CHIPS (usp-*) ───────────── */
+.usp-wrap {
+  margin-top: 10px;
+}
+.usp-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mid);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.usp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-height: 96px;
+  overflow-y: auto;
+}
+.usp-chip {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+  white-space: nowrap;
+}
+.usp-chip:hover { border-color: var(--mint-dark); background: #f0fdf9; }
+.usp-chip--active {
+  border-color: var(--mint-dark);
+  background: var(--mint-dark);
+  color: #fff;
+}
 
 /* ── CONTACT ────────────────────────────────────────── */
 .contact-section {
