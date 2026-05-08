@@ -158,13 +158,6 @@
 
 <div id="siteFooter"></div>
 
-<!-- MOBILE CART BAR -->
-<div class="mobile-cart-bar" id="mobileCartBar">
-  <button class="btn-add btn-full btn-lg" id="mobileAtcBtn">
-    <i class="ph ph-shopping-cart"></i>
-    הוסף לסל
-  </button>
-</div>
 
 <script src="site-components.js"></script>
 <script src="scents-data.js"></script>
@@ -504,7 +497,6 @@ function init() {
 
   /* add to cart */
   document.getElementById('atcBtn').addEventListener('click', handleAddToCart);
-  document.getElementById('mobileAtcBtn').addEventListener('click', handleAddToCart);
 
   /* upsells */
   renderUpsells();
