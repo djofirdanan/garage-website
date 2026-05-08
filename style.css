@@ -1262,6 +1262,8 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   padding: 1px 5px;
   margin-right: 5px;
   vertical-align: middle;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .bsp-pill--active .bsp-pill-price {
   background: #bbf7d0;
@@ -2588,17 +2590,22 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .product-page      { padding-bottom: 100px; }
   .related-section   { margin-top: 48px; }
 
-  /* Bundle scent picker — mobile */
-  .bsp-grid          { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .bsp-pill          { min-height: 60px; padding: 12px 14px; border-radius: 14px; }
-  .bsp-pill-name     { font-size: 15px; }
-  .bsp-pill-desc     { font-size: 12px; white-space: normal; }
+  /* Bundle scent picker — mobile: 1 col, single-line pill */
+  .bsp-grid          { grid-template-columns: 1fr; gap: 6px; }
+  .bsp-pill          { min-height: 48px; padding: 10px 12px; border-radius: 12px; gap: 8px; }
+  /* Name + desc on one horizontal line */
+  .bsp-pill-main     { flex-direction: row; align-items: center; gap: 0; min-width: 0; flex: 1; }
+  .bsp-pill-name     { font-size: 14px; white-space: nowrap; flex-shrink: 0;
+                       padding-left: 8px; border-left: 1.5px solid #e2e8f0; }
+  .bsp-pill--active .bsp-pill-name { border-left-color: #86efac; }
+  .bsp-pill-desc     { font-size: 11px; overflow: hidden; text-overflow: ellipsis;
+                       white-space: nowrap; flex: 1; min-width: 0; padding-right: 4px; }
   .bsp-dec, .bsp-plus {
-    width: 36px; height: 36px;   /* 44px hit area via padding */
-    min-width: 36px;
+    width: 34px; height: 34px;
+    min-width: 34px;
   }
-  .bsp-pill-count    { font-size: 16px; min-width: 20px; }
-  .bsp-pill-add      { width: 30px; height: 30px; flex-shrink: 0; }
+  .bsp-pill-count    { font-size: 15px; min-width: 18px; }
+  .bsp-pill-add      { width: 28px; height: 28px; flex-shrink: 0; }
   .bsp-label         { font-size: 13px; }
   .bsp-counter-badge { font-size: 12px; padding: 3px 11px; }
   .bsp-chip          { font-size: 13px; padding: 5px 12px; }
@@ -2618,10 +2625,11 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .upsell-card__img  { width: 56px; height: 56px; }
   .gallery-thumb     { width: 56px; height: 56px; }
   .price-now         { font-size: 30px; }
-  /* Bundle picker extra small */
-  .bsp-grid          { gap: 6px; }
-  .bsp-pill          { padding: 10px 12px; }
-  .bsp-pill-desc     { font-size: 11px; }
+  /* Bundle picker extra small — tighter but same single-line layout */
+  .bsp-grid          { gap: 5px; }
+  .bsp-pill          { padding: 9px 10px; min-height: 44px; }
+  .bsp-pill-name     { font-size: 13px; }
+  .bsp-pill-desc     { font-size: 10.5px; }
 }
 
 /* ====================================================
