@@ -1649,14 +1649,19 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .why-grid            { grid-template-columns: 1fr 1fr; gap: 12px; }
 
   /* BUNDLE HERO */
-  .bundle-hero         { padding: 56px 0; }
-  .bundle-hero__inner  { grid-template-columns: 1fr; gap: 40px; }
-  .bundle-hero__title  { font-size: 26px; }
-  .bundle-hero__price-new { font-size: 40px; }
-  .bundle-hero__visual { order: -1; }
-  .bundle-hero__img-main   { width: 180px; height: 210px; }
-  .bundle-hero__img-bottles { width: 110px; height: 130px; }
-  .bundle-hero__float-badge { font-size: 12px; padding: 7px 14px; }
+  .bundle-hero              { padding: 48px 0 40px; }
+  .bundle-hero__inner       { grid-template-columns: 1fr; gap: 32px; }
+  .bundle-hero__content     { order: 2; }
+  .bundle-hero__visual      { order: 1; }
+  .bundle-hero__title       { font-size: 26px; }
+  .bundle-hero__sub         { font-size: 15px; }
+  .bundle-hero__price-new   { font-size: 38px; }
+  .bundle-hero__pricing     { padding: 16px 18px; }
+  .bundle-hero__img-main    { width: 160px; height: 190px; }
+  .bundle-hero__img-bottles { width: 100px; height: 118px; }
+  .bundle-hero__float-badge { font-size: 12px; padding: 6px 12px; }
+  .bundle-hero__actions     { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .bundle-hero__cta-btn     { width: 100%; justify-content: center; font-size: 15px; padding: 14px 24px; }
 
   /* FOOTER */
   .footer-top          { grid-template-columns: 1fr; gap: 24px; }
@@ -2503,6 +2508,21 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .product-page      { padding-bottom: 100px; }
   .related-section   { margin-top: 48px; }
 
+  /* Bundle scent picker — mobile */
+  .bsp-grid          { grid-template-columns: 1fr; gap: 8px; }
+  .bsp-pill          { min-height: 60px; padding: 12px 14px; border-radius: 14px; }
+  .bsp-pill-name     { font-size: 15px; }
+  .bsp-pill-desc     { font-size: 12px; white-space: normal; }
+  .bsp-dec, .bsp-plus {
+    width: 36px; height: 36px;   /* 44px hit area via padding */
+    min-width: 36px;
+  }
+  .bsp-pill-count    { font-size: 16px; min-width: 20px; }
+  .bsp-pill-add      { width: 30px; height: 30px; flex-shrink: 0; }
+  .bsp-label         { font-size: 13px; }
+  .bsp-counter-badge { font-size: 12px; padding: 3px 11px; }
+  .bsp-chip          { font-size: 13px; padding: 5px 12px; }
+
   /* Cart page */
   .cart-layout       { grid-template-columns: 1fr; }
   .order-summary     { position: static; }
@@ -2518,6 +2538,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .upsell-card__img  { width: 56px; height: 56px; }
   .gallery-thumb     { width: 56px; height: 56px; }
   .price-now         { font-size: 30px; }
+  /* Bundle picker extra small */
+  .bsp-grid          { gap: 6px; }
+  .bsp-pill          { padding: 10px 12px; }
+  .bsp-pill-desc     { display: none; }   /* hide on very small screens to save space */
 }
 
 /* ====================================================
