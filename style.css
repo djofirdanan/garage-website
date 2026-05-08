@@ -1844,11 +1844,28 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .bundle-hero__sub         { font-size: 15px; }
   .bundle-hero__price-new   { font-size: 38px; }
   .bundle-hero__pricing     { padding: 16px 18px; }
-  .bundle-hero__img-main    { width: 160px; height: 190px; }
-  .bundle-hero__img-bottles { width: 100px; height: 118px; }
-  .bundle-hero__float-badge { font-size: 12px; padding: 6px 12px; }
+  .bundle-hero__img-main    { width: 180px; height: 210px; }
+  .bundle-hero__img-bottles { width: 110px; height: 128px; }
+  /* Fix: backdrop-filter + overflow:hidden = white on iOS Safari/mobile Chrome.
+     Replace with solid semi-transparent dark background */
+  .bundle-hero__float-badge {
+    font-size: 12px; padding: 6px 12px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(20, 10, 50, 0.82);
+    border-color: rgba(255,255,255,0.15);
+  }
+  /* Hide large blurred orbs that cause artifacts on mobile */
+  .bundle-hero__orb--1      { opacity: 0; }
+  .bundle-hero__orb--2      { opacity: 0; }
+  .bundle-hero__orb--3      { opacity: 0; }
+  /* Replace with subtler CSS gradient bg overlay */
+  .bundle-hero              { background: linear-gradient(160deg, #120828 0%, #1a0d38 50%, #0c1d35 100%); }
   .bundle-hero__actions     { flex-direction: column; align-items: flex-start; gap: 16px; }
   .bundle-hero__cta-btn     { width: 100%; justify-content: center; font-size: 15px; padding: 14px 24px; }
+  /* Center the img-wrap so images don't overflow outside the dark section */
+  .bundle-hero__img-wrap    { justify-content: center; min-height: 220px; }
+  .bundle-hero__glow-ring   { width: 200px; height: 200px; }
 
   /* FOOTER */
   .footer-top          { grid-template-columns: 1fr; gap: 24px; }
