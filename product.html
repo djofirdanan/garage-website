@@ -66,6 +66,11 @@
 
         <!-- PRICE -->
         <div id="priceBlock"></div>
+        <!-- Premium scent surcharge note (shown dynamically when premium scent selected) -->
+        <div id="priceSurchargeNote" class="price-surcharge-note" style="display:none">
+          <i class="ph-fill ph-star"></i>
+          <span id="priceSurchargeText"></span>
+        </div>
 
         <!-- QTY VARIANTS (bottles only) -->
         <div id="qtyVariants" style="display:none">
@@ -95,6 +100,11 @@
               <span id="bspSummaryTitle">הניחוחות שבחרת:</span>
             </div>
             <div class="bsp-summary-chips" id="bspSummaryChips"></div>
+            <!-- Surcharge badge inside summary -->
+            <div id="bspSurchargeNote" class="bsp-surcharge-note" style="display:none">
+              <i class="ph-fill ph-star"></i>
+              <span id="bspSurchargeText"></span>
+            </div>
           </div>
         </div>
 
@@ -274,6 +284,25 @@ function bspUpdate() {
     }
   } else {
     summary.style.display = 'none';
+  }
+
+  // Surcharge indicator — show prominently if any premium scent selected
+  const surcharge = bspGetSurcharge();
+  const surchargeNote  = document.getElementById('bspSurchargeNote');
+  const priceNote      = document.getElementById('priceSurchargeNote');
+  if (surcharge > 0) {
+    const label = `תוספת ריח פרימיום: +₪${surcharge}`;
+    if (surchargeNote) {
+      document.getElementById('bspSurchargeText').textContent = label;
+      surchargeNote.style.display = 'flex';
+    }
+    if (priceNote) {
+      document.getElementById('priceSurchargeText').textContent = label;
+      priceNote.style.display = 'flex';
+    }
+  } else {
+    if (surchargeNote) surchargeNote.style.display = 'none';
+    if (priceNote)     priceNote.style.display     = 'none';
   }
 }
 

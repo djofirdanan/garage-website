@@ -1446,6 +1446,41 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   margin: 0;
 }
 
+/* Premium scent surcharge badge — inside summary */
+.bsp-surcharge-note {
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  background: #fffbeb;
+  color: #92400e;
+  border: 1.5px solid #fcd34d;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.bsp-surcharge-note i { font-size: 15px; color: #d97706; }
+
+/* Premium scent surcharge badge — near the price block */
+.price-surcharge-note {
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  background: #fffbeb;
+  color: #92400e;
+  border: 1.5px solid #fcd34d;
+  border-radius: 12px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 800;
+  animation: surchargeAppear 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.price-surcharge-note i { font-size: 17px; color: #d97706; }
+@keyframes surchargeAppear {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
 /* Prominent label (bigger "בחר ניחוח" heading) */
 .bsp-label--hero {
   font-size: 17px !important;
