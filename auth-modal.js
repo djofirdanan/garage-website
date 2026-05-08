@@ -23,7 +23,7 @@
       alt: 'מפיץ ריח אטמוספרי',
       tag: 'לבית',
       title: 'אווירה שמתחילה מהריח',
-      sub: '14 ניחוחות יוקרתיים לכל סגנון'
+      sub: '18 ניחוחות יוקרתיים לכל סגנון'
     },
     {
       img: 'https://images.pexels.com/photos/6914778/pexels-photo-6914778.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800',

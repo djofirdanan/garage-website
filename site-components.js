@@ -64,7 +64,7 @@
   <div class="announcement-bar__inner">
     <span>משלוח חינם מ-250 שח</span>
     <span class="announcement-bar__sep">|</span>
-    <span>14 ניחוחות יוקרתיים</span>
+    <span>18 ניחוחות יוקרתיים</span>
     <span class="announcement-bar__sep">|</span>
     <span>שמן טהור בלבד</span>
     <span class="announcement-bar__sep">|</span>
