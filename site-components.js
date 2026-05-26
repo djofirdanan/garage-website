@@ -78,6 +78,10 @@
 <nav class="site-nav">
   <div class="site-nav__inner">
     <div class="site-nav__start">
+      <a href="index.html" class="site-nav__logo">
+        <img src="${LOGO}" alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
+      </a>
       <nav class="site-nav__links" id="siteNavLinks">
         <a href="index.html">דף הבית</a>
         <a href="category.html?cat=car">לרכב</a>
@@ -91,10 +95,6 @@
         <span></span><span></span><span></span>
       </button>
     </div>
-    <a href="index.html" class="site-nav__logo">
-      <img src="${LOGO}" alt="GARAGE" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
-    </a>
     <div class="site-nav__end">
       <div id="navCustomerSlot"></div>
       <button class="site-nav__icon-btn" onclick="openCart()" aria-label="סל קניות">
