@@ -214,6 +214,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .phone-btn svg, .phone-btn i { width: 14px; height: 14px; font-size: 14px; }
 
 /* ── HERO ───────────────────────────────────────────── */
+/* Mobile-only visual: hidden on desktop */
+.hero__visual--mobile { display: none; }
+
 .hero {
   background: linear-gradient(160deg, var(--mint) 0%, #eef9f5 28%, var(--white) 72%);
   min-height: 72vh;
@@ -3098,22 +3101,21 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   }
   .hero__container {
     order: 1;
-    padding-bottom: 32px;
+    padding-bottom: 0;
+    width: 100%;
   }
-  .hero__visual {
+  /* hide the original desktop visual, show the inline mobile one */
+  .hero__visual:not(.hero__visual--mobile) { display: none; }
+  .hero__visual--mobile {
     display: flex;
-    order: 2;
-    flex: unset;
     width: 100%;
     min-height: 280px;
     height: 320px;
     align-items: flex-end;
     justify-content: center;
-    /* fade bottom into page */
     -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-    margin-top: -24px;
-    margin-bottom: -1px;
+    margin: -8px 0 0;
   }
   .hero__product-img {
     width: 260px;
