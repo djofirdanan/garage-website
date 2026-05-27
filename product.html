@@ -623,10 +623,9 @@ function handleAddToCart() {
   cartAdd(prodId, { scent: selectedScent, qty, scentSurcharge });
   bspClearState(); // clear saved selection after adding to cart
 
-  // Show cart transition overlay then redirect
-  const _overlay = document.getElementById('cartTransitionOverlay');
-  if (_overlay) _overlay.classList.add('show');
-  setTimeout(() => { location.href = 'cart.html'; }, 950);
+  // Open cart sidebar
+  if (typeof openCart === 'function') openCart();
+  cartToast('המוצר נוסף לסל!');
 }
 
 function renderUpsells() {

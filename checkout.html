@@ -44,10 +44,44 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: 900; font-size: 13px; letter-spacing: -.5px; flex-shrink: 0;
     }
+    .pm-logo.card   { background: #1a1a1a; color: #fff; font-size: 9px; letter-spacing: 0; }
     .pm-logo.bit    { background: #0e2d7b; color: #fff; font-style: italic; }
     .pm-logo.paybox { background: #e91e63; color: #fff; font-size: 9px; }
     .pm-logo.bank   { background: #1e40af; color: #fff; font-size: 10px; }
     .pm-logo.cash   { background: #16a34a; color: #fff; font-size: 10px; }
+
+    /* Samples upsell in checkout */
+    .checkout-samples {
+      margin: 0 0 24px;
+      padding: 16px;
+      background: #fffbf0;
+      border: 1.5px solid #fde68a;
+      border-radius: 12px;
+    }
+    .checkout-samples__head {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 700; font-size: .92rem; margin-bottom: 12px; color: #92400e;
+    }
+    .checkout-samples__card {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .checkout-samples__img {
+      width: 52px; height: 52px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .checkout-samples__info { flex: 1; }
+    .checkout-samples__name { font-weight: 700; font-size: .9rem; }
+    .checkout-samples__price { font-size: .82rem; color: var(--mid); }
+    .checkout-samples__price strong { color: var(--black); font-size: .95rem; }
+    .checkout-samples__btn {
+      padding: 8px 16px; background: var(--black); color: #fff;
+      border: none; border-radius: 8px; font-family: var(--font);
+      font-size: .83rem; font-weight: 700; cursor: pointer;
+      transition: background .15s; white-space: nowrap; flex-shrink: 0;
+    }
+    .checkout-samples__btn:hover { background: #333; }
+    .checkout-samples__btn.added { background: #16a34a; }
+    .checkout-samples__btn.added::before { content: ''; }
     .pm-label { flex: 1; }
     .pm-label strong { display: block; font-size: .88rem; }
     .pm-label span   { font-size: .76rem; color: var(--mid); }
@@ -107,55 +141,6 @@
   </div>
 </header>
 
-<!-- CURVED MOBILE NAV -->
-<div class="cnav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
-<div class="cnav" id="mobileNav">
-  <div class="cnav__curve-strip" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100" preserveAspectRatio="none">
-      <path d="M60 0 L0 0 C30 25,30 75,0 100 L60 100 Z" fill="#0f0f0f"/>
-    </svg>
-  </div>
-  <div class="cnav__panel">
-    <nav class="cnav__links">
-      <a href="index.html" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">01</span>
-        <span class="cnav__text"><span>ד</span><span>פ</span><span> </span><span>ה</span><span>ב</span><span>י</span><span>ת</span></span>
-      </a>
-      <a href="product.html?id=car" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">02</span>
-        <span class="cnav__text"><span>ל</span><span>ר</span><span>כ</span><span>ב</span></span>
-      </a>
-      <a href="product.html?id=g60" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">03</span>
-        <span class="cnav__text"><span>ל</span><span>ב</span><span>י</span><span>ת</span></span>
-      </a>
-      <a href="product.html?id=s500" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">04</span>
-        <span class="cnav__text"><span>ל</span><span>ע</span><span>ס</span><span>ק</span></span>
-      </a>
-      <a href="product.html?id=bottles_100ml" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">05</span>
-        <span class="cnav__text"><span>ב</span><span>ק</span><span>ב</span><span>ו</span><span>ק</span><span>י</span><span>ם</span></span>
-      </a>
-      <a href="index.html#contact" class="cnav__link" onclick="closeMobileNav()">
-        <span class="cnav__num">06</span>
-        <span class="cnav__text"><span>צ</span><span>ו</span><span>ר</span><span> </span><span>ק</span><span>ש</span><span>ר</span></span>
-      </a>
-    </nav>
-    <div class="cnav__footer">
-      <a href="https://wa.me/972509723636" target="_blank" rel="noopener" class="cnav__footer-link" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-      </a>
-      <a href="https://www.instagram.com/garage_scents" target="_blank" rel="noopener" class="cnav__footer-link" aria-label="אינסטגרם">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-      <a href="tel:050-9723636" class="cnav__footer-link" aria-label="050-9723636">
-        <svg viewBox="0 0 256 256" fill="currentColor" width="22" height="22"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-25.72a7.93,7.93,0,0,0,.56-.75,16,16,0,0,0,1.36-15.19l-.06-.13L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46Z"/></svg>
-      </a>
-      <a href="product.html?id=car" class="cnav__footer-cta" onclick="closeMobileNav()">לקנות עכשיו</a>
-    </div>
-  </div>
-</div>
 
 <!-- CHECKOUT -->
 <main class="checkout-page">
@@ -189,15 +174,11 @@
     <!-- SUCCESS SCREEN -->
     <div class="success-screen" id="successScreen">
       <div class="success-icon"><i class="ph-fill ph-check"></i></div>
-      <h2>ההזמנה נשלחה!</h2>
-      <p>קיבלנו את הזמנתך. ניצור איתך קשר לאישור תוך זמן קצר.<br/>תודה שבחרת GARAGE!</p>
+      <h2 id="successTitle">ההזמנה התקבלה!</h2>
+      <p id="successMsg">אנחנו מעבדים את הזמנתך. תודה שבחרת GARAGE!</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--black);color:#fff;border-radius:99px;font-weight:700;text-decoration:none">
           <i class="ph ph-house"></i> דף הבית
-        </a>
-        <a href="https://wa.me/972509723636" target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:#25D366;color:#fff;border-radius:99px;font-weight:700;text-decoration:none">
-          <i class="ph-fill ph-whatsapp-logo"></i> וואטסאפ
         </a>
       </div>
     </div>
@@ -207,6 +188,29 @@
 
       <!-- RIGHT: form -->
       <div>
+
+        <!-- SAMPLES UPSELL -->
+        <div class="checkout-samples" id="checkoutSamplesUpsell" style="display:none">
+          <div class="checkout-samples__head">
+            <i class="ph-fill ph-lightning" style="color:#d97706"></i>
+            הוסף לפני התשלום — מבצע מיוחד!
+          </div>
+          <div class="checkout-samples__card">
+            <img class="checkout-samples__img" src="imgs/samples.png" alt="ערכת דוגמיות"
+                 onerror="this.src='imgs/logo.png'">
+            <div class="checkout-samples__info">
+              <div class="checkout-samples__name">ערכת דוגמיות</div>
+              <div class="checkout-samples__price">
+                <strong id="samplesBundlePrice">₪39</strong>
+                <span id="samplesSaveText" style="margin-right:6px;color:#16a34a;font-size:.8rem"></span>
+              </div>
+            </div>
+            <button class="checkout-samples__btn" id="checkoutAddSamplesBtn" onclick="checkoutAddSamples()">
+              הוסף לסל
+            </button>
+          </div>
+        </div>
+
         <div class="checkout-form">
           <div class="checkout-form__head">
             <h2><i class="ph ph-user"></i>פרטי משלוח</h2>
@@ -275,12 +279,12 @@
               </div>
 
               <button type="submit" class="submit-order-btn" id="submitOrderBtn">
-                <i class="ph-fill ph-whatsapp-logo" style="font-size:1.4rem"></i>
-                שלח הזמנה בוואטסאפ
+                <i class="ph ph-credit-card" style="font-size:1.4rem"></i>
+                המשך לתשלום
               </button>
 
-              <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--mid)">
-                לחיצה תפתח וואטסאפ עם פרטי ההזמנה המלאים
+              <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--mid)" id="submitHint">
+                תועבר לדף התשלום לאחר מילוי הפרטים
               </p>
 
             </form>
@@ -356,36 +360,42 @@
 const ADMIN_API  = 'https://garage-admin.vercel.app';
 const PM_KEY     = 'garage_payment_cfg';
 const PM_DEFAULTS_CO = {
+  card:   { enabled: true,  link: '' },
   bit:    { enabled: true,  phone: '050-9723636' },
   paybox: { enabled: false, link: '' },
   bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
-  cash:   { enabled: true },
+  cash:   { enabled: false },
 };
 
 let pmCfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS_CO;
+// Make sure new card key exists in old cached configs
+if (!pmCfg.card) pmCfg.card = PM_DEFAULTS_CO.card;
 let selectedPayMethod = null;
 
 function renderPaymentMethods(total) {
   const container = document.getElementById('payMethodCards');
   const methods = [];
-  if (pmCfg.bit?.enabled)    methods.push('bit');
-  if (pmCfg.paybox?.enabled) methods.push('paybox');
-  if (pmCfg.bank?.enabled)   methods.push('bank');
-  if (pmCfg.cash?.enabled)   methods.push('cash');
-  if (methods.length === 0)  methods.push('bit');
+  if (pmCfg.card?.enabled !== false)  methods.push('card');
+  if (pmCfg.bit?.enabled)             methods.push('bit');
+  if (pmCfg.paybox?.enabled)          methods.push('paybox');
+  if (pmCfg.bank?.enabled)            methods.push('bank');
+  if (pmCfg.cash?.enabled)            methods.push('cash');
+  if (methods.length === 0)           methods.push('card');
 
   const labels = {
-    bit:    { logo: 'bit',    name: 'ביט',           desc: 'תשלום מהיר דרך אפליקציית ביט' },
-    paybox: { logo: 'paybox', name: 'PayBox',         desc: 'תשלום דרך אפליקציית PayBox' },
-    bank:   { logo: 'bank',   name: 'העברה בנקאית',  desc: 'העברה ישירה לחשבון הבנק' },
-    cash:   { logo: 'cash',   name: 'מזומן / אספקה', desc: 'תשלום בעת קבלת ההזמנה' },
+    card:   { logo: 'card',   name: 'כרטיס אשראי',   desc: 'תשלום מאובטח בכרטיס אשראי' },
+    bit:    { logo: 'bit',    name: 'ביט',            desc: 'תשלום מהיר דרך אפליקציית ביט' },
+    paybox: { logo: 'paybox', name: 'PayBox',          desc: 'תשלום דרך אפליקציית PayBox' },
+    bank:   { logo: 'bank',   name: 'העברה בנקאית',   desc: 'העברה ישירה לחשבון הבנק' },
+    cash:   { logo: 'cash',   name: 'מזומן / אספקה',  desc: 'תשלום בעת קבלת ההזמנה' },
   };
+  const logoText = { card: 'CARD', bit: 'bit', paybox: 'PayBox', bank: 'בנק', cash: 'מזומן' };
 
   container.innerHTML = methods.map(m => `
     <div class="pm-card${selectedPayMethod === m ? ' selected' : ''}" onclick="selectPayMethod('${m}', ${total})">
       <input type="radio" name="payMethod" value="${m}"${selectedPayMethod === m ? ' checked' : ''}>
       <div class="pm-radio"></div>
-      <div class="pm-logo ${labels[m].logo}">${m === 'bit' ? 'bit' : m === 'paybox' ? 'PayBox' : m === 'bank' ? 'בנק' : 'מזומן'}</div>
+      <div class="pm-logo ${labels[m].logo}">${logoText[m]}</div>
       <div class="pm-label">
         <strong>${labels[m].name}</strong>
         <span>${labels[m].desc}</span>
@@ -410,7 +420,13 @@ function renderPayDetail(method, total) {
   const panel = document.getElementById('payDetailPanel');
   const amt   = `₪${total.toLocaleString('he-IL')}`;
 
-  if (method === 'bit') {
+  if (method === 'card') {
+    panel.innerHTML = `
+      <div class="cash-detail" style="background:#f0f4ff;color:#1e40af">
+        <i class="ph-fill ph-shield-check" style="font-size:1.3rem;margin-top:1px;color:#1e40af"></i>
+        <div>לאחר אישור הפרטים תועבר לדף תשלום מאובטח בכרטיס אשראי. <strong>${amt}</strong></div>
+      </div>`;
+  } else if (method === 'bit') {
     const phone = pmCfg.bit?.phone || '050-9723636';
     panel.innerHTML = `
       <div class="bit-detail">
@@ -457,10 +473,13 @@ function renderPayDetail(method, total) {
 }
 
 function updateSubmitBtn(method) {
-  const btn = document.getElementById('submitOrderBtn');
-  const icons  = { bit: 'ph-whatsapp-logo', paybox: 'ph-arrow-square-out', bank: 'ph-paper-plane-tilt', cash: 'ph-check-circle' };
-  const labels = { bit: 'שלח הזמנה בוואטסאפ', paybox: 'המשך לתשלום', bank: 'שלח הזמנה', cash: 'שלח הזמנה' };
-  btn.innerHTML = `<i class="ph-fill ${icons[method] || 'ph-whatsapp-logo'}" style="font-size:1.4rem"></i> ${labels[method] || 'שלח הזמנה'}`;
+  const btn   = document.getElementById('submitOrderBtn');
+  const hint  = document.getElementById('submitHint');
+  const icons  = { card: 'ph-credit-card', bit: 'ph-device-mobile', paybox: 'ph-arrow-square-out', bank: 'ph-paper-plane-tilt', cash: 'ph-check-circle' };
+  const labels = { card: 'המשך לתשלום באשראי', bit: 'המשך לתשלום בביט', paybox: 'המשך לתשלום ב-PayBox', bank: 'שלח הזמנה', cash: 'שלח הזמנה' };
+  const hints  = { card: 'תועבר לדף תשלום מאובטח', bit: 'תקבל הוראות לתשלום בביט', paybox: 'תועבר לאתר PayBox', bank: 'נשלח לך פרטי העברה בנקאית', cash: 'ניצור איתך קשר לתיאום' };
+  btn.innerHTML = `<i class="ph ${icons[method] || 'ph-credit-card'}" style="font-size:1.4rem"></i> ${labels[method] || 'המשך לתשלום'}`;
+  if (hint) hint.textContent = hints[method] || '';
 }
 
 function renderReview() {
@@ -580,32 +599,81 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   btn.disabled = false; btn.style.opacity = '';
 
   const finalTotal = appliedCoupon ? totals.total - appliedCoupon.discount : totals.total;
-  if (selectedPayMethod === 'paybox' && pmCfg.paybox?.link) window.open(pmCfg.paybox.link, '_blank');
-  const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, selectedPayMethod, finalTotal);
-  window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
+  const method = selectedPayMethod || 'card';
+
+  // Route to payment provider
+  if (method === 'card') {
+    const cardLink = pmCfg.card?.link;
+    if (cardLink) {
+      window.location.href = cardLink;
+    } else {
+      // Fallback: send via WhatsApp if no card link configured
+      const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, method, finalTotal);
+      window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
+    }
+  } else if (method === 'paybox') {
+    const pbLink = pmCfg.paybox?.link;
+    if (pbLink) window.location.href = pbLink;
+    else {
+      const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, method, finalTotal);
+      window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
+    }
+  } else if (method === 'bit') {
+    // Show Bit instructions on success screen
+    const bitPhone = pmCfg.bit?.phone || '050-9723636';
+    document.getElementById('successTitle').textContent = `שלח ${`₪${finalTotal.toLocaleString('he-IL')}`} בביט`;
+    document.getElementById('successMsg').innerHTML = `
+      שלח <strong>₪${finalTotal.toLocaleString('he-IL')}</strong> לביט למספר <strong>${bitPhone}</strong><br>
+      לאחר ההעברה — ניצור איתך קשר לאישור ומשלוח.<br>תודה שבחרת GARAGE!`;
+  } else {
+    // Bank / cash — WhatsApp confirmation
+    const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, method, finalTotal);
+    window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
+  }
 
   cartClear();
   document.getElementById('checkoutLayout').style.display = 'none';
+  document.getElementById('checkoutSamplesUpsell').style.display = 'none';
   document.querySelector('.checkout-steps').style.display = 'none';
   document.getElementById('successScreen').style.display  = 'block';
   window.scrollTo(0, 0);
 });
 
-/* Mobile nav */
-const hamburger     = document.getElementById('navHamburger');
-const mobileNav     = document.getElementById('mobileNav');
-const mobileOverlay = document.getElementById('mobileNavOverlay');
-function openMobileNav() {
-  hamburger.classList.add('open'); mobileNav.classList.add('open');
-  mobileOverlay.classList.add('open'); document.body.style.overflow = 'hidden';
+/* Samples upsell */
+function initCheckoutSamplesUpsell() {
+  const items = cartGet();
+  const inCart = new Set(items.map(i => i.productId));
+  if (inCart.has('samples')) return; // already in cart
+  const u = UPSELLS && UPSELLS['samples'];
+  if (!u) return;
+  const el = document.getElementById('checkoutSamplesUpsell');
+  if (!el) return;
+  el.style.display = 'block';
+  const priceEl = document.getElementById('samplesBundlePrice');
+  const saveEl  = document.getElementById('samplesSaveText');
+  if (priceEl) priceEl.textContent = `₪${u.bundlePrice}`;
+  if (saveEl && u.standAlonePrice > u.bundlePrice) {
+    const save = u.standAlonePrice - u.bundlePrice;
+    const pct  = Math.round(save / u.standAlonePrice * 100);
+    saveEl.textContent = `חיסכון ₪${save} (${pct}%)`;
+  }
 }
-function closeMobileNav() {
-  hamburger.classList.remove('open'); mobileNav.classList.remove('open');
-  mobileOverlay.classList.remove('open'); document.body.style.overflow = '';
+
+function checkoutAddSamples() {
+  const btn = document.getElementById('checkoutAddSamplesBtn');
+  if (btn && btn.classList.contains('added')) return;
+  cartAddUpsell('samples', '');
+  if (btn) {
+    btn.textContent = 'נוסף!';
+    btn.classList.add('added');
+    btn.disabled = true;
+  }
+  // Re-render totals
+  renderReview();
 }
-hamburger?.addEventListener('click', () => mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav());
 
 renderReview();
+initCheckoutSamplesUpsell();
 </script>
 <script src="customer-auth.js"></script>
 </body>

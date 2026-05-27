@@ -193,9 +193,9 @@ function getCartUpsells() {
     suggestions.push('annual-6');
   }
 
-  // Always offer samples if not there
-  if (!inCart.has('samples') && suggestions.length < 2) {
-    suggestions.push('samples');
+  // Always offer samples if not in cart
+  if (!inCart.has('samples')) {
+    suggestions.unshift('samples'); // show first
   }
 
   // Laundry as low-ticket add-on
