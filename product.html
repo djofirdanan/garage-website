@@ -602,7 +602,7 @@ function handleAddToCart() {
       cartToast(`נא לבחור ${pickerMax - freeTotal} ניחוחות נוספים (${freeTotal}/${pickerMax})`);
       return;
     }
-    if (!pickerMulti && total === 0) {
+    if (!pickerMulti && bspGetTotal() === 0) {
       // Single mode: must pick at least one
       const picker = document.getElementById('scentPicker');
       picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
