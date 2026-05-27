@@ -1959,7 +1959,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 .cart-close:hover { background: var(--gray-bg); }
 .cart-close svg { width: 18px; height: 18px; }
-.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 0; }
+.cart-sidebar-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.cart-sidebar-item:last-child { border-bottom: none; }
 .cart-item {
   display: flex;
   gap: 14px;

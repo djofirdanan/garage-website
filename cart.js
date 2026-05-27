@@ -17,6 +17,11 @@ function cartGet() {
 function cartSave(items) {
   localStorage.setItem(CART_KEY, JSON.stringify(items));
   cartBadgeUpdate();
+  // refresh sidebar if it's open
+  const sidebar = document.getElementById('cartSidebar');
+  if (sidebar?.classList.contains('open') && typeof cartSidebarRender === 'function') {
+    cartSidebarRender();
+  }
 }
 
 function cartAdd(productId, opts = {}) {
@@ -118,6 +123,55 @@ function cartBadgeUpdate() {
     el.textContent = cnt;
     el.style.display = cnt > 0 ? 'flex' : 'none';
   });
+  // also update sidebar count label
+  const countEl = document.getElementById('cartCount');
+  if (countEl) countEl.textContent = cnt;
+}
+
+function cartSidebarRender() {
+  const items   = cartGet();
+  const totals  = cartTotals();
+  const listEl  = document.getElementById('cartSidebarItems');
+  const emptyEl = document.getElementById('cartSidebarEmpty');
+  if (!listEl) return;
+
+  if (items.length === 0) {
+    listEl.innerHTML = `
+      <div class="cart-empty" id="cartSidebarEmpty">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span>הסל ריק</span>
+      </div>`;
+    const sub = document.getElementById('cartSubtotal');
+    const tot = document.getElementById('cartTotal');
+    if (sub) sub.textContent = '₪0';
+    if (tot) tot.textContent = '₪0';
+    return;
+  }
+
+  listEl.innerHTML = items.map(item => `
+    <div class="cart-sidebar-item">
+      <img src="${item.img}" alt="${item.name}" style="width:52px;height:52px;object-fit:contain;border-radius:8px;border:1px solid var(--border);flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:.84rem;font-weight:600;line-height:1.3;">${item.name}</div>
+        ${item.scent ? `<div style="font-size:.75rem;color:var(--mid);">${item.scent}</div>` : ''}
+        <div style="font-size:.8rem;margin-top:2px;">₪${(item.price * item.qty).toLocaleString('he-IL')}${item.qty > 1 ? ` <span style="color:var(--mid)">×${item.qty}</span>` : ''}</div>
+      </div>
+      <button onclick="cartRemove('${item.uid.replace(/'/g, "\\'")}');cartSidebarRender();"
+        style="background:none;border:none;cursor:pointer;color:var(--mid);padding:4px;font-size:16px;flex-shrink:0;"
+        aria-label="הסר">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>`).join('');
+
+  // totals
+  const sub  = document.getElementById('cartSubtotal');
+  const ship = document.getElementById('cartShipping');
+  const tot  = document.getElementById('cartTotal');
+  if (sub)  sub.textContent  = `₪${totals.subtotal.toLocaleString('he-IL')}`;
+  if (ship) ship.textContent = totals.shipping === 0 ? 'חינם!' : `₪${totals.shipping}`;
+  if (tot)  tot.textContent  = `₪${totals.total.toLocaleString('he-IL')}`;
 }
 
 function cartToast(msg) {
