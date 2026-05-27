@@ -124,22 +124,7 @@
 </head>
 <body>
 
-<!-- NAV (checkout minimal) -->
-<header class="site-nav" id="siteNav" style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.07);">
-  <div style="max-width:1280px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;">
-    <a href="cart.html" class="site-nav__icon-btn" aria-label="חזרה לסל" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--black);text-decoration:none;padding:8px 12px;border-radius:8px;transition:background .2s;" onmouseover="this.style.background='var(--gray-bg)'" onmouseout="this.style.background='transparent'">
-      <i class="ph ph-arrow-right" style="font-size:18px"></i>
-      <span>חזרה לסל</span>
-    </a>
-    <a href="index.html" style="display:flex;align-items:center;text-decoration:none;position:absolute;left:50%;transform:translateX(-50%);">
-      <img src="https://garage.org.il/wp-content/uploads/2020/12/%D7%9C%D7%95%D7%92%D7%95-%D7%92%D7%A8%D7%90%D7%92-%D7%97%D7%93%D7%A9.png"
-           alt="GARAGE" style="height:40px;display:block;"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <strong style="display:none;font-size:20px;font-weight:900;letter-spacing:.06em">GARAGE</strong>
-    </a>
-    <div id="navCustomerSlot" style="min-width:80px;display:flex;justify-content:flex-start;"></div>
-  </div>
-</header>
+<div id="siteHeader"></div>
 
 
 <!-- CHECKOUT -->
@@ -196,12 +181,12 @@
             הוסף לפני התשלום — מבצע מיוחד!
           </div>
           <div class="checkout-samples__card">
-            <img class="checkout-samples__img" src="imgs/samples.png" alt="ערכת דוגמיות"
-                 onerror="this.src='imgs/logo.png'">
+            <img class="checkout-samples__img" src="imgs/bottles-refill.png" alt="ערכת דוגמיות">
             <div class="checkout-samples__info">
-              <div class="checkout-samples__name">ערכת דוגמיות</div>
+              <div class="checkout-samples__name">ערכת 10 דוגמיות</div>
+              <div style="font-size:.78rem;color:var(--mid);margin:2px 0 4px">10 ניחוחות שונים — נסה לפני שאתה מחליט</div>
               <div class="checkout-samples__price">
-                <strong id="samplesBundlePrice">₪39</strong>
+                <strong id="samplesBundlePrice">₪29</strong>
                 <span id="samplesSaveText" style="margin-right:6px;color:#16a34a;font-size:.8rem"></span>
               </div>
             </div>
@@ -239,15 +224,9 @@
                 <input type="text" class="form-input" id="address" placeholder="רחוב, מספר בית, דירה" autocomplete="street-address" required>
               </div>
 
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label for="city">עיר <span class="req">*</span></label>
-                  <input type="text" class="form-input" id="city" placeholder="תל אביב" autocomplete="address-level2" required>
-                </div>
-                <div class="form-group">
-                  <label for="zip">מיקוד</label>
-                  <input type="text" class="form-input" id="zip" placeholder="6100000" autocomplete="postal-code">
-                </div>
+              <div class="form-group">
+                <label for="city">עיר <span class="req">*</span></label>
+                <input type="text" class="form-input" id="city" placeholder="תל אביב" autocomplete="address-level2" required>
               </div>
 
               <div class="form-group">
@@ -293,7 +272,7 @@
       </div>
 
       <!-- LEFT: summary -->
-      <div>
+      <div class="checkout-summary-col">
         <div class="checkout-review">
           <div class="checkout-review__head">
             <i class="ph ph-receipt"></i>
@@ -339,20 +318,9 @@
   </div>
 </main>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-bottom" style="border-top:none;padding:28px 0 0">
-      <p>© 2025 GARAGE — כל הזכויות שמורות</p>
-      <div style="display:flex;gap:20px">
-        <a href="index.html">דף הבית</a>
-        <a href="cart.html">סל קניות</a>
-        <a href="tel:0509723636">050-9723636</a>
-      </div>
-    </div>
-  </div>
-</footer>
+<div id="siteFooter"></div>
 
+<script src="site-components.js"></script>
 <script src="scents-data.js"></script>
 <script src="products.js"></script>
 <script src="cart.js"></script>
@@ -549,7 +517,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   const phone     = document.getElementById('phone').value.trim();
   const address   = document.getElementById('address').value.trim();
   const city      = document.getElementById('city').value.trim();
-  const zip       = document.getElementById('zip').value.trim();
+  const zip       = '';
   const notes     = document.getElementById('notes').value.trim();
 
   const required = [

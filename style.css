@@ -3126,30 +3126,31 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .hero {
     flex-direction: column;
     align-items: center;
-    padding-bottom: 0;
+    padding: 16px 16px 0;
     gap: 0;
   }
   .hero__container {
     order: 1;
     padding-bottom: 0;
     width: 100%;
-    gap: 12px;
+    gap: 4px;
   }
   /* hide the original desktop visual, show the inline mobile one */
   .hero__visual:not(.hero__visual--mobile) { display: none; }
   .hero__visual--mobile {
     display: flex;
     width: 100%;
-    height: 240px;
-    align-items: flex-end;
+    height: auto;
+    align-items: flex-start;
     justify-content: center;
-    overflow: hidden;
-    margin: -4px 0 -4px;
+    overflow: visible;
+    margin: 4px 0 0;
   }
   .hero__product-img {
-    width: 220px;
-    height: 260px;
-    margin-bottom: -20px; /* let image "sit" on the next section */
+    width: 210px;
+    height: auto;
+    margin-bottom: -16px;
+    animation: none; /* stop float on mobile */
   }
 }
 
@@ -3294,14 +3295,15 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   flex-shrink: 0;
   transition: background .2s;
 }
-.checkout-step.done  .checkout-step__num { background: var(--green); color: #fff; }
+.checkout-step.done  .checkout-step__num { background: var(--black); color: #fff; }
 .checkout-step.active .checkout-step__num { background: var(--black); color: #fff; }
 .checkout-step.idle  .checkout-step__num { background: var(--border); color: var(--mid); }
 .checkout-step__label { font-size: .82rem; font-weight: 600; }
+.checkout-step.done  .checkout-step__label { color: var(--mid); }
 .checkout-step.active .checkout-step__label { color: var(--black); }
 .checkout-step.idle  .checkout-step__label  { color: var(--mid); }
 .checkout-step__line { flex: 1; height: 2px; background: var(--border); margin: 0 8px; }
-.checkout-step.done .checkout-step__line { background: var(--green); }
+.checkout-step.done .checkout-step__line { background: var(--black); }
 
 /* ── Two-column layout ────────────────────────────── */
 .checkout-layout {
@@ -3362,7 +3364,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   font-family: var(--font);
-  font-size: .9rem;
+  font-size: 16px;
   color: var(--black);
   background: var(--white);
   transition: border-color .18s, box-shadow .18s;
@@ -3553,7 +3555,8 @@ textarea.form-input {
   .checkout-layout {
     grid-template-columns: 1fr;
   }
-  .checkout-review { position: static; order: -1; }
+  .checkout-review { position: static; }
+  .checkout-summary-col { order: -1; }
 }
 @media (max-width: 768px) {
   .checkout-page { padding: 20px 0 60px; }
