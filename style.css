@@ -3131,6 +3131,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   }
   .hero__container {
     order: 1;
+    flex: none; /* prevent stretching */
     padding-bottom: 0;
     width: 100%;
     gap: 4px;
@@ -3140,17 +3141,17 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .hero__visual--mobile {
     display: flex;
     width: 100%;
-    height: auto;
+    height: 220px;      /* fixed window — crops PNG whitespace */
     align-items: flex-start;
     justify-content: center;
-    overflow: visible;
-    margin: 4px 0 0;
+    overflow: hidden;   /* clip the empty bottom of the PNG */
+    margin: 6px 0 -8px;
   }
   .hero__product-img {
-    width: 210px;
+    width: 270px;       /* bigger */
     height: auto;
-    margin-bottom: -16px;
-    animation: none; /* stop float on mobile */
+    object-fit: contain;
+    animation: none;    /* stop float on mobile */
   }
 }
 
