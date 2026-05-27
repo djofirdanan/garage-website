@@ -3133,23 +3133,23 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     order: 1;
     padding-bottom: 0;
     width: 100%;
+    gap: 12px;
   }
   /* hide the original desktop visual, show the inline mobile one */
   .hero__visual:not(.hero__visual--mobile) { display: none; }
   .hero__visual--mobile {
     display: flex;
     width: 100%;
-    min-height: 280px;
-    height: 320px;
+    height: 240px;
     align-items: flex-end;
     justify-content: center;
-    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-    margin: -8px 0 0;
+    overflow: hidden;
+    margin: -4px 0 -4px;
   }
   .hero__product-img {
-    width: 260px;
-    height: 320px;
+    width: 220px;
+    height: 260px;
+    margin-bottom: -20px; /* let image "sit" on the next section */
   }
 }
 
