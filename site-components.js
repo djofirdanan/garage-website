@@ -197,7 +197,11 @@
     }
 
     /* hamburger */
-    document.getElementById('navHamburger')?.addEventListener('click', openMobileNav);
+    document.getElementById('navHamburger')?.addEventListener('click', function () {
+      document.getElementById('mobileNav')?.classList.contains('open')
+        ? closeMobileNav()
+        : openMobileNav();
+    });
 
     /* active nav highlight */
     const page = location.pathname.split('/').pop() || 'index.html';
