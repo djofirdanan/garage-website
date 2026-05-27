@@ -623,14 +623,6 @@ function handleAddToCart() {
   cartAdd(prodId, { scent: selectedScent, qty, scentSurcharge });
   bspClearState(); // clear saved selection after adding to cart
 
-  upsellsAdded.forEach(uid => {
-    const counts = upsellScentMap[uid];
-    const scent  = counts && Object.keys(counts).length
-      ? Object.entries(counts).filter(([,c]) => c > 0).map(([n,c]) => c > 1 ? `${n} ×${c}` : n).join(', ')
-      : (selectedScent || '');
-    cartAddUpsell(uid, scent);
-  });
-
   // Show cart transition overlay then redirect
   const _overlay = document.getElementById('cartTransitionOverlay');
   if (_overlay) _overlay.classList.add('show');
@@ -654,8 +646,8 @@ function renderUpsells() {
     const savePct = Math.round(save / u.standAlonePrice * 100);
     const uspMax  = u.qty || 1;
     const scentRow = u.hasScent ? `
-      <div class="usp-wrap" onclick="event.stopPropagation()">
-        <div class="usp-label">בחר ניחוח${uspMax > 1 ? ` (עד ${uspMax})` : ''}:</div>
+      <div class="usp-wrap" id="usp-wrap-${uid}">
+        <div class="usp-label">בחר ניחוח${uspMax > 1 ? ` (עד ${uspMax})` : ''} לפני הוספה:</div>
         <div class="usp-chips" id="usp-chips-${uid}">
           ${SCENTS.map(s => `<button class="usp-chip" data-scent="${s.name}"
             onclick="event.stopPropagation();uspToggle('${uid}',this.dataset.scent,${uspMax})" type="button">${s.name}</button>`).join('')}
@@ -663,7 +655,7 @@ function renderUpsells() {
       </div>` : '';
 
     return `
-    <div class="upsell-card" id="upsell-${uid}" onclick="toggleUpsell('${uid}',this)">
+    <div class="upsell-card" id="upsell-${uid}">
       <div class="upsell-card__img">
         <img src="${u.img}" alt="${u.name}" loading="lazy">
       </div>
@@ -677,28 +669,59 @@ function renderUpsells() {
         </div>
         ${scentRow}
       </div>
-      <button class="upsell-card__btn" aria-label="הוסף">
-        <i class="ph ph-plus"></i>
+      <button class="upsell-card__btn" type="button"
+        onclick="addUpsellToCart('${uid}')" aria-label="הוסף לסל">
+        <i class="ph ph-shopping-cart-simple"></i>
       </button>
     </div>`;
   }).join('');
 }
 
-function toggleUpsell(uid, el) {
-  // Ignore clicks inside the scent chip area (they stopPropagation already, but guard anyway)
-  if (event.target.closest('.usp-wrap')) return;
+function addUpsellToCart(uid) {
+  const u   = UPSELLS[uid];
+  const el  = document.getElementById(`upsell-${uid}`);
+  if (!u || !el) return;
 
-  el.classList.toggle('added');
-  const btn = el.querySelector('.upsell-card__btn i');
-
+  // If already added — allow undo
   if (el.classList.contains('added')) {
-    upsellsAdded.add(uid);
-    if (btn) btn.className = 'ph ph-check';
-    cartToast(`"${UPSELLS[uid]?.name}" נוסף — יתווסף עם הלחיצה על הוסף לסל`);
-  } else {
+    el.classList.remove('added');
     upsellsAdded.delete(uid);
-    if (btn) btn.className = 'ph ph-plus';
+    const btn = el.querySelector('.upsell-card__btn i');
+    if (btn) btn.className = 'ph ph-shopping-cart-simple';
+    return;
   }
+
+  // Validate scent if required
+  if (u.hasScent) {
+    const counts = upsellScentMap[uid] || {};
+    const picked = Object.values(counts).reduce((s, c) => s + c, 0);
+    if (picked === 0) {
+      const wrap = document.getElementById(`usp-wrap-${uid}`);
+      if (wrap) {
+        wrap.classList.add('usp-shake');
+        setTimeout(() => wrap.classList.remove('usp-shake'), 600);
+      }
+      cartToast('בחר ניחוח תחילה');
+      return;
+    }
+  }
+
+  // Build scent string
+  const counts = upsellScentMap[uid] || {};
+  const scent  = Object.entries(counts)
+    .filter(([, c]) => c > 0)
+    .map(([n, c]) => c > 1 ? `${n} ×${c}` : n)
+    .join(', ');
+
+  // Add directly to cart
+  cartAddUpsell(uid, scent);
+  upsellsAdded.add(uid);
+
+  // Update visual
+  el.classList.add('added');
+  const btn = el.querySelector('.upsell-card__btn i');
+  if (btn) btn.className = 'ph ph-check';
+  cartToast(`"${u.name}" נוסף לסל!`);
 }
 
 /* ---- Compact upsell chip picker ---- */
