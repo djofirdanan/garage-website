@@ -719,6 +719,7 @@
 
 <div id="siteFooter"></div>
 
+<script src="cart.js"></script>
 <script src="site-components.js"></script>
 <script src="scents-data.js"></script>
 <script src="products.js"></script>
@@ -752,64 +753,7 @@
       </div>
     `).join('');
 
-    // Update cart badge
-    updateCartUI();
   });
-
-  function updateCartUI() {
-    const cart = JSON.parse(localStorage.getItem('garage_cart') || '[]');
-    const count = cart.reduce((s, i) => s + i.qty, 0);
-    const badge = document.getElementById('navCartBadge');
-    const countEl = document.getElementById('cartCount');
-    if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none'; }
-    if (countEl) countEl.textContent = count;
-
-    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-    const subtotalEl = document.getElementById('cartSubtotal');
-    const totalEl = document.getElementById('cartTotal');
-    const shippingEl = document.getElementById('cartShipping');
-    if (subtotalEl) subtotalEl.textContent = `₪${total}`;
-    if (totalEl) totalEl.textContent = `₪${total}`;
-    if (shippingEl) shippingEl.textContent = total >= 250 ? 'חינם' : `₪${250 - total} עד חינם`;
-
-    const itemsEl = document.getElementById('cartItems');
-    if (itemsEl) {
-      if (cart.length === 0) {
-        itemsEl.innerHTML = `<div class="cart-empty">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-          <span>הסל ריק</span>
-        </div>`;
-      } else {
-        itemsEl.innerHTML = cart.map((item, idx) => `
-          <div class="cart-item">
-            <img class="cart-item__img" src="${item.image || ''}" alt="${item.name}" />
-            <div class="cart-item__info">
-              <div class="cart-item__name">${item.name}</div>
-              <div class="cart-item__scent">${item.scent || ''}</div>
-              <div class="cart-item__row">
-                <span class="cart-item__price">₪${item.price * item.qty}</span>
-                <div class="qty-ctrl">
-                  <button onclick="changeQty(${idx}, -1)">-</button>
-                  <span>${item.qty}</span>
-                  <button onclick="changeQty(${idx}, 1)">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-  }
-
-  function changeQty(idx, delta) {
-    const cart = JSON.parse(localStorage.getItem('garage_cart') || '[]');
-    cart[idx].qty = Math.max(0, cart[idx].qty + delta);
-    const filtered = cart.filter(i => i.qty > 0);
-    localStorage.setItem('garage_cart', JSON.stringify(filtered));
-    updateCartUI();
-  }
-
-  window.addEventListener('storage', updateCartUI);
 
   // ── Hero rotating word ──
   const rotatingWords = ['בבית שלך', 'ברכב שלך', 'במשרד שלך'];
