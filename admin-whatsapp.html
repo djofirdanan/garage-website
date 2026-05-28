@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>הודעות וואטסאפ — GARAGE Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font:    'Noto Sans Hebrew', sans-serif;
+      --bg:      #F2F2F2;
+      --white:   #FFFFFF;
+      --black:   #121212;
+      --mid:     #666666;
+      --light:   #AAAAAA;
+      --border:  #E0E0E0;
+      --wa:      #25D366;
+      --wa-dark: #1DA851;
+      --red:     #EF4444;
+      --green:   #22C55E;
+      --radius:  12px;
+      --shadow:  0 2px 12px rgba(0,0,0,.08);
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--black);
+      direction: rtl;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ────────────────── TOP BAR ────────────────── */
+    .admin-bar {
+      background: var(--black);
+      padding: 0 24px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .admin-bar__logo {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: .07em;
+      color: #fff;
+      text-decoration: none;
+    }
+    .admin-bar__sep { color: #444; font-size: 16px; }
+    .admin-bar__title {
+      font-size: 13px;
+      color: #999;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .admin-bar__title i { font-size: 16px; color: var(--wa); }
+    .admin-bar__right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+    .btn-topbar {
+      border: none;
+      border-radius: 7px;
+      padding: 7px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn-topbar--save  { background: var(--wa); color: #fff; }
+    .btn-topbar--save:hover { background: var(--wa-dark); }
+    .btn-topbar--back  { background: rgba(255,255,255,.1); color: #ccc; }
+    .btn-topbar--back:hover { background: rgba(255,255,255,.18); color: #fff; }
+    .btn-topbar i { font-size: 15px; }
+
+    /* ────────────────── LAYOUT ────────────────── */
+    .admin-wrap {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 24px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 28px 24px;
+      align-items: start;
+    }
+
+    .col-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .col-label i { font-size: 14px; }
+
+    /* ────────────────── TEMPLATE CARDS ────────────────── */
+    .templates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tcard {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      transition: border-color .15s;
+    }
+    .tcard.open { border-color: #D0E8D0; }
+
+    .tcard__head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      user-select: none;
+      transition: background .12s;
+    }
+    .tcard__head:hover { background: #FAFAFA; }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tcard__name {
+      font-size: 13.5px;
+      font-weight: 700;
+      flex: none;
+      white-space: nowrap;
+    }
+    .tcard__desc {
+      font-size: 11.5px;
+      color: var(--mid);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tcard__toggle {
+      color: var(--light);
+      font-size: 15px;
+      flex-shrink: 0;
+      transition: transform .22s;
+    }
+    .tcard.open .tcard__toggle { transform: rotate(180deg); }
+
+    .tcard__body {
+      display: none;
+      padding: 4px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .tcard.open .tcard__body { display: block; }
+
+    .tpl-textarea {
+      width: 100%;
+      min-height: 130px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--black);
+      resize: vertical;
+      transition: border-color .15s;
+      direction: rtl;
+      margin-top: 12px;
+    }
+    .tpl-textarea:focus {
+      outline: none;
+      border-color: var(--wa);
+      box-shadow: 0 0 0 3px rgba(37,211,102,.12);
+    }
+
+    .tpl-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 5px;
+    }
+    .tpl-chars {
+      font-size: 11px;
+      color: var(--light);
+    }
+    .btn-reset {
+      background: none;
+      border: 1.5px solid var(--border);
+      color: var(--mid);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all .12s;
+    }
+    .btn-reset:hover { border-color: var(--red); color: var(--red); }
+    .btn-reset i { font-size: 12px; }
+
+    /* Variable chips */
+    .var-row {
+      margin-top: 10px;
+    }
+    .var-row__label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--light);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .var-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .var-chip {
+      background: #EEF6FF;
+      border: 1.5px solid #C0D9F0;
+      color: #1A6EA8;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 5px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all .12s;
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+    .var-chip:hover {
+      background: #D5ECFB;
+      border-color: #90C0E4;
+    }
+    .var-chip span {
+      font-weight: 400;
+      color: #6699BB;
+      font-size: 10px;
+      margin-right: 3px;
+    }
+
+    /* ────────────────── GENERATOR PANEL ────────────────── */
+    .gen-wrap {
+      position: sticky;
+      top: 78px;
+    }
+
+    .gen-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .gen-head {
+      background: #1A1A1A;
+      color: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .gen-head h2 { font-size: 13.5px; font-weight: 700; }
+    .gen-head .wa-icon { flex-shrink: 0; }
+
+    /* Status pills */
+    .gen-section {
+      padding: 14px 16px 0;
+    }
+    .gen-section + .gen-section { padding-top: 10px; }
+    .gen-field-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--mid);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .spills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .spill {
+      border: 1.5px solid var(--border);
+      background: none;
+      color: var(--mid);
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: all .12s;
+      line-height: 1;
+    }
+    .spill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .spill.active {
+      background: var(--black);
+      border-color: var(--black);
+      color: #fff;
+    }
+    .spill.active .dot { opacity: 1; }
+
+    /* Customer fields */
+    .gen-fields {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .gen-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+    .gen-group { display: flex; flex-direction: column; gap: 3px; }
+    .gen-group label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--mid);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .gen-group input,
+    .gen-group textarea {
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      padding: 8px 10px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--black);
+      transition: border-color .15s;
+      direction: rtl;
+      width: 100%;
+      background: #FAFAFA;
+      font-size: 16px; /* prevent iOS zoom */
+    }
+    .gen-group input:focus,
+    .gen-group textarea:focus {
+      outline: none;
+      border-color: var(--wa);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(37,211,102,.1);
+    }
+    .gen-group textarea { min-height: 72px; resize: vertical; }
+
+    /* Preview */
+    .preview-wrap {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .preview-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--mid);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 12px 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .preview-chars { font-size: 10px; color: var(--light); font-weight: 400; }
+
+    .preview-box {
+      background: #F2FBF4;
+      border: 1.5px solid #B8E4C2;
+      border-radius: 8px;
+      padding: 12px 13px;
+      font-size: 13px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: var(--black);
+      min-height: 80px;
+      max-height: 260px;
+      overflow-y: auto;
+      direction: rtl;
+    }
+    .preview-box.empty { color: var(--light); font-style: italic; }
+
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-copy {
+      flex: 1;
+      background: var(--black);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all .15s;
+    }
+    .btn-copy:hover { background: #333; }
+    .btn-copy.copied { background: var(--green); }
+    .btn-copy i { font-size: 15px; }
+
+    .btn-wa {
+      background: var(--wa);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+    .btn-wa:hover { background: var(--wa-dark); }
+    .btn-wa i { font-size: 15px; }
+
+    /* ────────────────── SAVE TOAST ────────────────── */
+    .save-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--black);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+      z-index: 999;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+    .save-toast.show { transform: translateX(-50%) translateY(0); }
+    .save-toast i { font-size: 16px; color: var(--wa); }
+
+    /* ────────────────── RESPONSIVE ────────────────── */
+    @media (max-width: 960px) {
+      .admin-wrap {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 16px;
+      }
+      .gen-wrap {
+        position: static;
+        order: -1;
+      }
+    }
+    @media (max-width: 480px) {
+      .admin-bar { padding: 0 14px; gap: 10px; }
+      .btn-topbar--back span { display: none; }
+      .gen-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="admin-bar">
+  <a href="index.html" class="admin-bar__logo">GARAGE</a>
+  <span class="admin-bar__sep">›</span>
+  <span class="admin-bar__title">
+    <i class="ph-fill ph-whatsapp-logo"></i>
+    הודעות וואטסאפ
+  </span>
+  <div class="admin-bar__right">
+    <button class="btn-topbar btn-topbar--save" onclick="saveAll()">
+      <i class="ph ph-floppy-disk"></i> שמור הכל
+    </button>
+    <a href="index.html" class="btn-topbar btn-topbar--back">
+      <i class="ph ph-arrow-right"></i> <span>חזרה לאתר</span>
+    </a>
+  </div>
+</div>
+
+<!-- ── MAIN LAYOUT ── -->
+<div class="admin-wrap">
+
+  <!-- LEFT: TEMPLATES -->
+  <div>
+    <div class="col-label">
+      <i class="ph ph-note-pencil"></i>
+      תבניות לפי סטטוס הזמנה
+    </div>
+    <div class="templates-list" id="templatesList"></div>
+  </div>
+
+  <!-- RIGHT: GENERATOR -->
+  <div class="gen-wrap">
+    <div class="col-label">
+      <i class="ph ph-magic-wand"></i>
+      יצירת הודעה ושליחה
+    </div>
+    <div class="gen-card">
+
+      <div class="gen-head">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="var(--wa)" width="20" height="20">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        <h2>הכן הודעה ושלח ללקוח</h2>
+      </div>
+
+      <!-- Status selector -->
+      <div class="gen-section">
+        <span class="gen-field-label">סטטוס הזמנה</span>
+        <div class="spills" id="statusPills"></div>
+      </div>
+
+      <!-- Customer fields -->
+      <div class="gen-fields">
+        <div class="gen-row">
+          <div class="gen-group">
+            <label>שם לקוח</label>
+            <input type="text" id="g_name" placeholder="ישראל כהן" oninput="updatePreview()" />
+          </div>
+          <div class="gen-group">
+            <label>טלפון</label>
+            <input type="tel" id="g_phone" placeholder="050-0000000" oninput="updatePreview()" />
+          </div>
+        </div>
+        <div class="gen-group">
+          <label>כתובת משלוח</label>
+          <input type="text" id="g_address" placeholder="הרצל 1, תל אביב" oninput="updatePreview()" />
+        </div>
+        <div class="gen-group">
+          <label>מוצרים</label>
+          <textarea id="g_products" placeholder="• מפיץ ריח G60 — &#x20aa;299&#10;• בקבוק 100מ&quot;ל אמסטרדם — &#x20aa;59" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="gen-row">
+          <div class="gen-group">
+            <label>סכום סופי</label>
+            <input type="text" id="g_total" placeholder="&#x20aa;358" oninput="updatePreview()" />
+          </div>
+          <div class="gen-group">
+            <label>משלוח</label>
+            <input type="text" id="g_shipping" placeholder="חינם" oninput="updatePreview()" />
+          </div>
+        </div>
+        <div class="gen-row">
+          <div class="gen-group">
+            <label>מספר הזמנה</label>
+            <input type="text" id="g_order" placeholder="#1042" oninput="updatePreview()" />
+          </div>
+          <div class="gen-group">
+            <label>תאריך</label>
+            <input type="text" id="g_date" oninput="updatePreview()" />
+          </div>
+        </div>
+        <div class="gen-group">
+          <label>הערות הלקוח</label>
+          <input type="text" id="g_notes" placeholder="הערות מיוחדות..." oninput="updatePreview()" />
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-wrap">
+        <div class="preview-title">
+          תצוגה מקדימה
+          <span class="preview-chars" id="previewChars"></span>
+        </div>
+        <div class="preview-box empty" id="previewBox">בחר סטטוס ומלא פרטי לקוח</div>
+        <div class="preview-actions">
+          <button class="btn-copy" id="copyBtn" onclick="copyMsg()">
+            <i class="ph ph-copy"></i> העתק
+          </button>
+          <button class="btn-wa" onclick="openWA()">
+            <i class="ph-fill ph-whatsapp-logo"></i> פתח וואטסאפ
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /gen-card -->
+  </div><!-- /gen-wrap -->
+
+</div><!-- /admin-wrap -->
+
+<!-- Save toast -->
+<div class="save-toast" id="saveToast">
+  <i class="ph-fill ph-check-circle"></i> נשמר בהצלחה
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const STATUSES = [
+  { id: 'received',  label: 'הזמנה התקבלה',      desc: 'מיד עם קבלת הזמנה חדשה',         color: '#22C55E' },
+  { id: 'confirmed', label: 'הזמנה אושרה',        desc: 'לאחר אישור ותשלום',               color: '#3B82F6' },
+  { id: 'preparing', label: 'בהכנה',              desc: 'ההזמנה נמצאת בהכנה',              color: '#F59E0B' },
+  { id: 'shipped',   label: 'נשלחה',              desc: 'ההזמנה יצאה לדרך',               color: '#8B5CF6' },
+  { id: 'arrived',   label: 'הגיעה לחלוקה',      desc: 'נמצאת בנקודת חלוקה',             color: '#14B8A6' },
+  { id: 'delivered', label: 'נמסרה בהצלחה',       desc: 'לאחר מסירה ללקוח',               color: '#10B981' },
+  { id: 'delayed',   label: 'עיכוב בשליחה',       desc: 'כשיש עיכוב בלתי צפוי',           color: '#F97316' },
+  { id: 'issue',     label: 'בעיה בהזמנה',        desc: 'כשיש בעיה שדורשת טיפול',         color: '#EF4444' },
+  { id: 'cancelled', label: 'הזמנה בוטלה',        desc: 'ביטול הזמנה',                     color: '#6B7280' },
+  { id: 'payment',   label: 'תזכורת תשלום',       desc: 'כשטרם התקבל תשלום',               color: '#EC4899' },
+  { id: 'followup',  label: 'מעקב אחרי קנייה',   desc: '3-5 ימים לאחר קבלת ההזמנה',      color: '#0EA5E9' },
+  { id: 'custom',    label: 'הודעה חופשית',       desc: 'תבנית פנויה לכל שימוש',          color: '#9CA3AF' },
+];
+
+const VARS = [
+  { key: '{שם}',      desc: 'שם לקוח'    },
+  { key: '{טלפון}',   desc: 'טלפון'      },
+  { key: '{כתובת}',   desc: 'כתובת'      },
+  { key: '{מוצרים}',  desc: 'מוצרים'     },
+  { key: '{סכום}',    desc: 'סכום'       },
+  { key: '{משלוח}',   desc: 'משלוח'      },
+  { key: '{מספר}',    desc: 'מס הזמנה'   },
+  { key: '{תאריך}',   desc: 'תאריך'      },
+  { key: '{הערות}',   desc: 'הערות'      },
+];
+
+const DEFAULT_TEMPLATES = {
+  received:
+`שלום {שם},
+קיבלנו את הזמנה מספר {מספר} בהצלחה!
+
+המוצרים שהזמנת:
+{מוצרים}
+
+סה"כ: {סכום} | משלוח: {משלוח}
+
+נעדכן אותך ברגע שההזמנה תצא לדרך.
+
+תודה, GARAGE`,
+
+  confirmed:
+`שלום {שם},
+הזמנה {מספר} אושרה ונמצאת בטיפול.
+
+כתובת למשלוח: {כתובת}
+
+GARAGE`,
+
+  preparing:
+`שלום {שם},
+הזמנה {מספר} נמצאת כעת בהכנה.
+נעדכן אותך ברגע שתצא לדרך.
+
+GARAGE`,
+
+  shipped:
+`שלום {שם},
+הזמנה {מספר} יצאה לדרך!
+
+המשלוח בדרכו לכתובת: {כתובת}
+צפי הגעה: 2-3 ימי עסקים.
+
+GARAGE`,
+
+  arrived:
+`שלום {שם},
+הזמנה {מספר} הגיעה לנקודת החלוקה.
+תוכל לאסוף אותה בקרוב.
+
+GARAGE`,
+
+  delivered:
+`שלום {שם},
+הזמנה {מספר} נמסרה בהצלחה!
+
+מקווים שתיהנה מהמוצרים.
+אשמח לקבל משוב - פשוט ענה להודעה זו.
+
+GARAGE`,
+
+  delayed:
+`שלום {שם},
+עדכון לגבי הזמנה {מספר}.
+
+חלה תקלה קלה בשליחה וצפוי עיכוב של מספר ימים.
+אנחנו מטפלים בנושא ונעדכן אותך.
+
+מתנצלים על אי הנוחות,
+GARAGE`,
+
+  issue:
+`שלום {שם},
+נתקלנו בבעיה עם הזמנה {מספר}.
+
+נשמח אם תוכל ליצור איתנו קשר לסיום הטיפול.
+
+GARAGE`,
+
+  cancelled:
+`שלום {שם},
+הזמנה {מספר} בוטלה.
+
+אם ביצעת תשלום - ההחזר יגיע תוך 3-5 ימי עסקים.
+לכל שאלה נשמח לעזור.
+
+GARAGE`,
+
+  payment:
+`שלום {שם},
+תזכורת ידידותית לגבי הזמנה {מספר} בסך {סכום}.
+
+טרם קיבלנו אישור תשלום.
+ניתן לשלם דרך ביט / PayBox / העברה בנקאית.
+
+GARAGE`,
+
+  followup:
+`שלום {שם},
+רצינו לבדוק שהזמנה {מספר} הגיעה תקין ושאת/ה מרוצה.
+
+אם יש שאלות או משהו שנוכל לעזור בו - נשמח לשמוע!
+
+GARAGE`,
+
+  custom:
+`שלום {שם},
+
+`,
+};
+
+const STORAGE_KEY = 'garage_wa_templates_v1';
+let templates = {};
+let selectedStatus = 'received';
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+function init() {
+  // Load from storage or use defaults
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    templates = saved ? JSON.parse(saved) : {};
+  } catch(e) { templates = {}; }
+
+  // Ensure all statuses have templates
+  STATUSES.forEach(s => {
+    if (!templates[s.id] && templates[s.id] !== '') {
+      templates[s.id] = DEFAULT_TEMPLATES[s.id] || '';
+    }
+  });
+
+  renderTemplateCards();
+  renderStatusPills();
+  setStatus(selectedStatus);
+
+  // Set today's date in the date field
+  const today = new Date().toLocaleDateString('he-IL');
+  const df = document.getElementById('g_date');
+  if (df) df.value = today;
+}
+
+/* ═══════════════════════════════════════════
+   TEMPLATE CARDS
+═══════════════════════════════════════════ */
+function renderTemplateCards() {
+  const list = document.getElementById('templatesList');
+
+  list.innerHTML = STATUSES.map(s => `
+    <div class="tcard" id="card_${s.id}">
+      <div class="tcard__head" onclick="toggleCard('${s.id}')">
+        <span class="status-dot" style="background:${s.color}"></span>
+        <span class="tcard__name">${s.label}</span>
+        <span class="tcard__desc">${s.desc}</span>
+        <i class="ph ph-caret-down tcard__toggle"></i>
+      </div>
+      <div class="tcard__body">
+        <textarea class="tpl-textarea" id="tpl_${s.id}"
+          oninput="onTplChange('${s.id}')"
+          placeholder="הכנס תבנית הודעה..."></textarea>
+        <div class="tpl-meta">
+          <span class="tpl-chars" id="cc_${s.id}">0 תווים</span>
+          <button class="btn-reset" onclick="resetTpl('${s.id}')">
+            <i class="ph ph-arrow-counter-clockwise"></i> איפוס לברירת מחדל
+          </button>
+        </div>
+        <div class="var-row">
+          <div class="var-row__label">הוסף משתנה:</div>
+          <div class="var-chips">
+            ${VARS.map(v =>
+              `<button class="var-chip" onclick="insertVar('tpl_${s.id}','${v.key}')">${v.key}<span>${v.desc}</span></button>`
+            ).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Set textarea values directly (safe, no HTML-escaping needed)
+  STATUSES.forEach(s => {
+    const ta = document.getElementById('tpl_' + s.id);
+    if (ta) {
+      ta.value = templates[s.id] || '';
+      updateCharCount(s.id);
+    }
+  });
+
+  // Open first card by default
+  openCard(STATUSES[0].id);
+}
+
+function toggleCard(id) {
+  const card = document.getElementById('card_' + id);
+  if (card.classList.contains('open')) {
+    card.classList.remove('open');
+  } else {
+    card.classList.add('open');
+  }
+}
+
+function openCard(id) {
+  document.getElementById('card_' + id)?.classList.add('open');
+}
+
+function onTplChange(id) {
+  const ta = document.getElementById('tpl_' + id);
+  if (!ta) return;
+  templates[id] = ta.value;
+  updateCharCount(id);
+  if (id === selectedStatus) updatePreview();
+  scheduleAutoSave();
+}
+
+function updateCharCount(id) {
+  const ta = document.getElementById('tpl_' + id);
+  const cc = document.getElementById('cc_' + id);
+  if (ta && cc) cc.textContent = ta.value.length + ' תווים';
+}
+
+function resetTpl(id) {
+  if (!confirm('לאפס את התבנית לברירת המחדל?')) return;
+  const def = DEFAULT_TEMPLATES[id] || '';
+  templates[id] = def;
+  const ta = document.getElementById('tpl_' + id);
+  if (ta) { ta.value = def; updateCharCount(id); }
+  if (id === selectedStatus) updatePreview();
+  scheduleAutoSave();
+}
+
+/* ═══════════════════════════════════════════
+   INSERT VARIABLE AT CURSOR
+═══════════════════════════════════════════ */
+function insertVar(taId, varKey) {
+  const ta = document.getElementById(taId);
+  if (!ta) return;
+  const s = ta.selectionStart;
+  const e = ta.selectionEnd;
+  ta.value = ta.value.slice(0, s) + varKey + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + varKey.length;
+  ta.focus();
+  const statusId = taId.replace('tpl_', '');
+  onTplChange(statusId);
+}
+
+/* ═══════════════════════════════════════════
+   STATUS PILLS
+═══════════════════════════════════════════ */
+function renderStatusPills() {
+  const wrap = document.getElementById('statusPills');
+  wrap.innerHTML = STATUSES.map(s => `
+    <button class="spill" id="spill_${s.id}" onclick="setStatus('${s.id}')">
+      <span class="dot" style="background:${s.color}"></span>
+      ${s.label}
+    </button>
+  `).join('');
+}
+
+function setStatus(id) {
+  selectedStatus = id;
+  // Update pills
+  document.querySelectorAll('.spill').forEach(el => el.classList.remove('active'));
+  document.getElementById('spill_' + id)?.classList.add('active');
+  // Open corresponding template card
+  document.querySelectorAll('.tcard').forEach(c => c.classList.remove('open'));
+  openCard(id);
+  updatePreview();
+}
+
+/* ═══════════════════════════════════════════
+   PREVIEW
+═══════════════════════════════════════════ */
+function fv(id) {
+  return (document.getElementById(id)?.value || '').trim();
+}
+
+function updatePreview() {
+  const tpl = templates[selectedStatus] || '';
+  const msg = tpl
+    .replace(/\{שם\}/g,     fv('g_name')     || '{שם}')
+    .replace(/\{טלפון\}/g,  fv('g_phone')    || '{טלפון}')
+    .replace(/\{כתובת\}/g,  fv('g_address')  || '{כתובת}')
+    .replace(/\{מוצרים\}/g, fv('g_products') || '{מוצרים}')
+    .replace(/\{סכום\}/g,   fv('g_total')    || '{סכום}')
+    .replace(/\{משלוח\}/g,  fv('g_shipping') || '{משלוח}')
+    .replace(/\{מספר\}/g,   fv('g_order')    || '{מספר}')
+    .replace(/\{תאריך\}/g,  fv('g_date')     || new Date().toLocaleDateString('he-IL'))
+    .replace(/\{הערות\}/g,  fv('g_notes')    || '{הערות}');
+
+  const box = document.getElementById('previewBox');
+  const hasData = fv('g_name') || fv('g_phone') || fv('g_products');
+  box.textContent = msg;
+  box.classList.toggle('empty', !msg);
+
+  const chars = document.getElementById('previewChars');
+  if (chars) chars.textContent = msg.length + ' תווים';
+}
+
+/* ═══════════════════════════════════════════
+   COPY
+═══════════════════════════════════════════ */
+function copyMsg() {
+  const text = document.getElementById('previewBox').textContent;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="ph-fill ph-check-circle"></i> הועתק!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<i class="ph ph-copy"></i> העתק';
+    }, 2200);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   OPEN WHATSAPP
+═══════════════════════════════════════════ */
+function openWA() {
+  const rawPhone = fv('g_phone').replace(/\D/g, '');
+  if (!rawPhone) { alert('יש להזין מספר טלפון של הלקוח'); return; }
+  const intl = rawPhone.startsWith('972') ? rawPhone : '972' + rawPhone.replace(/^0/, '');
+  const msg = document.getElementById('previewBox').textContent;
+  window.open('https://wa.me/' + intl + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
+/* ═══════════════════════════════════════════
+   SAVE
+═══════════════════════════════════════════ */
+let autoSaveTimer;
+function scheduleAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(saveAll, 1800);
+}
+
+function saveAll() {
+  // Collect fresh values from all textareas
+  STATUSES.forEach(s => {
+    const ta = document.getElementById('tpl_' + s.id);
+    if (ta) templates[s.id] = ta.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(templates));
+  showToast();
+}
+
+function showToast() {
+  const t = document.getElementById('saveToast');
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ─── KICK OFF ─── */
+init();
+</script>
+</body>
+</html>
