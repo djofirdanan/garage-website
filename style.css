@@ -218,7 +218,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 /* ── HERO ───────────────────────────────────────────── */
 /* Mobile-only visual: hidden on desktop */
-.hero__visual--mobile { display: none; }
+.hero__visual.hero__visual--mobile { display: none; }
 /* Mobile-only banner: hidden on desktop */
 .hero__banner-mobile { display: none; }
 
