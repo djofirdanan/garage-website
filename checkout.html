@@ -13,7 +13,117 @@
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ---- PAYMENT METHOD CARDS ---- */
+    /* ── Page title ─────────────────────────────────── */
+    .co-page-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      text-align: right;
+      margin-bottom: 24px;
+      color: var(--black);
+    }
+
+    /* ── New checkout card ───────────────────────────── */
+    .co-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 2px 20px rgba(0,0,0,.055);
+    }
+    .co-section-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--black);
+      text-align: right;
+      margin: 0 0 20px;
+    }
+    .co-divider {
+      border: none;
+      border-top: 1px solid #f0f0f0;
+      margin: 24px 0;
+    }
+
+    /* ── Clean form fields ───────────────────────────── */
+    .co-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .co-field label {
+      font-size: .8rem;
+      font-weight: 500;
+      color: #888;
+      text-align: right;
+    }
+    .co-input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: var(--font);
+      font-size: .93rem;
+      color: var(--black);
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      box-sizing: border-box;
+      transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none;
+    }
+    .co-input::placeholder { color: #ccc; }
+    .co-input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+    }
+    textarea.co-input { min-height: 76px; resize: vertical; }
+    .co-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .co-grid-addr { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+    .co-fields { display: flex; flex-direction: column; gap: 14px; }
+
+    /* ── Payment method pills (horizontal) ───────────── */
+    .pm-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .pm-pill {
+      flex: 1;
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+      background: #fff;
+    }
+    .pm-pill.selected {
+      border-color: #1a4fdb;
+      background: #f3f6ff;
+    }
+    .pm-pill input[type=radio] { display: none; }
+    .pm-pill__name {
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--black);
+      text-align: right;
+    }
+    .pm-pill__radio {
+      width: 18px; height: 18px;
+      border: 2px solid #ccc; border-radius: 50%;
+      flex-shrink: 0; position: relative;
+      transition: border-color .15s;
+    }
+    .pm-pill.selected .pm-pill__radio { border-color: #1a4fdb; }
+    .pm-pill.selected .pm-pill__radio::after {
+      content: ''; position: absolute; inset: 3px;
+      background: #1a4fdb; border-radius: 50%;
+    }
+
+    /* ---- PAYMENT METHOD CARDS (keep for non-pill fallback) ---- */
     .pm-card {
       display: flex; align-items: center; gap: 12px;
       padding: 13px 16px;
@@ -174,6 +284,8 @@
       <!-- RIGHT: form -->
       <div>
 
+        <h1 class="co-page-title">סיום הזמנה</h1>
+
         <!-- SAMPLES UPSELL -->
         <div class="checkout-samples" id="checkoutSamplesUpsell" style="display:none">
           <div class="checkout-samples__head">
@@ -196,78 +308,82 @@
           </div>
         </div>
 
-        <div class="checkout-form">
-          <div class="checkout-form__head">
-            <h2><i class="ph ph-user"></i>פרטי משלוח</h2>
-          </div>
-          <div class="checkout-form__body">
-            <form id="checkoutForm" novalidate>
+        <!-- NEW CLEAN FORM CARD -->
+        <div class="co-card">
+          <form id="checkoutForm" novalidate>
 
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label for="firstName">שם פרטי <span class="req">*</span></label>
-                  <input type="text" class="form-input" id="firstName" placeholder="ישראל" autocomplete="given-name" required>
+            <!-- Section: customer details -->
+            <p class="co-section-title">פרטי המזמין</p>
+
+            <div class="co-fields">
+              <div class="co-grid-2">
+                <div class="co-field">
+                  <label for="firstName">שם פרטי</label>
+                  <input type="text" class="co-input" id="firstName" placeholder="ישראל" autocomplete="given-name" required>
                 </div>
-                <div class="form-group">
-                  <label for="lastName">שם משפחה <span class="req">*</span></label>
-                  <input type="text" class="form-input" id="lastName" placeholder="ישראלי" autocomplete="family-name" required>
+                <div class="co-field">
+                  <label for="lastName">שם משפחה</label>
+                  <input type="text" class="co-input" id="lastName" placeholder="ישראלי" autocomplete="family-name" required>
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="phone">טלפון <span class="req">*</span></label>
-                <input type="tel" class="form-input" id="phone" placeholder="050-0000000" autocomplete="tel" required>
+              <div class="co-field">
+                <label for="email">מייל</label>
+                <input type="email" class="co-input" id="email" placeholder="example@gmail.com" autocomplete="email">
               </div>
 
-              <div class="form-group">
-                <label for="address">כתובת למשלוח <span class="req">*</span></label>
-                <input type="text" class="form-input" id="address" placeholder="רחוב, מספר בית, דירה" autocomplete="street-address" required>
+              <div class="co-field">
+                <label for="phone">טלפון</label>
+                <input type="tel" class="co-input" id="phone" placeholder="050-0000000" autocomplete="tel" required>
               </div>
 
-              <div class="form-group">
-                <label for="city">עיר <span class="req">*</span></label>
-                <input type="text" class="form-input" id="city" placeholder="תל אביב" autocomplete="address-level2" required>
+              <div class="co-grid-addr">
+                <div class="co-field">
+                  <label for="address">כתובת</label>
+                  <input type="text" class="co-input" id="address" placeholder="רחוב ומספר בית" autocomplete="street-address" required>
+                </div>
+                <div class="co-field">
+                  <label for="city">עיר</label>
+                  <input type="text" class="co-input" id="city" placeholder="תל אביב" autocomplete="address-level2" required>
+                </div>
               </div>
 
-              <div class="form-group">
+              <div class="co-field">
                 <label for="notes">הערות להזמנה</label>
-                <textarea class="form-input" id="notes" placeholder="הוראות מיוחדות, זמן משלוח מועדף..."></textarea>
+                <textarea class="co-input" id="notes" placeholder="הוראות מיוחדות, זמן משלוח מועדף..."></textarea>
               </div>
 
               <!-- COUPON -->
-              <div class="form-group">
+              <div class="co-field">
                 <label for="couponCode">קוד קופון</label>
                 <div style="display:flex;gap:8px">
-                  <input type="text" class="form-input" id="couponCode" placeholder="הכנס קוד" style="flex:1;letter-spacing:.05em;text-transform:uppercase">
+                  <input type="text" class="co-input" id="couponCode" placeholder="הכנס קוד" style="flex:1;letter-spacing:.05em;text-transform:uppercase">
                   <button type="button" id="applyCoupon"
-                    style="padding:0 18px;background:var(--gray-bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--black);transition:background .15s">
+                    style="padding:0 18px;background:#f5f5f5;border:1.5px solid #e0e0e0;border-radius:10px;font-family:var(--font);font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--black);transition:background .15s">
                     החל
                   </button>
                 </div>
                 <div id="couponMsg" style="font-size:.8rem;margin-top:4px;display:none"></div>
               </div>
+            </div>
 
-              <!-- PAYMENT METHOD SELECTION -->
-              <div id="paymentSection">
-                <div class="pay-section-label">
-                  <i class="ph ph-credit-card"></i>
-                  שיטת תשלום
-                </div>
-                <div id="payMethodCards" style="display:flex;flex-direction:column;gap:10px"></div>
-                <div id="payDetailPanel" style="margin-top:14px"></div>
-              </div>
+            <hr class="co-divider">
 
-              <button type="submit" class="submit-order-btn" id="submitOrderBtn">
-                <i class="ph ph-credit-card" style="font-size:1.4rem"></i>
-                המשך לתשלום
-              </button>
+            <!-- Section: payment method -->
+            <p class="co-section-title" style="margin-bottom:14px">אמצעי תשלום</p>
+            <div id="payMethodCards" class="pm-row"></div>
+            <div id="payDetailPanel" style="margin-top:14px"></div>
 
-              <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--mid)" id="submitHint">
-                תועבר לדף התשלום לאחר מילוי הפרטים
-              </p>
+            <button type="submit" class="submit-order-btn" id="submitOrderBtn" style="margin-top:24px">
+              <i class="ph ph-credit-card" style="font-size:1.4rem"></i>
+              המשך לתשלום
+            </button>
 
-            </form>
-          </div>
+            <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--mid)" id="submitHint">
+              תועבר לדף התשלום לאחר מילוי הפרטים
+            </p>
+
+          </form>
         </div>
       </div>
 
@@ -351,23 +467,18 @@ function renderPaymentMethods(total) {
   if (methods.length === 0)           methods.push('card');
 
   const labels = {
-    card:   { logo: 'card',   name: 'כרטיס אשראי',   desc: 'תשלום מאובטח בכרטיס אשראי' },
-    bit:    { logo: 'bit',    name: 'ביט',            desc: 'תשלום מהיר דרך אפליקציית ביט' },
-    paybox: { logo: 'paybox', name: 'PayBox',          desc: 'תשלום דרך אפליקציית PayBox' },
-    bank:   { logo: 'bank',   name: 'העברה בנקאית',   desc: 'העברה ישירה לחשבון הבנק' },
-    cash:   { logo: 'cash',   name: 'מזומן / אספקה',  desc: 'תשלום בעת קבלת ההזמנה' },
+    card:   { name: 'כרטיס אשראי' },
+    bit:    { name: 'ביט'          },
+    paybox: { name: 'PayBox'       },
+    bank:   { name: 'העברה בנקאית' },
+    cash:   { name: 'מזומן'        },
   };
-  const logoText = { card: 'CARD', bit: 'bit', paybox: 'PayBox', bank: 'בנק', cash: 'מזומן' };
 
   container.innerHTML = methods.map(m => `
-    <div class="pm-card${selectedPayMethod === m ? ' selected' : ''}" onclick="selectPayMethod('${m}', ${total})">
+    <div class="pm-pill${selectedPayMethod === m ? ' selected' : ''}" onclick="selectPayMethod('${m}', ${total})">
       <input type="radio" name="payMethod" value="${m}"${selectedPayMethod === m ? ' checked' : ''}>
-      <div class="pm-radio"></div>
-      <div class="pm-logo ${labels[m].logo}">${logoText[m]}</div>
-      <div class="pm-label">
-        <strong>${labels[m].name}</strong>
-        <span>${labels[m].desc}</span>
-      </div>
+      <span class="pm-pill__name">${labels[m]?.name || m}</span>
+      <div class="pm-pill__radio"></div>
     </div>`).join('');
 
   if (!selectedPayMethod && methods.length > 0) {
@@ -377,7 +488,7 @@ function renderPaymentMethods(total) {
 
 function selectPayMethod(method, total) {
   selectedPayMethod = method;
-  document.querySelectorAll('.pm-card').forEach(c => {
+  document.querySelectorAll('.pm-pill, .pm-card').forEach(c => {
     c.classList.toggle('selected', c.querySelector('input')?.value === method);
   });
   renderPayDetail(method, total);

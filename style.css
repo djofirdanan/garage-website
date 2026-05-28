@@ -3650,4 +3650,10 @@ textarea.form-input {
   .form-grid-2 { grid-template-columns: 1fr; gap: 14px; }
   .checkout-steps { margin-bottom: 24px; }
   .checkout-step__label { font-size: .75rem; }
+  /* New co-card responsive */
+  .co-card { padding: 18px 16px; }
+  .co-grid-2 { grid-template-columns: 1fr; }
+  .co-grid-addr { grid-template-columns: 1fr; }
+  .co-page-title { font-size: 1.45rem; }
+  .pm-pill { flex: 1 1 calc(50% - 5px); min-width: 0; }
 }
