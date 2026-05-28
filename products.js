@@ -1,8 +1,10 @@
 /* =========================================================
    GARAGE – כל נתוני המוצרים, ניחוחות ואפסיילים
+   מקור נתונים: garage.org.il (WooCommerce API)
    ========================================================= */
 
 const BASE = 'imgs';
+const CDN  = 'https://garage.org.il/wp-content/uploads';
 
 /* SCENTS is defined in scents-data.js (loaded before this file) */
 
@@ -14,7 +16,7 @@ const UPSELLS = {
     note: 'חסכון ₪10 עם ההזמנה',
     standAlonePrice: 69,
     bundlePrice: 59,
-    img: `imgs/bottles-refill.png`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
   },
   'bottle-3': {
@@ -23,7 +25,7 @@ const UPSELLS = {
     note: 'חסכון ₪58 לעומת קנייה נפרדת',
     standAlonePrice: 207,
     bundlePrice: 149,
-    img: `imgs/bottles-3-large.png`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
     qty: 3,
   },
@@ -33,7 +35,7 @@ const UPSELLS = {
     note: 'חסכון ₪248! ריח לכל השנה',
     standAlonePrice: 414,
     bundlePrice: 166,
-    img: `imgs/bottles-6-bundle.webp`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
     qty: 6,
   },
@@ -43,7 +45,7 @@ const UPSELLS = {
     note: 'ריח לחודשים — חסכון על כמות',
     standAlonePrice: 329,
     bundlePrice: 289,
-    img: `imgs/bottle-large.jpg`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
   },
   'samples': {
@@ -52,7 +54,7 @@ const UPSELLS = {
     note: 'גלה את הניחוח המושלם',
     standAlonePrice: 49,
     bundlePrice: 29,
-    img: `imgs/bottles-refill.png`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: false,
   },
   'laundry': {
@@ -61,7 +63,7 @@ const UPSELLS = {
     note: 'חסכון ₪6 עם ההזמנה',
     standAlonePrice: 45,
     bundlePrice: 39,
-    img: `imgs/laundry-concentrate.png`,
+    img: `${CDN}/2025/11/%d7%9e%d7%91%d7%a9%d7%9d-%d7%9b%d7%91%d7%99%d7%a1%d7%94-%d7%9e%d7%a8%d7%95%d7%9b%d7%96.png`,
     hasScent: false,
   },
   'hand-cream': {
@@ -70,7 +72,7 @@ const UPSELLS = {
     note: 'מוצר בסטים',
     standAlonePrice: 10,
     bundlePrice: 8,
-    img: `imgs/hand-cream.png`,
+    img: `${CDN}/2026/02/%d7%a7%d7%a8%d7%9d-%d7%99%d7%93%d7%99%d7%99%d7%9d-%d7%a0%d7%a7%d7%991.png`,
     hasScent: false,
   },
   'g100-upgrade': {
@@ -79,7 +81,7 @@ const UPSELLS = {
     note: 'כיסוי פי 3 — שלם רק ₪350 נוסף',
     standAlonePrice: 649,
     bundlePrice: 649,
-    img: `imgs/g100-white.png`,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-2-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
     isUpgrade: true,
     upgradeTarget: 'g100',
@@ -90,7 +92,7 @@ const UPSELLS = {
     note: 'פי 2 שטח — שלם רק ₪200 נוסף',
     standAlonePrice: 1399,
     bundlePrice: 1399,
-    img: `imgs/s600-diffuser.png`,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-6-%d7%a0%d7%a7%d7%99.png`,
     hasScent: true,
     isUpgrade: true,
     upgradeTarget: 's1000',
@@ -110,11 +112,9 @@ const PRODUCTS = {
     price: 349,
     origPrice: 499,
     badge: 'מבצע',
-    img: `imgs/aircules-car.png`,
+    img: `${CDN}/2024/04/%d7%90%d7%99%d7%99%d7%a8%d7%a7%d7%95%d7%9c%d7%a1-%d7%9c%d7%a8%d7%9b%d7%91-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/aircules-car.png`,
-      `imgs/env-install-1.jpg`,
-      `imgs/env-install-2.jpg`,
+      `${CDN}/2024/04/%d7%90%d7%99%d7%99%d7%a8%d7%a7%d7%95%d7%9c%d7%a1-%d7%9c%d7%a8%d7%9b%d7%91-%d7%a0%d7%a7%d7%99.png`,
     ],
     hasScent: true,
     features: [
@@ -128,31 +128,6 @@ const PRODUCTS = {
   },
 
   /* ===== לבית / משרד ===== */
-  g60: {
-    id: 'g60',
-    name: 'מפיץ ריח G60 לבית / משרד',
-    subtitle: 'חשמלי • עד 50-60 מ"ר • בקבוק 100 מ"ל מתנה',
-    category: 'home',
-    categoryLabel: 'לבית / משרד',
-    price: 299,
-    origPrice: 399,
-    badge: 'מבצע',
-    img: `imgs/s300-with-bottle.png`,
-    thumbs: [
-      `imgs/s300-with-bottle.png`,
-      `imgs/s300-diffuser.png`,
-    ],
-    hasScent: true,
-    features: [
-      { icon: 'ph-plug', text: 'חיבור חשמל + USB' },
-      { icon: 'ph-house', text: 'עד 50-60 מ"ר' },
-      { icon: 'ph-gift', text: 'בקבוק 100 מ"ל מתנה' },
-      { icon: 'ph-clock', text: 'פעולה רציפה 24/7' },
-    ],
-    desc: 'מפיץ ריח חשמלי עוצמתי לבית ומשרד. מכסה עד 50-60 מ"ר ברציפות. מגיע עם בקבוק שמן ריח 100 מ"ל לבחירתך — מתנה!',
-    upsells: ['bottle-1', 'annual-6', 'g100-upgrade'],
-  },
-
   g30: {
     id: 'g30',
     name: 'מפיץ ריח G30 לחללים קטנים',
@@ -162,9 +137,9 @@ const PRODUCTS = {
     price: 329,
     origPrice: 429,
     badge: 'מבצע',
-    img: `imgs/g100-diffuser.png`,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-11-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/g100-diffuser.png`,
+      `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-11-%d7%a0%d7%a7%d7%99.png`,
     ],
     hasScent: true,
     features: [
@@ -177,29 +152,31 @@ const PRODUCTS = {
     upsells: ['bottle-1', 'bottle-3', 'samples'],
   },
 
-  g100: {
-    id: 'g100',
-    name: 'מפיץ ריח G100 לחללים גדולים',
-    subtitle: 'חשמלי • עד 200 מ"ר • חצי ליטר ריח מתנה',
+  g60: {
+    id: 'g60',
+    name: 'מפיץ ריח G60 לבית / משרד',
+    subtitle: 'חשמלי • עד 50-60 מ"ר • בקבוק 100 מ"ל מתנה',
     category: 'home',
     categoryLabel: 'לבית / משרד',
-    price: 649,
-    origPrice: null,
-    badge: null,
-    img: `imgs/g100-white.png`,
+    price: 299,
+    origPrice: 399,
+    badge: 'מבצע',
+    img: `${CDN}/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png`,
     thumbs: [
-      `imgs/g100-white.png`,
-      `imgs/g100-black.png`,
+      `${CDN}/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png`,
+      `${CDN}/2023/05/%d7%a9%d7%97%d7%95%d7%a8-%d7%90%d7%95-%d7%9c%d7%91%d7%9f.png`,
+      `${CDN}/2023/05/WhatsApp-Image-2023-06-21-at-09.30.361.jpeg`,
+      `${CDN}/2023/05/WhatsApp-Image-2023-06-20-at-09.27.41.jpeg`,
     ],
     hasScent: true,
     features: [
-      { icon: 'ph-plug', text: 'חיבור חשמל' },
-      { icon: 'ph-building', text: 'עד 200 מ"ר' },
-      { icon: 'ph-gift', text: 'חצי ליטר ריח מתנה' },
-      { icon: 'ph-gauge', text: 'עוצמה מתכווננת' },
+      { icon: 'ph-plug', text: 'חיבור חשמל + USB' },
+      { icon: 'ph-house', text: 'עד 50-60 מ"ר' },
+      { icon: 'ph-gift', text: 'בקבוק 100 מ"ל מתנה' },
+      { icon: 'ph-clock', text: 'פעולה רציפה 24/7' },
     ],
-    desc: 'הפתרון האולטימטיבי לבית גדול, לובי, מסעדה או חלל פתוח — עד 200 מ"ר. עוצמת ריח מתכווננת, פעולה רציפה. מגיע עם חצי ליטר שמן ריח.',
-    upsells: ['liter-bottle', 'annual-6', 'laundry'],
+    desc: 'מפיץ ריח חשמלי עוצמתי לבית ומשרד. מכסה עד 50-60 מ"ר ברציפות. מגיע עם בקבוק שמן ריח 100 מ"ל לבחירתך — מתנה! נתמך באפליקציית Scent Master לשליטה מלאה על זמני פעולה ועוצמת הריח.',
+    upsells: ['bottle-1', 'annual-6', 'g100-upgrade'],
   },
 
   ipad: {
@@ -211,10 +188,11 @@ const PRODUCTS = {
     price: 499,
     origPrice: null,
     badge: 'פופולרי',
-    img: `imgs/s800-diffuser.png`,
+    img: `${CDN}/2023/11/%d7%9e%d7%a4%d7%99%d7%a5-8-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/s800-diffuser.png`,
-      `imgs/env-office-1.jpg`,
+      `${CDN}/2023/11/%d7%9e%d7%a4%d7%99%d7%a5-8-%d7%a0%d7%a7%d7%99.png`,
+      `${CDN}/2023/11/WhatsApp-Image-2023-11-29-at-07.46.41-1.jpeg`,
+      `${CDN}/2023/11/WhatsApp-Image-2023-11-29-at-07.46.41.jpeg`,
     ],
     hasScent: true,
     features: [
@@ -227,7 +205,58 @@ const PRODUCTS = {
     upsells: ['bottle-3', 'annual-6', 'laundry'],
   },
 
+  g100: {
+    id: 'g100',
+    name: 'מפיץ ריח G100 לחללים גדולים',
+    subtitle: 'חשמלי • עד 200 מ"ר • חצי ליטר ריח מתנה',
+    category: 'home',
+    categoryLabel: 'לבית / משרד',
+    price: 649,
+    origPrice: null,
+    badge: null,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-2-%d7%a0%d7%a7%d7%99.png`,
+    thumbs: [
+      `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-2-%d7%a0%d7%a7%d7%99.png`,
+      `${CDN}/2024/04/G100-%d7%9c%d7%91%d7%9f.png`,
+      `${CDN}/2024/04/G100-%d7%a9%d7%97%d7%95%d7%a8.png`,
+    ],
+    hasScent: true,
+    features: [
+      { icon: 'ph-plug', text: 'חיבור חשמל' },
+      { icon: 'ph-building', text: 'עד 200 מ"ר' },
+      { icon: 'ph-gift', text: 'חצי ליטר ריח מתנה' },
+      { icon: 'ph-gauge', text: 'עוצמה מתכווננת' },
+    ],
+    desc: 'הפתרון האולטימטיבי לבית גדול, לובי, מסעדה או חלל פתוח — עד 200 מ"ר. עוצמת ריח מתכווננת, פעולה רציפה. מגיע עם חצי ליטר שמן ריח.',
+    upsells: ['liter-bottle', 'annual-6', 'laundry'],
+  },
+
   /* ===== לעסק ===== */
+  s300: {
+    id: 's300',
+    name: 'מפיץ ריח תעשייתי S300',
+    subtitle: 'פאנל זכוכית • עד 300 מ"ר • לעסקים וחנויות',
+    category: 'biz',
+    categoryLabel: 'לעסק',
+    price: 749,
+    origPrice: 899,
+    badge: 'מבצע',
+    img: `${CDN}/2023/09/S-300.png`,
+    thumbs: [
+      `${CDN}/2023/09/S-300.png`,
+      `${CDN}/2023/09/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa-%d7%a8%d7%99%d7%97-%d7%9e%d7%aa%d7%a7%d7%93%d7%9e%d7%99%d7%9d-%d7%90%d7%95%d7%93%d7%99.png`,
+    ],
+    hasScent: true,
+    features: [
+      { icon: 'ph-buildings', text: 'עד 300 מ"ר' },
+      { icon: 'ph-shield-check', text: 'לעסקים ומשרדים' },
+      { icon: 'ph-sliders', text: 'עוצמה מתכווננת' },
+      { icon: 'ph-frame-corners', text: 'פאנל זכוכית פרמיום' },
+    ],
+    desc: 'מפיץ ריח תעשייתי עם חזית זכוכית אלגנטית — מתאים לחנויות, מסעדות, משרדים. מכסה עד 300 מ"ר. מגיע עם בקבוק חצי ליטר לבחירה. שני מאווררים לויסות עוצמות.',
+    upsells: ['liter-bottle', 'annual-6', 'laundry'],
+  },
+
   s500: {
     id: 's500',
     name: 'מפיץ ריח תעשייתי S500',
@@ -237,10 +266,10 @@ const PRODUCTS = {
     price: 1199,
     origPrice: 1499,
     badge: 'מבצע',
-    img: `imgs/g60-diffuser.png`,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-4-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/g60-diffuser.png`,
-      `imgs/env-office-2.jpg`,
+      `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-4-%d7%a0%d7%a7%d7%99.png`,
+      `${CDN}/2023/09/%d7%a4%d7%aa%d7%a8%d7%95%d7%a0%d7%95%d7%aa-%d7%a8%d7%99%d7%97-%d7%9e%d7%aa%d7%a7%d7%93%d7%9e%d7%99%d7%9d-%d7%90%d7%95%d7%93%d7%99.png`,
     ],
     hasScent: true,
     features: [
@@ -262,9 +291,9 @@ const PRODUCTS = {
     price: 1399,
     origPrice: 1699,
     badge: 'מבצע',
-    img: `imgs/s600-diffuser.png`,
+    img: `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-6-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/s600-diffuser.png`,
+      `${CDN}/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-6-%d7%a0%d7%a7%d7%99.png`,
     ],
     hasScent: true,
     features: [
@@ -280,23 +309,23 @@ const PRODUCTS = {
   /* ===== חבילות ===== */
   bundle: {
     id: 'bundle',
-    name: 'חבילת מפיץ חכם + שנה בישום',
+    name: 'באנדל מפיץ ריח חכם + חבילת בישום',
     subtitle: 'חבילת שנה מלאה — מפיץ G60 + 6 בקבוקים לבחירה',
     category: 'bundle',
     categoryLabel: 'חבילה',
-    price: 500,
-    origPrice: 650,
-    badge: 'חיסכון ₪150',
+    price: 465,
+    origPrice: null,
+    badge: 'חיסכון ₪249',
     bundleBottleCount: 6,
-    img: `imgs/bundle-product.webp`,
+    img: `${CDN}/2025/07/%d7%91%d7%90%d7%a0%d7%93%d7%9c-%d7%9e%d7%a4%d7%99%d7%a5-copy.webp`,
     thumbs: [
-      `imgs/bundle-product.webp`,
+      `${CDN}/2025/07/%d7%91%d7%90%d7%a0%d7%93%d7%9c-%d7%9e%d7%a4%d7%99%d7%a5-copy.webp`,
     ],
     hasScent: true,
     features: [
       { icon: 'ph-package', text: 'מפיץ G60 + 6 בקבוקים' },
       { icon: 'ph-calendar', text: 'ריח לשנה שלמה' },
-      { icon: 'ph-tag', text: 'חיסכון ₪150' },
+      { icon: 'ph-tag', text: 'חיסכון ₪249' },
       { icon: 'ph-gift', text: 'מתנה מושלמת' },
     ],
     desc: 'הכל-כלול: מפיץ ריח G60 לבית + 6 בקבוקי ריח 100 מ"ל לבחירתך — ריח לשנה שלמה. המתנה המושלמת לעצמך או לאהובים.',
@@ -319,9 +348,9 @@ const PRODUCTS = {
       { qty: 3, price: 169, label: '3 בקבוקים (₪56 כ"א)' },
       { qty: 5, price: 259, label: '5 בקבוקים (₪52 כ"א)' },
     ],
-    img: `imgs/bottles-refill.png`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/bottles-refill.png`,
+      `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     ],
     hasScent: true,
     features: [
@@ -334,6 +363,30 @@ const PRODUCTS = {
     upsells: ['samples', 'laundry', 'hand-cream'],
   },
 
+  bottles_500ml: {
+    id: 'bottles_500ml',
+    name: 'בקבוק ריח חצי ליטר',
+    subtitle: 'ריח לחודשים ארוכים — למפיצים גדולים',
+    category: 'bottles',
+    categoryLabel: 'בקבוקים',
+    price: 215,
+    origPrice: null,
+    badge: 'כלכלי',
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
+    thumbs: [
+      `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
+    ],
+    hasScent: true,
+    features: [
+      { icon: 'ph-drop', text: '500 מ"ל שמן ריח' },
+      { icon: 'ph-timer', text: 'עד 200 יום שימוש' },
+      { icon: 'ph-currency-ils', text: 'מחיר ₪1.07 ליום' },
+      { icon: 'ph-palette', text: '18 ניחוחות לבחירה' },
+    ],
+    desc: 'בקבוק ריח חצי ליטר — מושלם למפיצים G100, S300 ומעלה. חוסכים יותר בכמות גדולה יחסית לבקבוקי 100 מ"ל.',
+    upsells: ['samples', 'laundry', 'hand-cream'],
+  },
+
   bottles_liter: {
     id: 'bottles_liter',
     name: 'בקבוק ריח ליטר',
@@ -343,18 +396,18 @@ const PRODUCTS = {
     price: 329,
     origPrice: null,
     badge: 'כלכלי',
-    img: `imgs/bottle-large.jpg`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     thumbs: [
-      `imgs/bottle-large.jpg`,
+      `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     ],
     hasScent: true,
     features: [
-      { icon: 'ph-drop', text: '1,000 מ"ל שמן ריח' },
+      { icon: 'ph-drop', text: '1,000 מ"ל — 2 בקבוקי 500 מ"ל' },
       { icon: 'ph-timer', text: 'עד 450 יום שימוש' },
       { icon: 'ph-currency-ils', text: 'מחיר ₪0.33 ליום' },
       { icon: 'ph-palette', text: '18 ניחוחות לבחירה' },
     ],
-    desc: 'הפתרון החכם לטווח הארוך — בקבוק ליטר מחזיק עד 450 ימים. עלות של פחות מ-₪1 ליום. אידיאלי לעסקים ולמשתמשים עם צריכה גבוהה.',
+    desc: 'הפתרון החכם לטווח הארוך — ליטר שמן ריח (נשלח כ-2 בקבוקי חצי ליטר). מחזיק עד 450 ימים. עלות של פחות מ-₪1 ליום. אידיאלי לעסקים ולמשתמשים עם צריכה גבוהה.',
     upsells: ['samples', 'laundry', 'hand-cream'],
   },
 
@@ -368,7 +421,7 @@ const PRODUCTS = {
     price: 49,
     origPrice: null,
     badge: null,
-    img: `imgs/bottles-refill.png`,
+    img: `${CDN}/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png`,
     hasScent: false,
     features: [
       { icon: 'ph-test-tube', text: '10 ניחוחות שונים' },
@@ -389,7 +442,10 @@ const PRODUCTS = {
     price: 45,
     origPrice: null,
     badge: null,
-    img: `imgs/laundry-concentrate.png`,
+    img: `${CDN}/2025/11/%d7%9e%d7%91%d7%a9%d7%9d-%d7%9b%d7%91%d7%99%d7%a1%d7%94-%d7%9e%d7%a8%d7%95%d7%9b%d7%96.png`,
+    thumbs: [
+      `${CDN}/2025/11/%d7%9e%d7%91%d7%a9%d7%9d-%d7%9b%d7%91%d7%99%d7%a1%d7%94-%d7%9e%d7%a8%d7%95%d7%9b%d7%96.png`,
+    ],
     hasScent: false,
     features: [
       { icon: 'ph-washing-machine', text: 'עד 25 כביסות' },
@@ -410,7 +466,11 @@ const PRODUCTS = {
     price: 10,
     origPrice: null,
     badge: null,
-    img: `imgs/hand-cream.png`,
+    img: `${CDN}/2026/02/%d7%a7%d7%a8%d7%9d-%d7%99%d7%93%d7%99%d7%99%d7%9d-%d7%a0%d7%a7%d7%991.png`,
+    thumbs: [
+      `${CDN}/2026/02/%d7%a7%d7%a8%d7%9d-%d7%99%d7%93%d7%99%d7%99%d7%9d-%d7%a0%d7%a7%d7%991.png`,
+      `${CDN}/2026/02/%d7%a7%d7%a8%d7%9d-%d7%99%d7%93%d7%99%d7%99%d7%9d-%d7%a2%d7%9d-%d7%a8%d7%a7%d7%a21.png`,
+    ],
     hasScent: false,
     features: [
       { icon: 'ph-hand', text: 'קרם עדין' },
@@ -430,14 +490,17 @@ const PRODUCTS = {
     price: 99,
     origPrice: null,
     badge: null,
-    img: `imgs/perfume-oil.jpg`,
+    img: `${CDN}/2024/03/%d7%91%d7%95%d7%a9%d7%9d-%d7%a9%d7%9e%d7%9f-%d7%9c%d7%92%d7%91%d7%a8-%d7%95%d7%9c%d7%90%d7%99%d7%a9%d7%94.jpg`,
+    thumbs: [
+      `${CDN}/2024/03/%d7%91%d7%95%d7%a9%d7%9d-%d7%a9%d7%9e%d7%9f-%d7%9c%d7%92%d7%91%d7%a8-%d7%95%d7%9c%d7%90%d7%99%d7%a9%d7%94.jpg`,
+    ],
     hasScent: false,
     features: [
       { icon: 'ph-sparkle', text: 'ניחוח יוקרתי' },
       { icon: 'ph-drop', text: 'שמן מרוכז' },
       { icon: 'ph-heart', text: 'לאישה' },
     ],
-    desc: 'בושם שמן מרוכז ויוקרתי — ניחוח עמוק שנשאר.',
+    desc: 'בושם שמן מרוכז ויוקרתי — ניחוח עמוק שנשאר. מבחר עשיר של ריחות מהמותג הבינלאומי Euphoria.',
     upsells: ['hand-cream', 'samples'],
   },
 
@@ -450,14 +513,17 @@ const PRODUCTS = {
     price: 99,
     origPrice: null,
     badge: null,
-    img: `imgs/perfume-oil.jpg`,
+    img: `${CDN}/2024/03/%d7%91%d7%95%d7%a9%d7%9d-%d7%a9%d7%9e%d7%9f-%d7%9c%d7%92%d7%91%d7%a8-%d7%95%d7%9c%d7%90%d7%99%d7%a9%d7%94.jpg`,
+    thumbs: [
+      `${CDN}/2024/03/%d7%91%d7%95%d7%a9%d7%9d-%d7%a9%d7%9e%d7%9f-%d7%9c%d7%92%d7%91%d7%a8-%d7%95%d7%9c%d7%90%d7%99%d7%a9%d7%94.jpg`,
+    ],
     hasScent: false,
     features: [
       { icon: 'ph-sparkle', text: 'ניחוח יוקרתי' },
       { icon: 'ph-drop', text: 'שמן מרוכז' },
       { icon: 'ph-user', text: 'לגבר' },
     ],
-    desc: 'בושם שמן מרוכז ויוקרתי — ניחוח עמוק שנשאר.',
+    desc: 'בושם שמן מרוכז ויוקרתי — ניחוח עמוק שנשאר. מבחר עשיר של ריחות מהמותג הבינלאומי Euphoria.',
     upsells: ['hand-cream', 'samples'],
   },
 };
