@@ -49,6 +49,7 @@
       <span>הסל ריק</span>
     </div>
   </div>
+  <div id="cartUpsellStrip" style="display:none"></div>
   <div class="cart-footer">
     <div class="cart-totals">
       <div class="cart-total-row"><span>סכום ביניים</span><span id="cartSubtotal">₪0</span></div>

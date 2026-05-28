@@ -172,6 +172,33 @@ function cartSidebarRender() {
   if (sub)  sub.textContent  = `₪${totals.subtotal.toLocaleString('he-IL')}`;
   if (ship) ship.textContent = totals.shipping === 0 ? 'חינם!' : `₪${totals.shipping}`;
   if (tot)  tot.textContent  = `₪${totals.total.toLocaleString('he-IL')}`;
+
+  // Upsell strip — show samples kit when cart has items but no samples
+  const strip = document.getElementById('cartUpsellStrip');
+  if (strip && typeof UPSELLS !== 'undefined') {
+    const inCart = new Set(items.map(i => i.productId));
+    const u = UPSELLS['samples'];
+    if (u && !inCart.has('samples') && items.length > 0) {
+      strip.style.display = '';
+      strip.innerHTML = `
+        <div class="cart-upsell-item">
+          <img src="${u.img}" alt="${u.name}">
+          <div class="cart-upsell-info">
+            <div class="cart-upsell-name">${u.name}</div>
+            <div class="cart-upsell-prices">
+              <span class="cart-upsell-price">₪${u.bundlePrice}</span>
+              <span class="cart-upsell-orig">₪${u.standAlonePrice}</span>
+            </div>
+          </div>
+          <button class="cart-upsell-btn" onclick="cartAddUpsell('samples');cartSidebarRender();">
+            + הוסף
+          </button>
+        </div>`;
+    } else {
+      strip.style.display = 'none';
+      strip.innerHTML = '';
+    }
+  }
 }
 
 function cartToast(msg) {

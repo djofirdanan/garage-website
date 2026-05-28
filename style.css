@@ -1323,9 +1323,72 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   transition: background .15s;
 }
 .bsp-pill:hover .bsp-pill-add { background: var(--mint); color: var(--black); }
-.bsp-pill--active .bsp-pill-add { display: none; }
+.bsp-pill--active .bsp-pill-add { background: #22C55E; color: #fff; }
+.bsp-pill--active .bsp-pill-add:hover { background: #16a34a; }
 
 /* Summary */
+/* ── Cart upsell strip ── */
+#cartUpsellStrip {
+  padding: 10px 16px;
+  border-top: 1px dashed var(--border);
+  background: #f0fdf9;
+}
+.cart-upsell-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cart-upsell-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  background: #fff;
+}
+.cart-upsell-info {
+  flex: 1;
+  min-width: 0;
+}
+.cart-upsell-name {
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--black);
+}
+.cart-upsell-prices {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.cart-upsell-price {
+  font-size: .82rem;
+  font-weight: 700;
+  color: #16a34a;
+}
+.cart-upsell-orig {
+  font-size: .75rem;
+  color: var(--mid);
+  text-decoration: line-through;
+}
+.cart-upsell-btn {
+  flex-shrink: 0;
+  background: var(--black);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s;
+}
+.cart-upsell-btn:hover { background: #333; }
+
+/* ── BSP pill summary ── */
 .bsp-summary {
   margin-top: 14px;
   background: #f0fdf9;
