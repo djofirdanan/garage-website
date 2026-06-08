@@ -683,6 +683,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
       if (!data.url) throw new Error('no url');
       if (typeof pixelPurchase === 'function') pixelPurchase(finalTotal, Date.now());
       cartClear();
+      if (typeof _clearCheckoutDraft === 'function') _clearCheckoutDraft();
       window.location.href = data.url;
     } catch (err) {
       console.warn('cardcom create-payment failed', err);
@@ -739,6 +740,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
 
   if (typeof pixelPurchase === 'function') pixelPurchase(finalTotal, Date.now());
   cartClear();
+  if (typeof _clearCheckoutDraft === 'function') _clearCheckoutDraft();
   document.getElementById('checkoutLayout').style.display = 'none';
   document.getElementById('checkoutSamplesUpsell').style.display = 'none';
   document.querySelector('.checkout-steps').style.display = 'none';
@@ -781,6 +783,47 @@ function checkoutAddSamples() {
 
 renderReview();
 initCheckoutSamplesUpsell();
+
+/* ── Form persistence in sessionStorage ─── */
+(function initFormPersist() {
+  const KEY = 'garage_co_draft';
+  const FIELDS = ['firstName','lastName','phone','address','city','notes'];
+
+  // Restore saved values (only if no prefill param)
+  const hasPrefill = new URLSearchParams(window.location.search).has('prefill');
+  if (!hasPrefill) {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+      if (saved) {
+        FIELDS.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && saved[id]) el.value = saved[id];
+        });
+      }
+    } catch {}
+  }
+
+  // Save on every input change
+  function saveForm() {
+    const data = {};
+    FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data[id] = el.value;
+    });
+    try { sessionStorage.setItem(KEY, JSON.stringify(data)); } catch {}
+  }
+
+  FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', saveForm);
+  });
+
+  // Expose clear function for use after successful order
+  window._clearCheckoutDraft = function() {
+    try { sessionStorage.removeItem(KEY); } catch {}
+  };
+})();
+
 // InitiateCheckout event
 if (typeof pixelInitCheckout === 'function') {
   const t = cartTotals();
