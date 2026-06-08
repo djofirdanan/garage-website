@@ -461,8 +461,24 @@
     .row-act-btn--green:hover { border-color: #6ee7b7; color: #065f46; background: #d1fae5; }
     .status-badge-btn {
       border: none; background: none; padding: 0; cursor: pointer;
-      font-family: inherit; font-size: inherit;
+      font-family: inherit; font-size: inherit; position: relative;
     }
+    /* Per-row status picker popup */
+    #statusPicker {
+      position: fixed; z-index: 9999;
+      background: #fff; border: 1px solid var(--gray-200);
+      border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.15);
+      padding: 6px 0; min-width: 180px; display: none;
+    }
+    #statusPicker.open { display: block; }
+    #statusPicker button {
+      display: block; width: 100%; text-align: right; padding: 8px 16px;
+      border: none; background: none; cursor: pointer; font-family: inherit;
+      font-size: .84rem; font-weight: 600; color: var(--dark);
+      transition: background .12s;
+    }
+    #statusPicker button:hover { background: var(--gray-50); }
+    #statusPicker button.active-status { background: #f0fdf4; color: #166534; }
     /* completion email btn */
     .completion-email-btn {
       display: inline-flex; align-items: center; gap: 4px;
@@ -571,6 +587,146 @@
       .main { margin-right: 0; }
       .stats-grid { grid-template-columns: 1fr; }
     }
+
+    /* ---- WHATSAPP PANEL ---- */
+    .wa-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--gray-200); margin-bottom: 24px; }
+    .wa-tab {
+      padding: 11px 22px; font-size: 14px; font-weight: 600; font-family: inherit;
+      background: none; border: none; border-bottom: 2.5px solid transparent;
+      cursor: pointer; color: var(--gray-500); transition: color .15s, border-color .15s; margin-bottom: -1px;
+    }
+    .wa-tab.active { color: var(--mint); border-bottom-color: var(--mint); }
+    .wa-tab-panel { display: none; }
+    .wa-tab-panel.active { display: block; }
+
+    .wa-section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--gray-500); margin: 0 0 10px;
+    }
+    .wa-block { margin-bottom: 22px; }
+
+    /* Customer picker */
+    .wa-customer-search {
+      width: 100%; padding: 10px 14px; font-family: inherit; font-size: 13px;
+      border: 1.5px solid var(--gray-200); border-radius: 10px; background: #fff;
+      margin-bottom: 10px; outline: none; transition: border-color .15s;
+    }
+    .wa-customer-search:focus { border-color: var(--mint); }
+    .wa-customer-list {
+      max-height: 200px; overflow-y: auto; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; background: #fff;
+    }
+    .wa-customer-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; border-bottom: 1px solid var(--gray-100);
+      cursor: pointer; transition: background .12s; font-size: 13px;
+    }
+    .wa-customer-item:last-child { border-bottom: none; }
+    .wa-customer-item:hover { background: var(--gray-50); }
+    .wa-customer-item input[type=checkbox] { accent-color: var(--mint); flex-shrink: 0; }
+    .wa-customer-item .cust-name { font-weight: 600; flex: 1; }
+    .wa-customer-item .cust-phone { color: var(--gray-500); font-size: .8rem; direction: ltr; }
+    .wa-select-all-row {
+      display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+      background: var(--gray-50); border-radius: 10px 10px 0 0;
+      border: 1.5px solid var(--gray-200); border-bottom: none;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .wa-select-all-row input { accent-color: var(--mint); }
+    .wa-selected-badge {
+      display: inline-flex; align-items: center; padding: 3px 10px;
+      background: var(--mint-light); color: var(--mint); border-radius: 20px;
+      font-size: 12px; font-weight: 700; margin-top: 8px;
+    }
+
+    /* Message composer */
+    .wa-message-area {
+      width: 100%; min-height: 110px; padding: 12px 14px;
+      font-family: inherit; font-size: 13px; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; resize: vertical; outline: none; transition: border-color .15s;
+      direction: rtl;
+    }
+    .wa-message-area:focus { border-color: var(--mint); }
+    .wa-char-counter { font-size: 11px; color: var(--gray-500); text-align: left; margin-top: 4px; }
+
+    .wa-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+    .wa-chip {
+      padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 700;
+      background: var(--gray-100); color: var(--gray-700); border: 1.5px solid var(--gray-200);
+      cursor: pointer; font-family: inherit; transition: background .12s, border-color .12s;
+      direction: ltr;
+    }
+    .wa-chip:hover { background: var(--mint-light); border-color: var(--mint); color: var(--mint); }
+
+    .wa-template-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+    .wa-tpl-btn {
+      padding: 6px 13px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      background: #f3eeff; color: var(--lav); border: 1.5px solid #d6c5fa;
+      cursor: pointer; font-family: inherit; transition: background .12s;
+    }
+    .wa-tpl-btn:hover { background: #ede0ff; }
+
+    .wa-toggle-row {
+      display: flex; align-items: center; gap: 10px; font-size: 13px;
+      margin: 10px 0; font-weight: 500;
+    }
+    .wa-toggle-row input[type=checkbox] { accent-color: var(--mint); width: 16px; height: 16px; cursor: pointer; }
+
+    .wa-send-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: #25d366; color: #fff;
+      border: none; border-radius: 12px; font-size: 14px; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: background .15s, transform .12s;
+    }
+    .wa-send-btn:hover { background: #1ebe5a; transform: translateY(-1px); }
+    .wa-send-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+    /* Preview panel */
+    .wa-preview-box {
+      background: #e5ddd5; border-radius: 12px; padding: 16px;
+      min-height: 80px; font-size: 13px; line-height: 1.55;
+    }
+    .wa-preview-bubble {
+      background: #fff; border-radius: 10px 10px 0 10px;
+      padding: 10px 14px; max-width: 85%; display: inline-block;
+      box-shadow: 0 1px 3px rgba(0,0,0,.12); white-space: pre-wrap; word-break: break-word;
+    }
+    .wa-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .wa-two-col { grid-template-columns: 1fr; } }
+
+    /* Templates tab */
+    .wa-tpl-card {
+      background: #fff; border: 1.5px solid var(--gray-200); border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 16px;
+    }
+    .wa-tpl-card__label {
+      font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--dark);
+    }
+    .wa-tpl-save-btn {
+      margin-top: 10px; padding: 8px 18px; background: var(--mint); color: var(--dark);
+      border: none; border-radius: 8px; font-size: 12px; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: background .15s;
+    }
+    .wa-tpl-save-btn:hover { background: #00b38f; }
+
+    /* Per-order WA modal */
+    .wa-order-modal {
+      background: #fff; border-radius: 18px; padding: 28px 28px 22px;
+      max-width: 520px; width: 95%;
+      animation: modalPop .28s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+    .wa-order-modal__head {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;
+    }
+    .wa-order-modal__title { font-size: 16px; font-weight: 800; }
+    .wa-order-modal__close {
+      width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--gray-200);
+      background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--gray-500);
+    }
+    .wa-order-modal__close:hover { background: var(--gray-100); }
+    .row-act-btn--wa:hover { border-color: #25d366; color: #128c7e; background: #e8faf0; }
   </style>
 </head>
 <body>
@@ -578,7 +734,7 @@
 <!-- EXIT WARNING MODAL -->
 <div class="exit-modal-overlay" id="exitModalOverlay">
   <div class="exit-modal">
-    <div class="exit-modal__icon">⚠️</div>
+    <div class="exit-modal__icon"><i class="ph-fill ph-warning" style="font-size:2rem;color:#f59e0b"></i></div>
     <h3>לצאת מהאדמין?</h3>
     <p>האם אתה בטוח שברצונך לצאת?<br>שינויים שלא נשמרו עלולים לאבד.</p>
     <div class="exit-modal__btns">
@@ -627,6 +783,11 @@
       <a href="#scents-panel" onclick="setActive(this)">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6m-6 0a2 2 0 000 4h6a2 2 0 000-4M9 3v4m6-4v4M9 7v14m6-14v14M9 21h6"/></svg>
         ניחוחות
+      </a>
+      <div class="sidebar__section-title">שיווק</div>
+      <a href="#whatsapp-panel" onclick="setActive(this)">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        WhatsApp
       </a>
       <div class="sidebar__section-title">אתר</div>
       <a href="index.html" onclick="handleExitClick(event)">
@@ -715,9 +876,15 @@
               </button>
               <div class="status-dropdown" id="statusDropdown">
                 <button onclick="bulkChangeStatus('new')">חדש</button>
+                <button onclick="bulkChangeStatus('pending_payment')">ממתין לתשלום</button>
                 <button onclick="bulkChangeStatus('processing')">בטיפול</button>
+                <button onclick="bulkChangeStatus('cash_on_delivery')">מזומן</button>
+                <button onclick="bulkChangeStatus('on_hold')">בהשהייה</button>
                 <button onclick="bulkChangeStatus('shipped')">נשלח</button>
+                <button onclick="bulkChangeStatus('shipped_pending_cash')">נשלח - ממתין למזומן</button>
                 <button onclick="bulkChangeStatus('completed')">הושלם</button>
+                <button onclick="bulkChangeStatus('refunded')">הוחזר</button>
+                <button onclick="bulkChangeStatus('failed')">נכשל</button>
                 <button onclick="bulkChangeStatus('cancelled')">בוטל</button>
               </div>
             </div>
@@ -828,6 +995,26 @@
         <span class="badge badge--blue" id="pmEnabledCount">טוען...</span>
       </div>
       <div class="panel__body" style="padding:8px 24px 24px">
+
+        <!-- CREDIT CARD / CARDCOM -->
+        <div class="pay-method-row">
+          <div class="pay-method-info">
+            <div class="pay-logo card" style="background:linear-gradient(135deg,#1e40af,#1a1a1a);color:#fff;font-size:9px;letter-spacing:0">CARD</div>
+            <div>
+              <div class="pay-method-name">כרטיס אשראי — Cardcom</div>
+              <div class="pay-method-desc">תשלום מאובטח. הלקוח מועבר לדף Cardcom להשלמת העסקה.</div>
+            </div>
+          </div>
+          <label class="toggle-sw">
+            <input type="checkbox" id="pm-card-enabled" checked onchange="togglePmFields('card')">
+            <span class="toggle-sw__track"></span>
+          </label>
+          <div class="pay-method-fields" id="pm-card-fields">
+            <label>לינק תשלום Cardcom (מלוח הבקרה שלך ב-Cardcom)</label>
+            <input type="url" id="pm-card-link" placeholder="https://secure.cardcom.co.il/..." dir="ltr">
+            <label style="color:#6b7280;font-size:11px">בעת תשלום, הסכום יתווסף אוטומטית לקישור</label>
+          </div>
+        </div>
 
         <!-- BIT -->
         <div class="pay-method-row">
@@ -951,6 +1138,155 @@
       </div>
     </div>
 
+    <!-- WHATSAPP PANEL -->
+    <div class="panel" id="whatsapp-panel" style="margin-bottom:24px">
+      <div class="panel__header">
+        <div class="panel__title" style="display:flex;align-items:center;gap:8px">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          WhatsApp Marketing
+        </div>
+        <span class="badge badge--green">ערוץ ישיר</span>
+      </div>
+      <div class="panel__body" style="padding:20px 24px 24px">
+
+        <!-- TABS -->
+        <div class="wa-tabs">
+          <button class="wa-tab active" onclick="switchWaTab('campaigns',this)">קמפיינים</button>
+          <button class="wa-tab" onclick="switchWaTab('templates',this)">תבניות הודעות</button>
+        </div>
+
+        <!-- TAB: Campaigns -->
+        <div class="wa-tab-panel active" id="wa-tab-campaigns">
+          <div class="wa-two-col">
+
+            <!-- LEFT: customer picker + composer -->
+            <div>
+              <!-- Customer picker -->
+              <div class="wa-block">
+                <div class="wa-section-label">לקוחות לשליחה</div>
+                <input type="text" class="wa-customer-search" id="waCustSearch" placeholder="חפש לקוח לפי שם / טלפון..." oninput="filterWaCustomers()">
+                <div class="wa-select-all-row">
+                  <input type="checkbox" id="waSelectAll" onchange="waToggleSelectAll(this.checked)">
+                  <label for="waSelectAll" style="cursor:pointer;user-select:none">בחר הכל</label>
+                </div>
+                <div class="wa-customer-list" id="waCustList">
+                  <div style="padding:16px;text-align:center;color:var(--gray-500);font-size:13px">
+                    טען הזמנות כדי לראות לקוחות
+                  </div>
+                </div>
+                <div class="wa-selected-badge" id="waSelectedBadge">0 לקוחות נבחרו</div>
+              </div>
+
+              <!-- Message composer -->
+              <div class="wa-block">
+                <div class="wa-section-label">הודעה</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                  <span style="font-size:13px;color:var(--gray-500)">קהל יעד: <span id="waAudienceCount" style="font-weight:700;color:var(--dark)">0</span> לקוחות</span>
+                </div>
+                <textarea class="wa-message-area" id="waMessageText" maxlength="1000" placeholder="כתוב את ההודעה כאן..." oninput="updateWaPreview();updateWaCharCounter()"></textarea>
+                <div class="wa-char-counter"><span id="waCharCount">0</span> / 1000</div>
+
+                <div class="wa-chips" id="waVarChips">
+                  <button class="wa-chip" onclick="insertWaVar('{שם}')">&#x7B;שם&#x7D;</button>
+                  <button class="wa-chip" onclick="insertWaVar('{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+                  <button class="wa-chip" onclick="insertWaVar('{סכום}')">&#x7B;סכום&#x7D;</button>
+                  <button class="wa-chip" onclick="insertWaVar('{לינק_הזמנה}')">&#x7B;לינק_הזמנה&#x7D;</button>
+                  <button class="wa-chip" onclick="insertWaVar('{פריטים}')">&#x7B;פריטים&#x7D;</button>
+                </div>
+
+                <div class="wa-template-btns">
+                  <button class="wa-tpl-btn" onclick="loadWaCampaignTemplate('confirm')">אישור הזמנה</button>
+                  <button class="wa-tpl-btn" onclick="loadWaCampaignTemplate('shipped')">עדכון שילוח</button>
+                  <button class="wa-tpl-btn" onclick="loadWaCampaignTemplate('promo')">מבצע מיוחד</button>
+                  <button class="wa-tpl-btn" onclick="loadWaCampaignTemplate('pending')">הזמנה בהמתנה</button>
+                </div>
+
+                <div class="wa-toggle-row">
+                  <input type="checkbox" id="waIncludeLink">
+                  <label for="waIncludeLink" style="cursor:pointer">הוסף לינק הזמנה אישי לכל לקוח</label>
+                </div>
+
+                <button class="wa-send-btn" id="waSendBtn" onclick="sendWaCampaign()">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                  שלח ל-<span id="waSendCount">0</span> לקוחות
+                </button>
+              </div>
+            </div>
+
+            <!-- RIGHT: preview -->
+            <div>
+              <div class="wa-section-label">תצוגה מקדימה</div>
+              <div class="wa-preview-box">
+                <div class="wa-preview-bubble" id="waPreviewBubble" style="color:var(--gray-500);font-style:italic">הודעה תופיע כאן...</div>
+              </div>
+              <div style="margin-top:10px;font-size:12px;color:var(--gray-500)">
+                המשתנים יוחלפו בנתונים אמיתיים של כל לקוח
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB: Templates -->
+        <div class="wa-tab-panel" id="wa-tab-templates">
+          <div style="font-size:13px;color:var(--gray-500);margin-bottom:20px;line-height:1.6">
+            ערוך את תבניות ההודעות שנשלחות אוטומטית עם שינוי סטטוס הזמנה.
+            השתמש במשתנים: <code style="background:var(--gray-100);padding:1px 6px;border-radius:4px;font-size:11px">{שם}</code>
+            <code style="background:var(--gray-100);padding:1px 6px;border-radius:4px;font-size:11px">{מספר_הזמנה}</code>
+            <code style="background:var(--gray-100);padding:1px 6px;border-radius:4px;font-size:11px">{סכום}</code>
+            <code style="background:var(--gray-100);padding:1px 6px;border-radius:4px;font-size:11px">{פריטים}</code>
+            <code style="background:var(--gray-100);padding:1px 6px;border-radius:4px;font-size:11px">{לינק_הזמנה}</code>
+          </div>
+
+          <div class="wa-tpl-card">
+            <div class="wa-tpl-card__label">אישור הזמנה חדשה</div>
+            <div class="wa-chips">
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-confirm','{שם}')">&#x7B;שם&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-confirm','{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-confirm','{סכום}')">&#x7B;סכום&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-confirm','{פריטים}')">&#x7B;פריטים&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-confirm','{לינק_הזמנה}')">&#x7B;לינק_הזמנה&#x7D;</button>
+            </div>
+            <textarea class="wa-message-area" id="tpl-confirm" style="min-height:90px"></textarea>
+            <button class="wa-tpl-save-btn" onclick="saveWaTpl('confirm','tpl-confirm')">שמור תבנית</button>
+          </div>
+
+          <div class="wa-tpl-card">
+            <div class="wa-tpl-card__label">עדכון: נשלח</div>
+            <div class="wa-chips">
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-shipped','{שם}')">&#x7B;שם&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-shipped','{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-shipped','{פריטים}')">&#x7B;פריטים&#x7D;</button>
+            </div>
+            <textarea class="wa-message-area" id="tpl-shipped" style="min-height:90px"></textarea>
+            <button class="wa-tpl-save-btn" onclick="saveWaTpl('shipped','tpl-shipped')">שמור תבנית</button>
+          </div>
+
+          <div class="wa-tpl-card">
+            <div class="wa-tpl-card__label">עדכון: הושלם</div>
+            <div class="wa-chips">
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-completed','{שם}')">&#x7B;שם&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-completed','{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-completed','{סכום}')">&#x7B;סכום&#x7D;</button>
+            </div>
+            <textarea class="wa-message-area" id="tpl-completed" style="min-height:90px"></textarea>
+            <button class="wa-tpl-save-btn" onclick="saveWaTpl('completed','tpl-completed')">שמור תבנית</button>
+          </div>
+
+          <div class="wa-tpl-card">
+            <div class="wa-tpl-card__label">הזמנה בוטלה</div>
+            <div class="wa-chips">
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-cancelled','{שם}')">&#x7B;שם&#x7D;</button>
+              <button class="wa-chip" onclick="insertWaTplVar('tpl-cancelled','{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+            </div>
+            <textarea class="wa-message-area" id="tpl-cancelled" style="min-height:90px"></textarea>
+            <button class="wa-tpl-save-btn" onclick="saveWaTpl('cancelled','tpl-cancelled')">שמור תבנית</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- PRODUCTS PANEL -->
     <div class="panel" id="products-panel">
       <div class="panel__header">
@@ -1011,6 +1347,9 @@
   </main>
 </div>
 
+<!-- PER-ROW STATUS PICKER -->
+<div id="statusPicker"></div>
+
 <!-- EMAIL PREVIEW MODAL -->
 <div class="modal-overlay" id="emailModalOverlay">
   <div class="email-modal">
@@ -1052,6 +1391,38 @@
   </div>
 </div>
 
+<!-- WHATSAPP ORDER MODAL -->
+<div class="modal-overlay" id="waOrderModalOverlay">
+  <div class="wa-order-modal">
+    <div class="wa-order-modal__head">
+      <div class="wa-order-modal__title" id="waOrderModalTitle">שלח WhatsApp</div>
+      <button class="wa-order-modal__close" onclick="closeWaOrderModal()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div style="margin-bottom:12px">
+      <div class="wa-chips" id="waOrderVarChips">
+        <button class="wa-chip" onclick="insertWaOrderVar('{שם}')">&#x7B;שם&#x7D;</button>
+        <button class="wa-chip" onclick="insertWaOrderVar('{מספר_הזמנה}')">&#x7B;מספר_הזמנה&#x7D;</button>
+        <button class="wa-chip" onclick="insertWaOrderVar('{סכום}')">&#x7B;סכום&#x7D;</button>
+        <button class="wa-chip" onclick="insertWaOrderVar('{פריטים}')">&#x7B;פריטים&#x7D;</button>
+        <button class="wa-chip" onclick="insertWaOrderVar('{לינק_הזמנה}')">&#x7B;לינק_הזמנה&#x7D;</button>
+      </div>
+    </div>
+    <textarea class="wa-message-area" id="waOrderMsgText" style="min-height:120px;margin-bottom:12px"></textarea>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="wa-send-btn" onclick="sendWaOrderMsg()" style="flex:1;justify-content:center">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        שלח
+      </button>
+      <button onclick="appendOrderLink()" style="padding:12px 16px;background:var(--gray-100);color:var(--gray-700);border:none;border-radius:12px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">
+        הוסף לינק הזמנה
+      </button>
+      <button onclick="closeWaOrderModal()" style="padding:12px 16px;background:var(--gray-100);color:var(--gray-500);border:none;border-radius:12px;font-family:inherit;font-size:13px;cursor:pointer">ביטול</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="adminToast"></div>
 
@@ -1063,7 +1434,12 @@ let exitTarget = null;
 function handleExitClick(e) {
   e.preventDefault();
   exitTarget = e.currentTarget.getAttribute('href');
-  document.getElementById('exitModalOverlay').classList.add('show');
+  if (adminDirty) {
+    // Dirty: show the exit modal with unsaved-changes warning
+    document.getElementById('exitModalOverlay').classList.add('show');
+  } else {
+    window.location.href = exitTarget || 'index.html';
+  }
 }
 
 function stayOnPage() {
@@ -1077,11 +1453,16 @@ function leaveToSite() {
   window.location.href = url;
 }
 
-// Intercept browser back/close
+// Dirty-state tracking — warn only when there are unsaved changes
+let adminDirty = false;
+function markDirty() { adminDirty = true; }
+function clearDirty() { adminDirty = false; }
+
 window.addEventListener('beforeunload', e => {
+  if (!adminDirty) return;
   e.preventDefault();
-  e.returnValue = 'לצאת מהאדמין?';
-  return 'לצאת מהאדמין?';
+  e.returnValue = 'יש שינויים שלא נשמרו. לצאת בכל זאת?';
+  return 'יש שינויים שלא נשמרו. לצאת בכל זאת?';
 });
 
 /* ---- SIDEBAR ACTIVE ---- */
@@ -1115,6 +1496,7 @@ window.addEventListener('load', () => {
 const PM_KEY = 'garage_payment_cfg';
 
 const PM_DEFAULTS = {
+  card:   { enabled: true, link: '' },
   bit:    { enabled: true,  phone: '050-9723636' },
   paybox: { enabled: false, link: '' },
   bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
@@ -1123,6 +1505,9 @@ const PM_DEFAULTS = {
 
 function loadPaymentMethods() {
   const cfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS;
+
+  document.getElementById('pm-card-enabled').checked = cfg.card?.enabled !== false;
+  document.getElementById('pm-card-link').value       = cfg.card?.link || '';
 
   document.getElementById('pm-bit-enabled').checked   = cfg.bit.enabled;
   document.getElementById('pm-bit-phone').value        = cfg.bit.phone || '';
@@ -1138,8 +1523,12 @@ function loadPaymentMethods() {
 
   document.getElementById('pm-cash-enabled').checked   = cfg.cash.enabled;
 
-  ['bit','paybox','bank','cash'].forEach(m => togglePmFields(m));
+  ['card','bit','paybox','bank','cash'].forEach(m => togglePmFields(m));
   updatePmCount(cfg);
+  // Attach dirty listeners after loading values
+  document.querySelectorAll('#payment-panel input').forEach(el =>
+    el.addEventListener('input', markDirty, { once: false })
+  );
 }
 
 function togglePmFields(method) {
@@ -1150,6 +1539,10 @@ function togglePmFields(method) {
 
 function savePaymentMethods() {
   const cfg = {
+    card: {
+      enabled: document.getElementById('pm-card-enabled').checked,
+      link:    document.getElementById('pm-card-link').value.trim(),
+    },
     bit: {
       enabled: document.getElementById('pm-bit-enabled').checked,
       phone:   document.getElementById('pm-bit-phone').value.trim(),
@@ -1172,6 +1565,7 @@ function savePaymentMethods() {
 
   localStorage.setItem(PM_KEY, JSON.stringify(cfg));
   updatePmCount(cfg);
+  clearDirty();
 
   const confirm = document.getElementById('pmSaveConfirm');
   confirm.classList.add('show');
@@ -1205,7 +1599,7 @@ function renderScentsTable() {
       <td>
         <input id="sn-name-${i}" value="${s.name.replace(/"/g,'&quot;')}"
                style="font-weight:700;width:100%;border:1.5px solid transparent;padding:5px 8px;border-radius:6px;font-family:inherit;font-size:13px;background:transparent"
-               onfocus="this.style.borderColor='var(--mint)'" onblur="this.style.borderColor='transparent'">
+               onfocus="this.style.borderColor='var(--mint)'" onblur="this.style.borderColor='transparent'" oninput="markDirty()">
       </td>
       <td>
         <input id="sn-desc-${i}" value="${(s.desc||'').replace(/"/g,'&quot;')}"
@@ -1293,6 +1687,7 @@ function saveScents() {
   // Also update the live SCENTS array so admin page itself is in sync
   window.SCENTS = adminScents;
   renderScentsTable();
+  clearDirty();
   const conf = document.getElementById('scentsSaveConfirm');
   conf.classList.add('show');
   setTimeout(() => conf.classList.remove('show'), 3000);
@@ -1308,16 +1703,35 @@ function resetScentsToDefault() {
 /* ---- ORDERS ---- */
 const ADMIN_API = 'https://garage-admin.vercel.app';
 
+/* ---- FORMAT ORDER NUMBER ---- */
+function fmtOrderNum(raw) {
+  if (!raw) return '—';
+  const s = String(raw);
+  // wc_11195 → 11195, 01ain_59 → 59, plain numbers stay as-is
+  const m = s.match(/[_-]?(\d+)$/);
+  return m ? m[1] : s;
+}
+
 const STATUS_MAP = {
-  pending:    { label: 'ממתין',   cls: 'badge--orange' },
-  processing: { label: 'בטיפול',  cls: 'badge--orange' },
-  shipped:    { label: 'נשלח',    cls: 'badge--green'  },
-  completed:  { label: 'הושלם',   cls: 'badge--blue'   },
-  cancelled:  { label: 'בוטל',    cls: 'badge--red'    },
-  failed:     { label: 'נכשל',    cls: 'badge--red'    },
-  new:        { label: 'חדש',     cls: 'badge--orange' },
+  new:                  { label: 'חדש',                 cls: 'badge--orange' },
+  pending:              { label: 'ממתין',                cls: 'badge--orange' },
+  pending_payment:      { label: 'ממתין לתשלום',         cls: 'badge--orange' },
+  processing:           { label: 'בטיפול',               cls: 'badge--orange' },
+  cash_on_delivery:     { label: 'מזומן',                cls: 'badge--blue'   },
+  cod:                  { label: 'מזומן',                cls: 'badge--blue'   },
+  on_hold:              { label: 'בהשהייה',              cls: 'badge--orange' },
+  failed:               { label: 'נכשל',                 cls: 'badge--red'    },
+  shipped:              { label: 'נשלח',                 cls: 'badge--green'  },
+  shipped_pending_cash: { label: 'נשלח - ממתין למזומן',  cls: 'badge--green'  },
+  completed:            { label: 'הושלם',                cls: 'badge--blue'   },
+  refunded:             { label: 'הוחזר',                cls: 'badge--orange' },
+  cancelled:            { label: 'בוטל',                 cls: 'badge--red'    },
 };
-const STATUS_CYCLE = ['new','processing','shipped','completed','cancelled'];
+// All selectable statuses (used by the per-row status picker)
+const STATUS_OPTIONS = [
+  'new','pending_payment','processing','cash_on_delivery','on_hold',
+  'shipped','shipped_pending_cash','completed','refunded','failed','cancelled'
+];
 
 const PM_LABELS = {
   bit: 'ביט', paybox: 'PayBox', bank: 'בנק', cash: 'מזומן', card: 'כרטיס'
@@ -1391,7 +1805,7 @@ function renderOrdersTable() {
     const status  = o.status || 'new';
     const s       = STATUS_MAP[status] || STATUS_MAP.new;
     const oid     = o._id || o.id || `order-${i}`;
-    const num     = o.orderNumber || o.id || `${1000 + i}`;
+    const num     = fmtOrderNum(o.orderNumber || o.id || `${1000 + i}`);
     const name    = (o.customer?.name || o.customerName || '—').split(' ').map((w,i2) => i2 === 0 ? w : w[0] + '.').join(' ');
     const phone   = o.customer?.phone || o.phone || '—';
     const items   = (o.items || []).map(it => it.name || '').filter(Boolean).join(', ') || '—';
@@ -1412,12 +1826,18 @@ function renderOrdersTable() {
         <td><span class="badge badge--blue" style="font-size:.75rem">${pm}</span></td>
         <td style="font-size:.8rem;color:var(--gray-500)">${date}</td>
         <td>
-          <button class="status-badge-btn" onclick="cycleStatus('${oid}')" title="לחץ לשינוי סטטוס">
+          <button class="status-badge-btn" onclick="cycleStatus('${oid}',event)" title="לחץ לשינוי סטטוס">
             <span class="badge ${s.cls}">${s.label}</span>
           </button>
         </td>
         <td>
           <div class="row-actions">
+            <button class="row-act-btn row-act-btn--wa" onclick="openWaOrderModal('${oid}')" title="שלח WhatsApp">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </button>
+            <button class="row-act-btn" onclick="copyOrderLink('${oid}')" title="העתק לינק הזמנה">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            </button>
             <button class="row-act-btn" onclick="openOrderEmail('${oid}')" title="שלח מייל">
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </button>
@@ -1434,6 +1854,9 @@ function renderOrdersTable() {
   }).join('');
 
   updateBulkToolbar();
+  // Refresh WA customer list after orders render
+  const _waCustomers = buildWaCustomerList ? buildWaCustomerList() : [];
+  if (_waCustomers.length && typeof renderWaCustomerList === 'function') renderWaCustomerList(_waCustomers);
 }
 
 /* ---- SELECTION ---- */
@@ -1468,7 +1891,7 @@ function updateBulkToolbar() {
   if (countEl) countEl.textContent = `${n} הזמנות נבחרו`;
 }
 
-/* ---- STATUS DROPDOWN ---- */
+/* ---- STATUS DROPDOWN (bulk) ---- */
 function toggleStatusDropdown() {
   document.getElementById('statusDropdown').classList.toggle('open');
 }
@@ -1477,17 +1900,48 @@ document.addEventListener('click', e => {
     const d = document.getElementById('statusDropdown');
     if (d) d.classList.remove('open');
   }
+  // Close per-row picker if clicking outside
+  if (!e.target.closest('#statusPicker') && !e.target.closest('.status-badge-btn')) {
+    document.getElementById('statusPicker')?.classList.remove('open');
+  }
 });
 
-/* ---- CYCLE STATUS (per-row) ---- */
-function cycleStatus(oid) {
+/* ---- PER-ROW STATUS PICKER ---- */
+let _pickerOid = null;
+function cycleStatus(oid, event) {
+  event && event.stopPropagation();
+  _pickerOid = oid;
   const o = cachedOrders.find(x => (x._id || x.id) === oid);
   if (!o) return;
   const cur = o.status || 'new';
-  const idx = STATUS_CYCLE.indexOf(cur);
-  o.status  = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-  renderOrdersTable();
-  showToast(`סטטוס שונה ל-${STATUS_MAP[o.status]?.label || o.status}`);
+
+  // Build picker contents
+  const picker = document.getElementById('statusPicker');
+  picker.innerHTML = STATUS_OPTIONS.map(k => {
+    const s = STATUS_MAP[k];
+    return `<button onclick="setOrderStatus('${oid}','${k}')" class="${k === cur ? 'active-status' : ''}">${s ? s.label : k}</button>`;
+  }).join('');
+
+  // Position near click
+  if (event) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const top  = rect.bottom + window.scrollY + 4;
+    const left = Math.min(rect.left + window.scrollX, window.innerWidth - 200);
+    picker.style.top  = top  + 'px';
+    picker.style.left = left + 'px';
+  }
+  picker.classList.add('open');
+}
+
+function setOrderStatus(oid, newStatus) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (o) {
+    o.status = newStatus;
+    renderOrdersTable();
+    showToast(`סטטוס שונה ל-${STATUS_MAP[newStatus]?.label || newStatus}`);
+  }
+  document.getElementById('statusPicker').classList.remove('open');
+}
 }
 
 /* ---- BULK STATUS CHANGE ---- */
@@ -1505,7 +1959,7 @@ function bulkChangeStatus(newStatus) {
 /* ---- DELETE ---- */
 function confirmDeleteOrder(oid) {
   const o = cachedOrders.find(x => (x._id || x.id) === oid);
-  const num = o?.orderNumber || o?.id || oid;
+  const num = fmtOrderNum(o?.orderNumber || o?.id || oid);
   pendingDeleteIds = [oid];
   document.getElementById('deleteModalTitle').textContent = `מחיקת הזמנה #${num}`;
   document.getElementById('deleteModalMsg').textContent   = `האם למחוק את הזמנה #${num}? פעולה זו בלתי הפיכה.`;
@@ -1550,7 +2004,7 @@ function bulkSendEmail() {
 
 /* ---- EMAIL MODALS ---- */
 function buildOrderEmailHtml(o) {
-  const num   = o.orderNumber || o.id || 'N/A';
+  const num   = fmtOrderNum(o.orderNumber || o.id) || 'N/A';
   const name  = o.customer?.name || o.customerName || 'לקוח יקר';
   const phone = o.customer?.phone || o.phone || '';
   const email = o.customer?.email || o.email || '';
@@ -1621,7 +2075,7 @@ function buildOrderEmailHtml(o) {
 }
 
 function buildCompletionEmailHtml(o) {
-  const num   = o.orderNumber || o.id || 'N/A';
+  const num   = fmtOrderNum(o.orderNumber || o.id) || 'N/A';
   const name  = o.customer?.name || o.customerName || 'לקוח יקר';
   const items = (o.items || []);
   const total = (o.total || 0).toLocaleString('he-IL');
@@ -1711,7 +2165,7 @@ function openEmailModal(title, html, order) {
   };
   const sendBtn = document.getElementById('emailModalSendBtn');
   const emailTo = order?.customer?.email || order?.email || '';
-  const subject = encodeURIComponent(`GARAGE - הזמנה #${order?.orderNumber || order?.id || ''}`);
+  const subject = encodeURIComponent(`GARAGE - הזמנה #${fmtOrderNum(order?.orderNumber || order?.id || '')}`);
   sendBtn.onclick = () => window.open(`mailto:${emailTo}?subject=${subject}&body=${encodeURIComponent('ראה HTML מצורף')}`, '_blank');
   document.getElementById('emailModalOverlay').classList.add('show');
 }
@@ -1728,7 +2182,296 @@ window.addEventListener('load', () => {
   loadPaymentMethods();
   loadScents();
   loadOrders();
+  loadWaTemplates();
+  // Fix product images: remove Referer header so hotlink-protection is bypassed
+  document.querySelectorAll('.product-row__img').forEach(img => {
+    img.referrerPolicy = 'no-referrer';
+    img.crossOrigin    = 'anonymous';
+    img.onerror = function() {
+      if (this.dataset.errored) return;
+      this.dataset.errored = '1';
+      // Show initials placeholder
+      const letter = (this.alt || 'P')[0].toUpperCase();
+      const parent = this.parentElement;
+      const ph = document.createElement('div');
+      ph.style.cssText = `width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#d1fae5,#6ee7b7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#065f46;flex-shrink:0`;
+      ph.textContent = letter;
+      parent.replaceChild(ph, this);
+    };
+  });
 });
+
+/* ======================================================
+   WHATSAPP — ORDER LINK BUILDER
+   ====================================================== */
+function buildOrderLink(order) {
+  const data = {
+    name:    order.customer?.name    || order.customerName  || '',
+    phone:   order.customer?.phone   || order.phone         || '',
+    address: order.customer?.address || order.address       || '',
+    items:   order.items             || [],
+    total:   order.total             || 0,
+    orderId: order.orderNumber       || order.id            || '',
+  };
+  return 'https://garage-beryl-sigma.vercel.app/checkout.html?prefill=' +
+    btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+}
+
+function copyOrderLink(oid) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (!o) return;
+  const link = buildOrderLink(o);
+  navigator.clipboard.writeText(link).then(() => showToast('לינק הועתק'));
+}
+
+/* ======================================================
+   WHATSAPP — PER-ORDER MODAL
+   ====================================================== */
+let currentWaOrder = null;
+
+const WA_DEFAULT_TEMPLATES = {
+  confirm:   'שלום {שם}!\nתודה על הזמנה #{מספר_הזמנה} ב-GARAGE.\nסה"כ: {סכום}\nפריטים: {פריטים}\nניצור איתך קשר לתיאום משלוח.',
+  shipped:   'שלום {שם}!\nהזמנה #{מספר_הזמנה} יצאה לדרך!\nהפריטים שלך בדרך אליך.\nלשאלות - מוזמן לענות להודעה זו.',
+  completed: 'שלום {שם}!\nהזמנה #{מספר_הזמנה} הושלמה בהצלחה.\nתודה שבחרת GARAGE!',
+  cancelled: 'שלום {שם}!\nהזמנה #{מספר_הזמנה} בוטלה.\nלשאלות - נשמח לעזור.',
+  promo:     'שלום {שם}!\nיש לנו מבצע מיוחד רק בשבילך!\nמוזמן לבקר באתר ולבחור את הניחוח שלך.',
+  pending:   'שלום {שם}!\nהזמנה #{מספר_הזמנה} ממתינה לאישור תשלום.\nסה"כ לתשלום: {סכום}.\nלחץ על הלינק לסיום ההזמנה: {לינק_הזמנה}',
+};
+
+function getWaTemplates() {
+  const stored = localStorage.getItem('garage_wa_templates');
+  return stored ? { ...WA_DEFAULT_TEMPLATES, ...JSON.parse(stored) } : { ...WA_DEFAULT_TEMPLATES };
+}
+
+function resolveWaVars(text, order) {
+  if (!order) return text;
+  const name    = order.customer?.name    || order.customerName  || '';
+  const num     = fmtOrderNum(order.orderNumber || order.id || '');
+  const total   = `₪${(order.total || 0).toLocaleString('he-IL')}`;
+  const items   = (order.items || []).map(i => i.name || '').filter(Boolean).join(', ') || '—';
+  const link    = buildOrderLink(order);
+  return text
+    .replace(/\{שם\}/g,          name)
+    .replace(/\{מספר_הזמנה\}/g,  num)
+    .replace(/\{סכום\}/g,        total)
+    .replace(/\{פריטים\}/g,      items)
+    .replace(/\{לינק_הזמנה\}/g,  link);
+}
+
+function openWaOrderModal(oid) {
+  currentWaOrder = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (!currentWaOrder) return;
+  const name = currentWaOrder.customer?.name || currentWaOrder.customerName || 'לקוח';
+  document.getElementById('waOrderModalTitle').textContent = `שלח WhatsApp ל${name}`;
+  const tplText = getWaTemplates().confirm;
+  document.getElementById('waOrderMsgText').value = resolveWaVars(tplText, currentWaOrder);
+  document.getElementById('waOrderModalOverlay').classList.add('show');
+}
+
+function closeWaOrderModal() {
+  document.getElementById('waOrderModalOverlay').classList.remove('show');
+  currentWaOrder = null;
+}
+
+function insertWaOrderVar(v) {
+  const ta = document.getElementById('waOrderMsgText');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.slice(0, s) + v + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + v.length;
+  ta.focus();
+}
+
+function appendOrderLink() {
+  if (!currentWaOrder) return;
+  const ta   = document.getElementById('waOrderMsgText');
+  const link = buildOrderLink(currentWaOrder);
+  ta.value = ta.value.trimEnd() + '\n' + link;
+  ta.focus();
+}
+
+function sendWaOrderMsg() {
+  if (!currentWaOrder) return;
+  const phone = (currentWaOrder.customer?.phone || currentWaOrder.phone || '').replace(/\D/g, '');
+  const intlPhone = phone.startsWith('0') ? '972' + phone.slice(1) : phone;
+  if (!intlPhone) { showToast('אין מספר טלפון להזמנה זו'); return; }
+  const msg = document.getElementById('waOrderMsgText').value.trim();
+  if (!msg) { showToast('יש לכתוב הודעה'); return; }
+  window.open(`https://wa.me/${intlPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeWaOrderModal();
+}
+
+/* ======================================================
+   WHATSAPP — CAMPAIGNS TAB
+   ====================================================== */
+let waCampaignSelected = new Set();
+let waFilteredCustomers = [];
+
+function buildWaCustomerList() {
+  // Deduplicate by phone from cachedOrders
+  const seen = new Map();
+  cachedOrders.forEach(o => {
+    const phone = o.customer?.phone || o.phone || '';
+    const name  = o.customer?.name  || o.customerName || '';
+    if (phone && !seen.has(phone)) {
+      seen.set(phone, { name, phone, order: o });
+    }
+  });
+  return [...seen.values()];
+}
+
+function renderWaCustomerList(customers) {
+  waFilteredCustomers = customers;
+  const list = document.getElementById('waCustList');
+  if (!customers.length) {
+    list.innerHTML = '<div style="padding:16px;text-align:center;color:var(--gray-500);font-size:13px">לא נמצאו לקוחות</div>';
+    return;
+  }
+  list.innerHTML = customers.map((c, i) => `
+    <div class="wa-customer-item" onclick="waToggleCustomer('${c.phone}', event)">
+      <input type="checkbox" id="wac-${i}" ${waCampaignSelected.has(c.phone) ? 'checked' : ''}
+             onchange="waToggleCustomer('${c.phone}', null, this.checked)">
+      <span class="cust-name">${c.name || '(ללא שם)'}</span>
+      <span class="cust-phone">${c.phone}</span>
+    </div>
+  `).join('');
+  updateWaSelectedBadge();
+}
+
+function waToggleCustomer(phone, e, forcedChecked) {
+  if (e && e.target.tagName === 'INPUT') return; // let checkbox handle it
+  const checked = forcedChecked !== undefined ? forcedChecked : !waCampaignSelected.has(phone);
+  if (checked) waCampaignSelected.add(phone); else waCampaignSelected.delete(phone);
+  // Update checkbox visually
+  const customers = waFilteredCustomers;
+  const idx = customers.findIndex(c => c.phone === phone);
+  if (idx !== -1) {
+    const cb = document.getElementById(`wac-${idx}`);
+    if (cb) cb.checked = checked;
+  }
+  updateWaSelectedBadge();
+  updateWaPreview();
+}
+
+function waToggleSelectAll(checked) {
+  if (checked) waFilteredCustomers.forEach(c => waCampaignSelected.add(c.phone));
+  else         waCampaignSelected.clear();
+  renderWaCustomerList(waFilteredCustomers);
+}
+
+function filterWaCustomers() {
+  const q = document.getElementById('waCustSearch').value.trim().toLowerCase();
+  const all = buildWaCustomerList();
+  const filtered = q ? all.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q)) : all;
+  renderWaCustomerList(filtered);
+}
+
+function updateWaSelectedBadge() {
+  const n = waCampaignSelected.size;
+  document.getElementById('waSelectedBadge').textContent  = `${n} לקוחות נבחרו`;
+  document.getElementById('waAudienceCount').textContent   = n;
+  document.getElementById('waSendCount').textContent       = n;
+  document.getElementById('waSendBtn').disabled            = n === 0;
+}
+
+function insertWaVar(v) {
+  const ta = document.getElementById('waMessageText');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.slice(0, s) + v + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + v.length;
+  ta.focus();
+  updateWaPreview();
+  updateWaCharCounter();
+}
+
+function updateWaCharCounter() {
+  const n = (document.getElementById('waMessageText').value || '').length;
+  document.getElementById('waCharCount').textContent = n;
+}
+
+function updateWaPreview() {
+  const tpl = document.getElementById('waMessageText').value || '';
+  const bubble = document.getElementById('waPreviewBubble');
+  if (!tpl.trim()) {
+    bubble.textContent = 'הודעה תופיע כאן...';
+    bubble.style.fontStyle = 'italic';
+    bubble.style.color = 'var(--gray-500)';
+    return;
+  }
+  const sampleOrder = cachedOrders[0] || null;
+  const resolved = resolveWaVars(tpl, sampleOrder);
+  bubble.textContent = resolved;
+  bubble.style.fontStyle = 'normal';
+  bubble.style.color = 'var(--dark)';
+}
+
+function loadWaCampaignTemplate(key) {
+  const tpls = getWaTemplates();
+  const text = tpls[key] || '';
+  document.getElementById('waMessageText').value = text;
+  updateWaPreview();
+  updateWaCharCounter();
+}
+
+function sendWaCampaign() {
+  if (waCampaignSelected.size === 0) return;
+  const tpl     = document.getElementById('waMessageText').value.trim();
+  const addLink = document.getElementById('waIncludeLink').checked;
+  if (!tpl) { showToast('יש לכתוב הודעה'); return; }
+
+  const customers = buildWaCustomerList().filter(c => waCampaignSelected.has(c.phone));
+  let delay = 0;
+  customers.forEach((c, i) => {
+    setTimeout(() => {
+      let msg = resolveWaVars(tpl, c.order);
+      if (addLink && c.order) msg += '\n' + buildOrderLink(c.order);
+      const intlPhone = (c.phone || '').replace(/\D/g,'');
+      const ph = intlPhone.startsWith('0') ? '972' + intlPhone.slice(1) : intlPhone;
+      window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+    }, i * 400);
+    delay = i * 400;
+  });
+  showToast(`שולח ל-${customers.length} לקוחות...`, 3000);
+}
+
+/* ======================================================
+   WHATSAPP — TEMPLATES TAB
+   ====================================================== */
+const WA_TEMPLATES_KEY = 'garage_wa_templates';
+
+function loadWaTemplates() {
+  const tpls = getWaTemplates();
+  const map = { confirm: 'tpl-confirm', shipped: 'tpl-shipped', completed: 'tpl-completed', cancelled: 'tpl-cancelled' };
+  Object.entries(map).forEach(([k, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = tpls[k] || WA_DEFAULT_TEMPLATES[k] || '';
+  });
+}
+
+function saveWaTpl(key, inputId) {
+  const text = document.getElementById(inputId)?.value || '';
+  const stored = JSON.parse(localStorage.getItem(WA_TEMPLATES_KEY) || '{}');
+  stored[key] = text;
+  localStorage.setItem(WA_TEMPLATES_KEY, JSON.stringify(stored));
+  showToast('תבנית נשמרה');
+}
+
+function insertWaTplVar(inputId, v) {
+  const ta = document.getElementById(inputId);
+  if (!ta) return;
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.slice(0, s) + v + ta.value.slice(e);
+  ta.selectionStart = ta.selectionEnd = s + v.length;
+  ta.focus();
+}
+
+function switchWaTab(tab, btn) {
+  document.querySelectorAll('.wa-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.wa-tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('wa-tab-' + tab).classList.add('active');
+}
+
+
 </script>
 </body>
 </html>

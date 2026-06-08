@@ -131,6 +131,155 @@
 
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+/* FLAGSHIP BANNER */
+.flagship-section {
+  background: linear-gradient(135deg, #0f0a2a 0%, #1e1152 40%, #2d1b69 70%, #4a3a9e 100%);
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+.flagship-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 80% 50%, rgba(124,58,237,.2) 0%, transparent 60%);
+  pointer-events: none;
+}
+.flagship-inner {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+.flagship-content { flex: 1; }
+.flagship-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245,158,11,.15);
+  border: 1px solid rgba(245,158,11,.4);
+  color: #fcd34d;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 18px;
+}
+.flagship-title {
+  font-size: clamp(24px,3.5vw,40px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.flagship-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  max-width: 440px;
+}
+.flagship-perks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  margin-bottom: 24px;
+}
+.flagship-perk {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255,255,255,.85);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.flagship-perk svg { color: #34d399; flex-shrink: 0; }
+.flagship-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.flagship-price {
+  font-size: clamp(36px,4vw,52px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.flagship-price-note {
+  font-size: 14px;
+  color: rgba(255,255,255,.5);
+  text-decoration: line-through;
+}
+.flagship-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.flagship-details-link {
+  color: rgba(255,255,255,.6);
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.flagship-img-wrap {
+  flex: 0 0 320px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flagship-img-glow {
+  position: absolute;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(167,139,250,.5) 0%, rgba(124,58,237,.2) 50%, transparent 75%);
+  border-radius: 50%;
+  animation: flagshipGlow 3s ease-in-out infinite alternate;
+}
+@keyframes flagshipGlow {
+  0%   { transform: scale(1); opacity: .7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+.flagship-img {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  max-height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 50px rgba(100,60,220,.5));
+  animation: flagshipFloat 4s ease-in-out infinite;
+}
+@keyframes flagshipFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-16px); }
+}
+@media (max-width: 768px) {
+  .flagship-inner { flex-direction: column; gap: 24px; text-align: center; }
+  .flagship-img-wrap { flex: 0 0 200px; }
+  .flagship-img { max-width: 200px; max-height: 200px; }
+  .flagship-img-glow { width: 180px; height: 180px; }
+  .flagship-sub { max-width: 100%; }
+  .flagship-perks { grid-template-columns: 1fr; }
+  .flagship-actions { justify-content: center; }
+}
+/* PRODUCT COVERAGE BADGE */
+.product-card__coverage {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #f5f3ff;
+  border: 1px solid #e8e4ff;
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-top: 4px;
+}
+  </style>
 </head>
 <body>
 
@@ -189,6 +338,57 @@
     <div class="hero__smoke" aria-hidden="true"></div>
     <img src="https://garage.org.il/wp-content/uploads/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png" class="hero__product-img" id="heroProduct" alt="מפיץ ריח GARAGE" />
     <div class="hero__smoke hero__smoke--2" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- FLAGSHIP BANNER -->
+<section class="flagship-section">
+  <div class="container">
+    <div class="flagship-inner">
+      <div class="flagship-content">
+        <div class="flagship-tag">
+          <svg fill="currentColor" viewBox="0 0 24 24" width="12" height="12"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          מוצר הדגל
+        </div>
+        <h2 class="flagship-title">באנדל מפיץ ריח<br>+ חבילת ריח לשנה שלמה</h2>
+        <p class="flagship-sub">מפיץ G60 + 6 בקבוקי ריח 100 מ"ל — 18 ניחוחות לבחירה. הכי משתלם שיש!</p>
+        <div class="flagship-perks">
+          <div class="flagship-perk">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            מפיץ G60 עד 50-60 מ"ר
+          </div>
+          <div class="flagship-perk">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            6 בקבוקי שמן ריח 100 מ"ל
+          </div>
+          <div class="flagship-perk">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            ריח לכל השנה — חסכון עצום
+          </div>
+          <div class="flagship-perk">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            משלוח חינם
+          </div>
+        </div>
+        <div class="flagship-price-row">
+          <div class="flagship-price">&#8362;465</div>
+          <div class="flagship-price-note">במקום &#8362;713 בנפרד</div>
+        </div>
+        <div class="flagship-actions">
+          <a href="product.html?id=bundle" class="btn btn--primary" style="font-size:1rem;padding:14px 32px">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            הזמן עכשיו
+          </a>
+          <a href="product.html?id=bundle" class="flagship-details-link">פרטים נוספים</a>
+        </div>
+      </div>
+      <div class="flagship-img-wrap">
+        <div class="flagship-img-glow"></div>
+        <img class="flagship-img"
+          src="https://garage.org.il/wp-content/uploads/2025/07/%d7%91%d7%90%d7%a0%d7%93%d7%9c-%d7%9e%d7%a4%d7%99%d7%a5-copy.webp"
+          alt="באנדל מפיץ ריח + 6 ריחות" loading="eager" />
+      </div>
+    </div>
   </div>
 </section>
 
@@ -789,22 +989,37 @@ function playVideo(card) {
     const grid = document.getElementById('productGrid');
     if (!grid || typeof PRODUCTS === 'undefined') return;
 
-    // PRODUCTS is a keyed object - convert to array
-    const allProducts = Object.values(PRODUCTS);
-    const show = allProducts.slice(0, 4);
+    const FEATURED_IDS = ['bundle', 'g60', 'car', 'ipad'];
+    const COVERAGE_MAP = {
+      car:    'לרכב',
+      g30:    '30-40 מ"ר',
+      g60:    '50-60 מ"ר',
+      ipad:   '100-150 מ"ר',
+      g100:   'עד 200 מ"ר',
+      s300:   'עד 300 מ"ר',
+      s500:   'עד 500 מ"ר',
+      s1000:  'עד 1,000 מ"ר',
+      bundle: 'ערכה שלמה',
+      bottles_100ml: '100 מ"ל',
+    };
+
+    const show = FEATURED_IDS
+      .map(id => PRODUCTS[id])
+      .filter(Boolean);
 
     grid.innerHTML = show.map(p => `
-      <div class="product-card">
+      <div class="product-card" data-coverage="${COVERAGE_MAP[p.id] || ''}">
         <div class="product-card__img-wrap">
           <img class="product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
           ${p.badge ? `<span class="product-card__badge product-card__badge--hot">${p.badge}</span>` : ''}
         </div>
         <div class="product-card__body">
           <div class="product-card__name">${p.name}</div>
+          ${COVERAGE_MAP[p.id] ? `<div class="product-card__coverage">${COVERAGE_MAP[p.id]}</div>` : ''}
           <div class="product-card__scent">${p.subtitle || p.categoryLabel || ''}</div>
           <div class="product-card__price-row">
-            <span class="product-card__price">₪${p.price}</span>
-            ${p.origPrice ? `<span class="product-card__old">₪${p.origPrice}</span>` : ''}
+            <span class="product-card__price">&#8362;${p.price}</span>
+            ${p.origPrice ? `<span class="product-card__old">&#8362;${p.origPrice}</span>` : ''}
           </div>
           <div class="product-card__cta">
             <button class="product-card__btn" onclick="location.href='product.html?id=${p.id}'">לצפייה במוצר</button>
