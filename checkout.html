@@ -657,6 +657,46 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   const btn = e.target.querySelector('button[type=submit]');
   btn.disabled = true; btn.style.opacity = '0.7';
 
+  const finalTotal = appliedCoupon ? totals.total - appliedCoupon.discount : totals.total;
+  const method = selectedPayMethod || 'card';
+
+  // Cardcom credit card - dynamic payment page (server creates the session)
+  if (method === 'card') {
+    const orderPayload = {
+      customer: { name: fullName, phone, address: fullAddr, city, zip: zip || undefined },
+      items: items.map(i => ({ productId: i.productId, name: i.name, scent: i.scent || '', qty: i.qty, price: i.price, isUpsell: i.isUpsell || false })),
+      subtotal: totals.subtotal,
+      shipping: totals.shipping,
+      discountAmt: appliedCoupon ? appliedCoupon.discount : 0,
+      couponCode: appliedCoupon ? appliedCoupon.code : undefined,
+      total: finalTotal,
+      notes: notes || undefined,
+    };
+    try {
+      const res = await fetch(`${ADMIN_API}/api/cardcom/create-payment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderPayload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (!data.url) throw new Error('no url');
+      if (typeof pixelPurchase === 'function') pixelPurchase(finalTotal, Date.now());
+      cartClear();
+      window.location.href = data.url;
+    } catch (err) {
+      console.warn('cardcom create-payment failed', err);
+      const panel = document.getElementById('payDetailPanel');
+      panel.innerHTML = `<div class="cash-detail" style="background:#fef2f2;color:#b91c1c;border:1.5px solid #fca5a5;padding:14px 16px;border-radius:10px;display:flex;align-items:flex-start;gap:10px;font-size:14px">
+        <i class="ph-fill ph-warning" style="font-size:20px;flex-shrink:0;margin-top:1px"></i>
+        <div>שגיאה ביצירת דף תשלום. אנא נסה שוב או בחר שיטת תשלום אחרת.</div>
+      </div>`;
+      btn.disabled = false; btn.style.opacity = '';
+    }
+    return;
+  }
+
+  // All other payment methods - save order first then handle
   try {
     await fetch(`${ADMIN_API}/api/orders`, {
       method: 'POST',
@@ -668,34 +708,16 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
         shipping: totals.shipping,
         discountAmt: appliedCoupon ? appliedCoupon.discount : 0,
         couponCode: appliedCoupon ? appliedCoupon.code : undefined,
-        total: appliedCoupon ? totals.total - appliedCoupon.discount : totals.total,
+        total: finalTotal,
         notes: notes || undefined,
-        paymentMethod: selectedPayMethod || 'bit',
+        paymentMethod: method,
       }),
     });
   } catch (err) { console.warn('admin save failed', err); }
 
   btn.disabled = false; btn.style.opacity = '';
 
-  const finalTotal = appliedCoupon ? totals.total - appliedCoupon.discount : totals.total;
-  const method = selectedPayMethod || 'card';
-
-  // Route to payment provider
-  if (method === 'card') {
-    const cardLink = pmCfg.card?.link;
-    if (cardLink) {
-      window.location.href = cardLink;
-    } else {
-      // No card link - show inline error
-      const panel = document.getElementById('payDetailPanel');
-      panel.innerHTML = `<div class="cash-detail" style="background:#fef2f2;color:#b91c1c;border:1.5px solid #fca5a5">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-        <div>תשלום בכרטיס אשראי אינו זמין כרגע. אנא בחר שיטת תשלום אחרת (ביט, PayBox, העברה בנקאית).</div>
-      </div>`;
-      btn.disabled = false; btn.style.opacity = '';
-      return;
-    }
-  } else if (method === 'paybox') {
+  if (method === 'paybox') {
     const pbLink = pmCfg.paybox?.link;
     if (pbLink) window.location.href = pbLink;
     else {

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="imgs/logo.png" />
+  <title>ההזמנה התקבלה - GARAGE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f8f6;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --green: #059669;
+      --green-bg: #d1fae5;
+      --accent: #2d2d2d;
+      --radius: 16px;
+    }
+    body {
+      font-family: 'Noto Sans Hebrew', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 48px 32px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .icon-wrap {
+      width: 80px;
+      height: 80px;
+      background: var(--green-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .icon-wrap i {
+      font-size: 40px;
+      color: var(--green);
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .order-id {
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      display: none;
+    }
+    .order-id span {
+      font-weight: 700;
+      color: var(--text);
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-primary {
+      display: block;
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-secondary {
+      display: block;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 24px;
+      font-size: 14px;
+      text-decoration: underline;
+      font-family: inherit;
+    }
+    .garage-logo {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-top: 32px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-wrap">
+      <i class="ph-fill ph-check-circle"></i>
+    </div>
+    <h1>ההזמנה התקבלה!</h1>
+    <p class="subtitle">
+      תשלום הכרטיס אושר בהצלחה.<br>
+      ניצור איתך קשר בקרוב לאישור ומשלוח.
+    </p>
+    <div class="order-id" id="orderIdRow">
+      מספר הזמנה: <span id="orderIdVal"></span>
+    </div>
+    <div class="actions">
+      <a href="index.html" class="btn-primary">המשך קניות</a>
+      <a href="javascript:void(0)" onclick="openWhatsApp()" class="btn-secondary">פנייה לשירות לקוחות</a>
+    </div>
+    <div class="garage-logo">GARAGE</div>
+  </div>
+
+  <script>
+    // Show order ID if present in URL
+    const params = new URLSearchParams(location.search);
+    const orderId = params.get('id');
+    if (orderId) {
+      const row = document.getElementById('orderIdRow');
+      const val = document.getElementById('orderIdVal');
+      // Extract numeric part for display
+      const match = orderId.match(/(\d+)/);
+      val.textContent = match ? '#' + match[1].slice(-6) : orderId;
+      row.style.display = 'block';
+    }
+
+    function openWhatsApp() {
+      const msg = encodeURIComponent('שלום, פניתי לגבי הזמנה שביצעתי');
+      window.open('https://wa.me/972509723636?text=' + msg, '_blank');
+    }
+  </script>
+</body>
+</html>
