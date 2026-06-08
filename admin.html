@@ -1707,6 +1707,9 @@ const ADMIN_API = 'https://garage-admin.vercel.app';
 function fmtOrderNum(raw) {
   if (!raw) return '—';
   const s = String(raw);
+  // ord_1780937021037_in4of → last 6 digits of timestamp → e.g. 021037
+  const ordNew = s.match(/^ord_(\d+)_/);
+  if (ordNew) return ordNew[1].slice(-6);
   // wc_11195 → 11195, 01ain_59 → 59, plain numbers stay as-is
   const m = s.match(/[_-]?(\d+)$/);
   return m ? m[1] : s;
