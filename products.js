@@ -313,9 +313,10 @@ const PRODUCTS = {
     subtitle: 'חבילת שנה מלאה — מפיץ G60 + 6 בקבוקים לבחירה',
     category: 'bundle',
     categoryLabel: 'חבילה',
-    price: 465,
+    price: 500,
     origPrice: null,
-    badge: 'חיסכון ₪249',
+    badge: 'משלוח חינם',
+    freeShipping: true,
     bundleBottleCount: 6,
     img: `${CDN}/2025/07/%d7%91%d7%90%d7%a0%d7%93%d7%9c-%d7%9e%d7%a4%d7%99%d7%a5-copy.webp`,
     thumbs: [
@@ -325,7 +326,7 @@ const PRODUCTS = {
     features: [
       { icon: 'ph-package', text: 'מפיץ G60 + 6 בקבוקים' },
       { icon: 'ph-calendar', text: 'ריח לשנה שלמה' },
-      { icon: 'ph-tag', text: 'חיסכון ₪249' },
+      { icon: 'ph-truck', text: 'משלוח חינם' },
       { icon: 'ph-gift', text: 'מתנה מושלמת' },
     ],
     desc: 'הכל-כלול: מפיץ ריח G60 לבית + 6 בקבוקי ריח 100 מ"ל לבחירתך — ריח לשנה שלמה. המתנה המושלמת לעצמך או לאהובים.',

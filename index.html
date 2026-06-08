@@ -371,8 +371,14 @@
           </div>
         </div>
         <div class="flagship-price-row">
-          <div class="flagship-price">&#8362;465</div>
-          <div class="flagship-price-note">במקום &#8362;713 בנפרד</div>
+          <div class="flagship-price">&#8362;500</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div class="flagship-price-note">במקום &#8362;713 בנפרד</div>
+            <div style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#059669;background:#d1fae5;padding:3px 10px;border-radius:20px;width:fit-content">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+              משלוח חינם
+            </div>
+          </div>
         </div>
         <div class="flagship-actions">
           <a href="product.html?id=bundle" class="btn btn--primary" style="font-size:1rem;padding:14px 32px">
@@ -1020,6 +1026,7 @@ function playVideo(card) {
           <div class="product-card__price-row">
             <span class="product-card__price">&#8362;${p.price}</span>
             ${p.origPrice ? `<span class="product-card__old">&#8362;${p.origPrice}</span>` : ''}
+            ${p.freeShipping ? `<span style="font-size:11px;font-weight:700;color:#059669;background:#d1fae5;padding:2px 8px;border-radius:20px;white-space:nowrap">משלוח חינם</span>` : ''}
           </div>
           <div class="product-card__cta">
             <button class="product-card__btn" onclick="location.href='product.html?id=${p.id}'">לצפייה במוצר</button>
