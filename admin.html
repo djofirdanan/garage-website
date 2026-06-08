@@ -403,6 +403,159 @@
     }
     .save-confirm.show { display: flex; align-items: center; gap: 6px; }
 
+    /* ---- ORDERS BULK / ROW ACTIONS ---- */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .bulk-toolbar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px;
+      background: #eef2ff;
+      border-bottom: 1px solid #c7d2fe;
+      font-size: 13px;
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+    .bulk-toolbar.show { display: flex; }
+    .bulk-toolbar__count { color: var(--lav); font-weight: 700; }
+    .bulk-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 13px; border-radius: 8px; border: 1.5px solid var(--gray-200);
+      background: #fff; font-size: 12px; font-weight: 600; font-family: inherit;
+      cursor: pointer; color: var(--gray-700); transition: border-color .15s, background .15s;
+    }
+    .bulk-btn:hover { border-color: var(--lav); background: #f3eeff; color: var(--lav); }
+    .bulk-btn--red { border-color: #fee2e2; color: #b91c1c; }
+    .bulk-btn--red:hover { background: #fee2e2; border-color: #fca5a5; }
+    .bulk-btn--cancel { background: transparent; border-color: transparent; color: var(--gray-500); }
+    .bulk-btn--cancel:hover { background: var(--gray-100); color: var(--gray-700); }
+    .status-dropdown-wrap { position: relative; }
+    .status-dropdown {
+      position: absolute; top: calc(100% + 4px); right: 0; z-index: 200;
+      background: #fff; border: 1.5px solid var(--gray-200); border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12); min-width: 130px; display: none;
+    }
+    .status-dropdown.open { display: block; }
+    .status-dropdown button {
+      display: block; width: 100%; padding: 9px 14px; background: none;
+      border: none; text-align: right; font-family: inherit; font-size: 13px;
+      font-weight: 600; cursor: pointer; color: var(--gray-700); transition: background .12s;
+    }
+    .status-dropdown button:hover { background: var(--gray-50); }
+    .status-dropdown button:first-child { border-radius: 8px 8px 0 0; }
+    .status-dropdown button:last-child  { border-radius: 0 0 8px 8px; }
+    /* checkbox col */
+    .data-table th.cb-col, .data-table td.cb-col { padding: 10px 8px 10px 0; width: 36px; }
+    .row-checkbox { width: 16px; height: 16px; cursor: pointer; accent-color: var(--lav); }
+    .data-table tr.selected td { background: #eef2ff !important; }
+    /* row action buttons */
+    .row-actions { display: flex; gap: 4px; justify-content: flex-start; }
+    .row-act-btn {
+      width: 28px; height: 28px; border-radius: 7px; border: 1.5px solid var(--gray-200);
+      background: #fff; cursor: pointer; display: inline-flex; align-items: center;
+      justify-content: center; color: var(--gray-500); transition: border-color .15s, background .15s, color .15s;
+      flex-shrink: 0;
+    }
+    .row-act-btn:hover { border-color: var(--lav); color: var(--lav); background: #f3eeff; }
+    .row-act-btn--red:hover { border-color: #fca5a5; color: #b91c1c; background: #fee2e2; }
+    .row-act-btn--green:hover { border-color: #6ee7b7; color: #065f46; background: #d1fae5; }
+    .status-badge-btn {
+      border: none; background: none; padding: 0; cursor: pointer;
+      font-family: inherit; font-size: inherit;
+    }
+    /* completion email btn */
+    .completion-email-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 7px; font-size: 11px; font-weight: 700;
+      background: #d1fae5; color: #065f46; border: 1.5px solid #6ee7b7;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: background .15s;
+    }
+    .completion-email-btn:hover { background: #a7f3d0; }
+
+    /* ---- EMAIL PREVIEW MODAL ---- */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px); z-index: 9998;
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.show { display: flex; }
+    .email-modal {
+      background: #fff; border-radius: 18px;
+      width: 100%; max-width: 680px; max-height: 90vh;
+      display: flex; flex-direction: column;
+      animation: modalPop .28s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+    .email-modal__head {
+      padding: 20px 24px 16px; border-bottom: 1px solid var(--gray-100);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .email-modal__title { font-size: 16px; font-weight: 800; }
+    .email-modal__close {
+      width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--gray-200);
+      background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--gray-500);
+    }
+    .email-modal__close:hover { background: var(--gray-100); }
+    .email-modal__iframe-wrap {
+      flex: 1; overflow: auto; padding: 16px 20px;
+      background: #f1f5f9; border-radius: 0;
+    }
+    .email-modal__iframe {
+      width: 100%; border: none; border-radius: 10px; display: block;
+      min-height: 400px; background: #fff;
+    }
+    .email-modal__foot {
+      padding: 14px 24px; border-top: 1px solid var(--gray-100);
+      display: flex; gap: 10px; align-items: center; flex-shrink: 0; flex-wrap: wrap;
+    }
+    .email-modal__btn {
+      padding: 9px 20px; border-radius: 10px; font-size: 13px; font-weight: 700;
+      font-family: inherit; cursor: pointer; border: none;
+      display: inline-flex; align-items: center; gap: 6px; transition: transform .12s, box-shadow .12s;
+    }
+    .email-modal__btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+    .email-modal__btn--primary { background: var(--lav); color: #fff; }
+    .email-modal__btn--sec { background: var(--gray-100); color: var(--gray-700); }
+
+    /* ---- DELETE CONFIRM MODAL ---- */
+    .delete-modal {
+      background: #fff; border-radius: 18px; padding: 32px 36px;
+      max-width: 380px; width: 90%; text-align: center;
+      animation: modalPop .28s cubic-bezier(.34,1.56,.64,1);
+    }
+    .delete-modal__icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #fee2e2; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: #dc2626;
+    }
+    .delete-modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .delete-modal p { font-size: 13px; color: var(--gray-500); margin-bottom: 22px; line-height: 1.5; }
+    .delete-modal__btns { display: flex; gap: 10px; }
+    .delete-modal__btn-del {
+      flex: 1; padding: 12px; background: #dc2626; color: #fff;
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: background .15s;
+    }
+    .delete-modal__btn-del:hover { background: #b91c1c; }
+    .delete-modal__btn-cancel {
+      flex: 1; padding: 12px; background: var(--gray-100); color: var(--gray-700);
+      border: none; border-radius: 10px; font-size: 14px; font-weight: 700;
+      font-family: inherit; cursor: pointer;
+    }
+
+    /* ---- TOAST ---- */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--dark); color: #fff; padding: 12px 22px;
+      border-radius: 30px; font-size: 13px; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25); z-index: 99999;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+      opacity: 0; white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
     /* ---- RESPONSIVE ---- */
     @media (max-width: 1100px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -551,6 +704,34 @@
           <span class="badge badge--orange" id="pendingBadge" style="display:none">טוען...</span>
         </div>
         <div class="panel__body" id="ordersTableWrap">
+          <!-- Bulk toolbar -->
+          <div class="bulk-toolbar" id="bulkToolbar">
+            <span class="bulk-toolbar__count" id="bulkCount">0 הזמנות נבחרו</span>
+            <div class="status-dropdown-wrap">
+              <button class="bulk-btn" onclick="toggleStatusDropdown()">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                שנה סטטוס
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" width="11" height="11"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="status-dropdown" id="statusDropdown">
+                <button onclick="bulkChangeStatus('new')">חדש</button>
+                <button onclick="bulkChangeStatus('processing')">בטיפול</button>
+                <button onclick="bulkChangeStatus('shipped')">נשלח</button>
+                <button onclick="bulkChangeStatus('completed')">הושלם</button>
+                <button onclick="bulkChangeStatus('cancelled')">בוטל</button>
+              </div>
+            </div>
+            <button class="bulk-btn" onclick="bulkSendEmail()">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              שלח מייל
+            </button>
+            <button class="bulk-btn bulk-btn--red" onclick="bulkDelete()">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              מחק
+            </button>
+            <button class="bulk-btn bulk-btn--cancel" onclick="clearSelection()">בטל בחירה</button>
+          </div>
+
           <div style="padding:24px;text-align:center;color:var(--gray-500);font-size:.87rem" id="ordersLoading">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;display:inline-block;margin-bottom:8px"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg><br>
             טוען הזמנות...
@@ -558,6 +739,7 @@
           <table class="data-table" id="ordersTable" style="display:none">
             <thead>
               <tr>
+                <th class="cb-col"><input type="checkbox" class="row-checkbox" id="selectAllCb" title="בחר הכל" onchange="toggleSelectAll(this.checked)"></th>
                 <th>#הזמנה</th>
                 <th>לקוח</th>
                 <th>טלפון</th>
@@ -566,6 +748,7 @@
                 <th>תשלום</th>
                 <th>תאריך</th>
                 <th>סטטוס</th>
+                <th>פעולות</th>
               </tr>
             </thead>
             <tbody id="ordersTbody"></tbody>
@@ -776,45 +959,101 @@
       </div>
       <div class="panel__body">
         <div class="product-row">
-          <img src="imgs/aircules-car.png" class="product-row__img" alt="">
+          <img src="https://garage.org.il/wp-content/uploads/2023/05/%d7%90%d7%99%d7%99%d7%a8%d7%a7%d7%95%d7%9c%d7%a1-%d7%9c%d7%a8%d7%9b%d7%91-%d7%a0%d7%a7%d7%99.png" class="product-row__img" alt="AirCules לרכב">
           <div><div class="product-row__name">AirCules לרכב</div><div class="product-row__sku">SKU: CAR-001</div></div>
           <div class="product-row__price">₪349</div>
           <span class="badge badge--green">פעיל</span>
         </div>
         <div class="product-row">
-          <img src="imgs/g60-diffuser.png" class="product-row__img" alt="">
+          <img src="https://garage.org.il/wp-content/uploads/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png" class="product-row__img" alt="G60 לבית">
           <div><div class="product-row__name">G60 לבית / משרד</div><div class="product-row__sku">SKU: G60-001</div></div>
           <div class="product-row__price">₪299</div>
           <span class="badge badge--green">פעיל</span>
         </div>
         <div class="product-row">
-          <img src="imgs/g30-diffuser.png" class="product-row__img" alt="">
-          <div><div class="product-row__name">G30 לחללים קטנים</div><div class="product-row__sku">SKU: G30-001</div></div>
-          <div class="product-row__price">₪329</div>
+          <img src="https://garage.org.il/wp-content/uploads/2023/11/%d7%9e%d7%a4%d7%99%d7%a5-8-%d7%a0%d7%a7%d7%99.png" class="product-row__img" alt="iPad מפיץ">
+          <div><div class="product-row__name">דגם אייפד - מפיץ</div><div class="product-row__sku">SKU: IPAD-001</div></div>
+          <div class="product-row__price">₪499</div>
           <span class="badge badge--green">פעיל</span>
         </div>
         <div class="product-row">
-          <img src="imgs/g100-white.png" class="product-row__img" alt="">
+          <img src="https://garage.org.il/wp-content/uploads/2024/04/%d7%9e%d7%a4%d7%99%d7%a5-2-%d7%a0%d7%a7%d7%99.png" class="product-row__img" alt="G100">
           <div><div class="product-row__name">G100 לחללים גדולים</div><div class="product-row__sku">SKU: G100-001</div></div>
           <div class="product-row__price">₪649</div>
           <span class="badge badge--green">פעיל</span>
         </div>
         <div class="product-row">
-          <img src="imgs/s300-with-bottle.png" class="product-row__img" alt="">
-          <div><div class="product-row__name">S300 + בקבוק מתנה</div><div class="product-row__sku">SKU: S300-001</div></div>
-          <div class="product-row__price">₪299</div>
+          <img src="https://garage.org.il/wp-content/uploads/2023/09/S-300.png" class="product-row__img" alt="S300">
+          <div><div class="product-row__name">S300</div><div class="product-row__sku">SKU: S300-001</div></div>
+          <div class="product-row__price">₪749</div>
           <span class="badge badge--green">פעיל</span>
         </div>
         <div class="product-row">
-          <img src="imgs/bottles-3-large.png" class="product-row__img" alt="">
-          <div><div class="product-row__name">3 בקבוקי ריח גדולים</div><div class="product-row__sku">SKU: BTL-003</div></div>
-          <div class="product-row__price">₪189</div>
+          <img src="https://garage.org.il/wp-content/uploads/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png" class="product-row__img" alt="3 בקבוקים">
+          <div><div class="product-row__name">3 בקבוקים 100מ"ל</div><div class="product-row__sku">SKU: BTL-003</div></div>
+          <div class="product-row__price">₪69 / יח'</div>
+          <span class="badge badge--green">פעיל</span>
+        </div>
+        <div class="product-row">
+          <img src="https://garage.org.il/wp-content/uploads/2025/07/%d7%91%d7%90%d7%a0%d7%93%d7%9c-%d7%9e%d7%a4%d7%99%d7%a5-copy.webp" class="product-row__img" alt="Bundle">
+          <div><div class="product-row__name">Bundle - חבילת מפיץ</div><div class="product-row__sku">SKU: BUNDLE-001</div></div>
+          <div class="product-row__price">₪465</div>
+          <span class="badge badge--green">פעיל</span>
+        </div>
+        <div class="product-row">
+          <img src="https://garage.org.il/wp-content/uploads/2025/11/%d7%9e%d7%91%d7%a9%d7%9d-%d7%9b%d7%91%d7%99%d7%a1%d7%94-%d7%9e%d7%a8%d7%95%d7%9b%d7%96.png" class="product-row__img" alt="מבשם כביסה">
+          <div><div class="product-row__name">מבשם כביסה מרוכז</div><div class="product-row__sku">SKU: WASH-001</div></div>
+          <div class="product-row__price">₪45</div>
           <span class="badge badge--green">פעיל</span>
         </div>
       </div>
     </div>
   </main>
 </div>
+
+<!-- EMAIL PREVIEW MODAL -->
+<div class="modal-overlay" id="emailModalOverlay">
+  <div class="email-modal">
+    <div class="email-modal__head">
+      <div class="email-modal__title" id="emailModalTitle">תצוגה מקדימה של מייל</div>
+      <button class="email-modal__close" onclick="closeEmailModal()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="email-modal__iframe-wrap">
+      <iframe class="email-modal__iframe" id="emailModalIframe" sandbox="allow-same-origin"></iframe>
+    </div>
+    <div class="email-modal__foot">
+      <button class="email-modal__btn email-modal__btn--primary" id="emailModalSendBtn">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        שלח במייל
+      </button>
+      <button class="email-modal__btn email-modal__btn--sec" onclick="copyEmailHtml()">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        העתק HTML
+      </button>
+      <button class="email-modal__btn email-modal__btn--sec" onclick="closeEmailModal()">סגור</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-overlay" id="deleteModalOverlay">
+  <div class="delete-modal">
+    <div class="delete-modal__icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+    </div>
+    <h3 id="deleteModalTitle">מחיקת הזמנה</h3>
+    <p id="deleteModalMsg">האם למחוק את ההזמנה?</p>
+    <div class="delete-modal__btns">
+      <button class="delete-modal__btn-del" id="deleteModalConfirm">מחק</button>
+      <button class="delete-modal__btn-cancel" onclick="closeDeleteModal()">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="adminToast"></div>
 
 <script src="scents-data.js"></script>
 <script>
@@ -1075,13 +1314,29 @@ const STATUS_MAP = {
   shipped:    { label: 'נשלח',    cls: 'badge--green'  },
   completed:  { label: 'הושלם',   cls: 'badge--blue'   },
   cancelled:  { label: 'בוטל',    cls: 'badge--red'    },
+  failed:     { label: 'נכשל',    cls: 'badge--red'    },
   new:        { label: 'חדש',     cls: 'badge--orange' },
 };
+const STATUS_CYCLE = ['new','processing','shipped','completed','cancelled'];
 
 const PM_LABELS = {
   bit: 'ביט', paybox: 'PayBox', bank: 'בנק', cash: 'מזומן', card: 'כרטיס'
 };
 
+let cachedOrders = [];
+let selectedIds  = new Set();
+let currentEmailHtml = '';
+let pendingDeleteIds = [];
+
+/* ---- TOAST ---- */
+function showToast(msg, duration = 2800) {
+  const t = document.getElementById('adminToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+/* ---- LOAD ORDERS ---- */
 async function loadOrders() {
   const loading = document.getElementById('ordersLoading');
   const table   = document.getElementById('ordersTable');
@@ -1098,45 +1353,20 @@ async function loadOrders() {
     const res  = await fetch(`${ADMIN_API}/api/orders?limit=50`);
     if (!res.ok) throw new Error(`שגיאת שרת ${res.status}`);
     const data = await res.json();
-    const orders = Array.isArray(data) ? data : (data.orders || []);
+    cachedOrders = Array.isArray(data) ? data : (data.orders || []);
 
     loading.style.display = 'none';
 
-    if (orders.length === 0) {
+    if (cachedOrders.length === 0) {
       empty.style.display = 'block';
       badge.style.display = 'none';
       return;
     }
 
     // Sort newest first
-    orders.sort((a, b) => new Date(b.createdAt || b.created_at || 0) - new Date(a.createdAt || a.created_at || 0));
+    cachedOrders.sort((a, b) => new Date(b.createdAt || b.created_at || 0) - new Date(a.createdAt || a.created_at || 0));
 
-    const pending = orders.filter(o => ['pending','processing','new'].includes(o.status || 'new')).length;
-    badge.style.display  = 'flex';
-    badge.textContent    = `${pending} ממתינות`;
-
-    document.getElementById('ordersTbody').innerHTML = orders.map((o, i) => {
-      const s      = STATUS_MAP[o.status] || STATUS_MAP.new;
-      const num    = o.orderNumber || o.id || `#${1000 + i}`;
-      const name   = (o.customer?.name || o.customerName || '—').split(' ').map((w,i2) => i2 === 0 ? w : w[0] + '.').join(' ');
-      const phone  = o.customer?.phone || o.phone || '—';
-      const items  = (o.items || []).map(it => it.name || '').filter(Boolean).join(', ') || '—';
-      const total  = `₪${(o.total || 0).toLocaleString('he-IL')}`;
-      const pm     = PM_LABELS[o.paymentMethod] || o.paymentMethod || '—';
-      const date   = o.createdAt ? new Date(o.createdAt).toLocaleDateString('he-IL') : '—';
-      return `
-        <tr>
-          <td class="order-id">#${num}</td>
-          <td class="customer-name">${name}</td>
-          <td style="font-size:.82rem;color:var(--gray-500)">${phone}</td>
-          <td style="font-size:.81rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${items}">${items}</td>
-          <td style="font-weight:700">${total}</td>
-          <td><span class="badge badge--blue" style="font-size:.75rem">${pm}</span></td>
-          <td style="font-size:.8rem;color:var(--gray-500)">${date}</td>
-          <td><span class="badge ${s.cls}">${s.label}</span></td>
-        </tr>`;
-    }).join('');
-
+    renderOrdersTable();
     table.style.display = 'table';
 
     const now = new Date();
@@ -1149,6 +1379,349 @@ async function loadOrders() {
     err.textContent    = `שגיאה בטעינת הזמנות: ${e.message}`;
     badge.style.display = 'none';
   }
+}
+
+function renderOrdersTable() {
+  const badge  = document.getElementById('pendingBadge');
+  const pending = cachedOrders.filter(o => ['pending','processing','new'].includes(o.status || 'new')).length;
+  badge.style.display = 'flex';
+  badge.textContent   = `${pending} ממתינות`;
+
+  document.getElementById('ordersTbody').innerHTML = cachedOrders.map((o, i) => {
+    const status  = o.status || 'new';
+    const s       = STATUS_MAP[status] || STATUS_MAP.new;
+    const oid     = o._id || o.id || `order-${i}`;
+    const num     = o.orderNumber || o.id || `${1000 + i}`;
+    const name    = (o.customer?.name || o.customerName || '—').split(' ').map((w,i2) => i2 === 0 ? w : w[0] + '.').join(' ');
+    const phone   = o.customer?.phone || o.phone || '—';
+    const items   = (o.items || []).map(it => it.name || '').filter(Boolean).join(', ') || '—';
+    const total   = `₪${(o.total || 0).toLocaleString('he-IL')}`;
+    const pm      = PM_LABELS[o.paymentMethod] || o.paymentMethod || '—';
+    const date    = o.createdAt ? new Date(o.createdAt).toLocaleDateString('he-IL') : '—';
+    const isSelc  = selectedIds.has(oid);
+    const isCancelled = ['cancelled','failed'].includes(status);
+
+    return `
+      <tr data-oid="${oid}" class="${isSelc ? 'selected' : ''}">
+        <td class="cb-col"><input type="checkbox" class="row-checkbox" onchange="toggleRow('${oid}', this.checked)" ${isSelc ? 'checked' : ''}></td>
+        <td class="order-id">#${num}</td>
+        <td class="customer-name">${name}</td>
+        <td style="font-size:.82rem;color:var(--gray-500)">${phone}</td>
+        <td style="font-size:.81rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${items}">${items}</td>
+        <td style="font-weight:700">${total}</td>
+        <td><span class="badge badge--blue" style="font-size:.75rem">${pm}</span></td>
+        <td style="font-size:.8rem;color:var(--gray-500)">${date}</td>
+        <td>
+          <button class="status-badge-btn" onclick="cycleStatus('${oid}')" title="לחץ לשינוי סטטוס">
+            <span class="badge ${s.cls}">${s.label}</span>
+          </button>
+        </td>
+        <td>
+          <div class="row-actions">
+            <button class="row-act-btn" onclick="openOrderEmail('${oid}')" title="שלח מייל">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </button>
+            <button class="row-act-btn row-act-btn--red" onclick="confirmDeleteOrder('${oid}')" title="מחק">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="13" height="13"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+            ${isCancelled ? `<button class="completion-email-btn" onclick="openCompletionEmail('${oid}')">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="11" height="11"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              שלח מייל לסיום הזמנה
+            </button>` : ''}
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  updateBulkToolbar();
+}
+
+/* ---- SELECTION ---- */
+function toggleRow(oid, checked) {
+  if (checked) selectedIds.add(oid); else selectedIds.delete(oid);
+  const row = document.querySelector(`tr[data-oid="${oid}"]`);
+  if (row) row.classList.toggle('selected', checked);
+  updateBulkToolbar();
+  const allCb = document.getElementById('selectAllCb');
+  if (allCb) allCb.checked = selectedIds.size === cachedOrders.length;
+}
+
+function toggleSelectAll(checked) {
+  selectedIds.clear();
+  if (checked) cachedOrders.forEach(o => selectedIds.add(o._id || o.id || ''));
+  renderOrdersTable();
+  document.getElementById('selectAllCb').checked = checked;
+}
+
+function clearSelection() {
+  selectedIds.clear();
+  renderOrdersTable();
+  const allCb = document.getElementById('selectAllCb');
+  if (allCb) allCb.checked = false;
+}
+
+function updateBulkToolbar() {
+  const toolbar = document.getElementById('bulkToolbar');
+  const countEl = document.getElementById('bulkCount');
+  const n = selectedIds.size;
+  toolbar.classList.toggle('show', n > 0);
+  if (countEl) countEl.textContent = `${n} הזמנות נבחרו`;
+}
+
+/* ---- STATUS DROPDOWN ---- */
+function toggleStatusDropdown() {
+  document.getElementById('statusDropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.status-dropdown-wrap')) {
+    const d = document.getElementById('statusDropdown');
+    if (d) d.classList.remove('open');
+  }
+});
+
+/* ---- CYCLE STATUS (per-row) ---- */
+function cycleStatus(oid) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (!o) return;
+  const cur = o.status || 'new';
+  const idx = STATUS_CYCLE.indexOf(cur);
+  o.status  = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+  renderOrdersTable();
+  showToast(`סטטוס שונה ל-${STATUS_MAP[o.status]?.label || o.status}`);
+}
+
+/* ---- BULK STATUS CHANGE ---- */
+function bulkChangeStatus(newStatus) {
+  document.getElementById('statusDropdown').classList.remove('open');
+  if (selectedIds.size === 0) return;
+  cachedOrders.forEach(o => {
+    if (selectedIds.has(o._id || o.id)) o.status = newStatus;
+  });
+  renderOrdersTable();
+  showToast(`סטטוס ${selectedIds.size} הזמנות שונה ל-${STATUS_MAP[newStatus]?.label || newStatus}`);
+  clearSelection();
+}
+
+/* ---- DELETE ---- */
+function confirmDeleteOrder(oid) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  const num = o?.orderNumber || o?.id || oid;
+  pendingDeleteIds = [oid];
+  document.getElementById('deleteModalTitle').textContent = `מחיקת הזמנה #${num}`;
+  document.getElementById('deleteModalMsg').textContent   = `האם למחוק את הזמנה #${num}? פעולה זו בלתי הפיכה.`;
+  document.getElementById('deleteModalConfirm').onclick   = () => executeDelete();
+  document.getElementById('deleteModalOverlay').classList.add('show');
+}
+
+function bulkDelete() {
+  if (selectedIds.size === 0) return;
+  pendingDeleteIds = [...selectedIds];
+  document.getElementById('deleteModalTitle').textContent = `מחיקת ${pendingDeleteIds.length} הזמנות`;
+  document.getElementById('deleteModalMsg').textContent   = `האם למחוק ${pendingDeleteIds.length} הזמנות שנבחרו? פעולה זו בלתי הפיכה.`;
+  document.getElementById('deleteModalConfirm').onclick   = () => executeDelete();
+  document.getElementById('deleteModalOverlay').classList.add('show');
+}
+
+function executeDelete() {
+  const n = pendingDeleteIds.length;
+  cachedOrders = cachedOrders.filter(o => !pendingDeleteIds.includes(o._id || o.id));
+  pendingDeleteIds.forEach(id => selectedIds.delete(id));
+  pendingDeleteIds = [];
+  closeDeleteModal();
+  renderOrdersTable();
+  if (cachedOrders.length === 0) {
+    document.getElementById('ordersTable').style.display = 'none';
+    document.getElementById('ordersEmpty').style.display = 'block';
+  }
+  showToast(`${n} הזמנות נמחקו`);
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModalOverlay').classList.remove('show');
+}
+
+/* ---- BULK EMAIL ---- */
+function bulkSendEmail() {
+  if (selectedIds.size === 0) return;
+  const first = cachedOrders.find(o => selectedIds.has(o._id || o.id));
+  if (first) openOrderEmail(first._id || first.id);
+  showToast(`פותח מייל עבור הזמנה ראשונה מתוך ${selectedIds.size}`);
+}
+
+/* ---- EMAIL MODALS ---- */
+function buildOrderEmailHtml(o) {
+  const num   = o.orderNumber || o.id || 'N/A';
+  const name  = o.customer?.name || o.customerName || 'לקוח יקר';
+  const phone = o.customer?.phone || o.phone || '';
+  const email = o.customer?.email || o.email || '';
+  const items = (o.items || []);
+  const total = (o.total || 0).toLocaleString('he-IL');
+  const pm    = PM_LABELS[o.paymentMethod] || o.paymentMethod || '—';
+  const date  = o.createdAt ? new Date(o.createdAt).toLocaleDateString('he-IL') : new Date().toLocaleDateString('he-IL');
+
+  const itemsHtml = items.length
+    ? items.map(it => `<tr>
+        <td style="padding:10px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;">${it.name || '—'}</td>
+        <td style="padding:10px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;text-align:center;">${it.quantity || 1}</td>
+        <td style="padding:10px 16px;border-bottom:1px solid #f1f5f9;font-size:14px;font-weight:700;text-align:left;">₪${(it.price || 0).toLocaleString('he-IL')}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="3" style="padding:12px 16px;color:#6b7280;font-size:14px;">פרטי מוצרים לא זמינים</td></tr>`;
+
+  return `<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;padding:0;background:#f8fafc;font-family:'Noto Sans Hebrew',Arial,sans-serif;direction:rtl;}*{box-sizing:border-box;}</style>
+</head>
+<body>
+<div style="max-width:580px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,.08);">
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#7c3aed 0%,#4f46e5 100%);padding:40px 40px 32px;text-align:center;">
+    <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:6px;">GARAGE</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.75);font-weight:500;">מפיצי ניחוח פרמיום</div>
+  </div>
+  <!-- Body -->
+  <div style="padding:36px 40px;">
+    <h1 style="font-size:22px;font-weight:800;color:#0f0f0f;margin:0 0 6px;">תודה על הזמנתך!</h1>
+    <p style="font-size:15px;color:#6b7280;margin:0 0 24px;">הזמנה <strong style="color:#7c3aed;">#${num}</strong> התקבלה בהצלחה</p>
+
+    <div style="background:#f8fafc;border-radius:10px;padding:16px 20px;margin-bottom:24px;font-size:14px;line-height:2;">
+      <div><strong>שם:</strong> ${name}</div>
+      ${phone ? `<div><strong>טלפון:</strong> ${phone}</div>` : ''}
+      ${email ? `<div><strong>אימייל:</strong> ${email}</div>` : ''}
+      <div><strong>תאריך:</strong> ${date}</div>
+      <div><strong>אמצעי תשלום:</strong> ${pm}</div>
+    </div>
+
+    <h2 style="font-size:15px;font-weight:700;color:#0f0f0f;margin:0 0 12px;">פירוט הזמנה</h2>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
+      <thead>
+        <tr style="background:#f1f5f9;">
+          <th style="padding:10px 16px;text-align:right;font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">מוצר</th>
+          <th style="padding:10px 16px;text-align:center;font-size:12px;font-weight:700;color:#6b7280;">כמות</th>
+          <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:700;color:#6b7280;">מחיר</th>
+        </tr>
+      </thead>
+      <tbody>${itemsHtml}</tbody>
+    </table>
+
+    <div style="display:flex;justify-content:flex-end;padding:16px 20px;background:#7c3aed;border-radius:10px;align-items:center;gap:12px;">
+      <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,.8);">סה"כ לתשלום</span>
+      <span style="font-size:24px;font-weight:900;color:#fff;">₪${total}</span>
+    </div>
+  </div>
+  <!-- Footer -->
+  <div style="padding:24px 40px;background:#f8fafc;border-top:1px solid #e5e7eb;text-align:center;">
+    <p style="font-size:13px;color:#6b7280;margin:0 0 8px;">לכל שאלה אנחנו כאן</p>
+    <a href="tel:050-9723636" style="color:#7c3aed;font-weight:700;font-size:14px;text-decoration:none;">050-9723636</a>
+    <p style="font-size:11px;color:#9ca3af;margin:16px 0 0;">GARAGE · מפיצי ניחוח פרמיום לרכב ולבית</p>
+  </div>
+</div>
+</body></html>`;
+}
+
+function buildCompletionEmailHtml(o) {
+  const num   = o.orderNumber || o.id || 'N/A';
+  const name  = o.customer?.name || o.customerName || 'לקוח יקר';
+  const items = (o.items || []);
+  const total = (o.total || 0).toLocaleString('he-IL');
+  const checkoutUrl = 'https://garage-beryl-sigma.vercel.app/checkout.html';
+
+  const itemsHtml = items.length
+    ? items.map(it => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #fde68a;font-size:14px;">
+        <span>${it.name || '—'} x${it.quantity || 1}</span>
+        <span style="font-weight:700;">₪${(it.price || 0).toLocaleString('he-IL')}</span>
+      </div>`).join('')
+    : `<div style="padding:8px 0;color:#92400e;font-size:14px;">פרטי הזמנה</div>`;
+
+  return `<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;padding:0;background:#fffbeb;font-family:'Noto Sans Hebrew',Arial,sans-serif;direction:rtl;}*{box-sizing:border-box;}</style>
+</head>
+<body>
+<div style="max-width:580px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,.08);">
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%);padding:40px 40px 32px;text-align:center;">
+    <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:6px;">GARAGE</div>
+    <div style="width:48px;height:48px;background:rgba(255,255,255,.2);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin:12px 0;">
+      <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" width="26" height="26"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    </div>
+    <h1 style="font-size:24px;font-weight:900;color:#fff;margin:0 0 8px;">הזמנתך ממתינה לך!</h1>
+    <p style="font-size:14px;color:rgba(255,255,255,.85);margin:0;">שמרנו את ההזמנה שלך, רק לחץ כאן לסיום התשלום</p>
+  </div>
+  <!-- Body -->
+  <div style="padding:36px 40px;">
+    <p style="font-size:16px;color:#374151;margin:0 0 8px;">שלום <strong>${name}</strong>,</p>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 28px;line-height:1.6;">
+      הזמנה <strong style="color:#d97706;">#${num}</strong> שהתחלת עדיין מחכה לך. הכל שמור ומוכן - פשוט לחץ על הכפתור למטה כדי לסיים את ההזמנה.
+    </p>
+
+    <!-- CTA -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <a href="${checkoutUrl}" style="display:inline-block;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;text-decoration:none;padding:16px 48px;border-radius:14px;font-size:17px;font-weight:800;letter-spacing:-.3px;box-shadow:0 6px 20px rgba(245,158,11,.4);">
+        סיים את ההזמנה
+      </a>
+    </div>
+
+    <!-- Order summary -->
+    <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em;">סיכום הזמנה</div>
+      ${itemsHtml}
+      <div style="display:flex;justify-content:space-between;padding-top:12px;margin-top:4px;font-size:16px;font-weight:800;color:#0f0f0f;">
+        <span>סה"כ</span>
+        <span>₪${total}</span>
+      </div>
+    </div>
+
+    <p style="font-size:12px;color:#9ca3af;text-align:center;margin:0;">בוצע ל-${name} · ההזמנה תישמר ל-72 שעות</p>
+  </div>
+  <!-- Footer -->
+  <div style="padding:24px 40px;background:#fffbeb;border-top:1px solid #fde68a;text-align:center;">
+    <p style="font-size:13px;color:#92400e;margin:0 0 8px;">יש לך שאלות? נשמח לעזור</p>
+    <a href="tel:050-9723636" style="color:#d97706;font-weight:700;font-size:14px;text-decoration:none;">050-9723636</a>
+    <p style="font-size:11px;color:#b45309;margin:16px 0 0;">GARAGE · מפיצי ניחוח פרמיום לרכב ולבית</p>
+  </div>
+</div>
+</body></html>`;
+}
+
+function openOrderEmail(oid) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (!o) return;
+  const html = buildOrderEmailHtml(o);
+  openEmailModal('פרטי הזמנה - מייל ללקוח', html, o);
+}
+
+function openCompletionEmail(oid) {
+  const o = cachedOrders.find(x => (x._id || x.id) === oid);
+  if (!o) return;
+  const html = buildCompletionEmailHtml(o);
+  openEmailModal('מייל סיום הזמנה', html, o);
+}
+
+function openEmailModal(title, html, order) {
+  currentEmailHtml = html;
+  document.getElementById('emailModalTitle').textContent = title;
+  const iframe = document.getElementById('emailModalIframe');
+  iframe.srcdoc = html;
+  iframe.onload = () => {
+    iframe.style.height = (iframe.contentDocument?.body?.scrollHeight || 500) + 'px';
+  };
+  const sendBtn = document.getElementById('emailModalSendBtn');
+  const emailTo = order?.customer?.email || order?.email || '';
+  const subject = encodeURIComponent(`GARAGE - הזמנה #${order?.orderNumber || order?.id || ''}`);
+  sendBtn.onclick = () => window.open(`mailto:${emailTo}?subject=${subject}&body=${encodeURIComponent('ראה HTML מצורף')}`, '_blank');
+  document.getElementById('emailModalOverlay').classList.add('show');
+}
+
+function closeEmailModal() {
+  document.getElementById('emailModalOverlay').classList.remove('show');
+}
+
+function copyEmailHtml() {
+  navigator.clipboard.writeText(currentEmailHtml).then(() => showToast('HTML הועתק ללוח'));
 }
 
 window.addEventListener('load', () => {
