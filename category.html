@@ -93,6 +93,79 @@
       font-weight: 500;
     }
     .cat-hero__stat i { font-size: 16px; color: #a78bfa; }
+
+    /* Hero two-column layout */
+    .cat-hero__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .cat-hero__content {
+      flex: 1;
+      text-align: right;
+    }
+    .cat-hero__breadcrumb { justify-content: flex-start; }
+    .cat-hero__tag { display: inline-flex; }
+    .cat-hero__sub { margin: 0 0 32px; max-width: 440px; }
+    .cat-hero__stats { justify-content: flex-start; }
+
+    /* Floating product image */
+    .cat-hero__img-wrap {
+      flex: 0 0 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-hero__img-glow {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(167,139,250,.45) 0%, rgba(124,58,237,.15) 55%, transparent 75%);
+      border-radius: 50%;
+      animation: heroGlow 3s ease-in-out infinite alternate;
+    }
+    .cat-hero__img {
+      position: relative;
+      z-index: 1;
+      max-width: 240px;
+      max-height: 260px;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 40px rgba(100,60,220,.45));
+      animation: heroFloat 4s ease-in-out infinite, heroFadeIn .8s ease forwards;
+      opacity: 0;
+    }
+    @keyframes heroFloat {
+      0%   { transform: translateY(0px) rotate(-1deg); }
+      50%  { transform: translateY(-18px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(-1deg); }
+    }
+    @keyframes heroGlow {
+      0%   { opacity: .7; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.15); }
+    }
+    @keyframes heroFadeIn {
+      0%   { opacity: 0; transform: translateY(24px) rotate(-1deg); }
+      100% { opacity: 1; transform: translateY(0px) rotate(-1deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .cat-hero__inner {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+      }
+      .cat-hero__content { text-align: center; }
+      .cat-hero__breadcrumb { justify-content: center; }
+      .cat-hero__sub { margin: 0 auto 24px; }
+      .cat-hero__stats { justify-content: center; }
+      .cat-hero__img-wrap { flex: 0 0 160px; }
+      .cat-hero__img { max-width: 160px; max-height: 170px; }
+      .cat-hero__img-glow { width: 160px; height: 160px; }
+    }
+
     .cat-page-body {
       padding: 60px 0 80px;
       background: var(--bg);
@@ -297,21 +370,29 @@
 <!-- CATEGORY HERO -->
 <section class="cat-hero" id="catHero">
   <div class="container">
-    <div class="cat-hero__breadcrumb">
-      <a href="index.html">דף הבית</a>
-      <i class="ph ph-caret-left" style="font-size:11px"></i>
-      <span id="heroCatLabel">קטגוריה</span>
+    <div class="cat-hero__inner">
+      <div class="cat-hero__content">
+        <div class="cat-hero__breadcrumb">
+          <a href="index.html">דף הבית</a>
+          <i class="ph ph-caret-left" style="font-size:11px"></i>
+          <span id="heroCatLabel">קטגוריה</span>
+        </div>
+        <div class="cat-hero__tag" id="heroTag">
+          <i class="ph ph-sparkle"></i>
+          <span id="heroTagText">קולקציה</span>
+        </div>
+        <h1 class="cat-hero__title" id="heroTitle">
+          <mark id="heroTitleMark">מפיצי ריח</mark>
+          <br><span id="heroTitleSub">לכל מקום</span>
+        </h1>
+        <p class="cat-hero__sub" id="heroSub">גלה את הקולקציה המושלמת</p>
+        <div class="cat-hero__stats" id="heroStats"></div>
+      </div>
+      <div class="cat-hero__img-wrap" id="heroImgWrap">
+        <div class="cat-hero__img-glow"></div>
+        <img class="cat-hero__img" id="heroImg" src="" alt="" loading="eager" />
+      </div>
     </div>
-    <div class="cat-hero__tag" id="heroTag">
-      <i class="ph ph-sparkle"></i>
-      <span id="heroTagText">קולקציה</span>
-    </div>
-    <h1 class="cat-hero__title" id="heroTitle">
-      <mark id="heroTitleMark">מפיצי ריח</mark>
-      <br><span id="heroTitleSub">לכל מקום</span>
-    </h1>
-    <p class="cat-hero__sub" id="heroSub">גלה את הקולקציה המושלמת</p>
-    <div class="cat-hero__stats" id="heroStats"></div>
   </div>
 </section>
 
@@ -347,6 +428,7 @@
 <script>
 const CAT_META = {
   car: {
+    heroImg: 'https://garage.org.il/wp-content/uploads/2023/05/%d7%90%d7%99%d7%99%d7%a8%d7%a7%d7%95%d7%9c%d7%a1-%d7%9c%d7%a8%d7%9b%d7%91-%d7%a0%d7%a7%d7%99.png',
     label: 'לרכב',
     tagText: 'מפיצי רכב',
     titleMark: 'ריח יוקרה',
@@ -368,6 +450,7 @@ const CAT_META = {
     ],
   },
   home: {
+    heroImg: 'https://garage.org.il/wp-content/uploads/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png',
     label: 'לבית',
     tagText: 'מפיצי בית',
     titleMark: 'בית שמריח',
@@ -389,6 +472,7 @@ const CAT_META = {
     ],
   },
   biz: {
+    heroImg: 'https://garage.org.il/wp-content/uploads/2023/09/S-300.png',
     label: 'לעסק',
     tagText: 'פתרון עסקי',
     titleMark: 'ריח עסקי',
@@ -410,6 +494,7 @@ const CAT_META = {
     ],
   },
   bottles: {
+    heroImg: 'https://garage.org.il/wp-content/uploads/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png',
     label: 'בקבוקי שמן',
     tagText: 'שמן ריח',
     titleMark: '18 ניחוחות',
@@ -449,6 +534,13 @@ document.getElementById('heroTagText').textContent     = meta.tagText;
 document.getElementById('heroTitleMark').textContent   = meta.titleMark;
 document.getElementById('heroTitleSub').textContent    = meta.titleSub;
 document.getElementById('heroSub').textContent         = meta.sub;
+const heroImgEl = document.getElementById('heroImg');
+if (meta.heroImg) {
+  heroImgEl.src = meta.heroImg;
+  heroImgEl.alt = meta.label + ' — GARAGE';
+} else {
+  document.getElementById('heroImgWrap').style.display = 'none';
+}
 document.getElementById('heroStats').innerHTML = meta.stats.map(s => `
   <div class="cat-hero__stat">
     <i class="ph-fill ${s.icon}"></i>

@@ -710,6 +710,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
     window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
   }
 
+  if (typeof pixelPurchase === 'function') pixelPurchase(finalTotal, Date.now());
   cartClear();
   document.getElementById('checkoutLayout').style.display = 'none';
   document.getElementById('checkoutSamplesUpsell').style.display = 'none';
@@ -753,6 +754,11 @@ function checkoutAddSamples() {
 
 renderReview();
 initCheckoutSamplesUpsell();
+// InitiateCheckout event
+if (typeof pixelInitCheckout === 'function') {
+  const t = cartTotals();
+  pixelInitCheckout(t.total);
+}
 </script>
 <script src="customer-auth.js"></script>
 </body>

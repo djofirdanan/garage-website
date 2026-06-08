@@ -54,6 +54,7 @@ function cartAdd(productId, opts = {}) {
 
   cartSave(items);
   cartToast(`"${p.name}" נוסף לסל`);
+  if (typeof pixelAddToCart === 'function') pixelAddToCart(p.name, price);
 }
 
 function cartAddUpsell(upsellId, scent) {
