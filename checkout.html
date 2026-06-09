@@ -625,6 +625,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   e.preventDefault();
   const firstName = document.getElementById('firstName').value.trim();
   const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
   const phone     = document.getElementById('phone').value.trim();
   const address   = document.getElementById('address').value.trim();
   const city      = document.getElementById('city').value.trim();
@@ -663,7 +664,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   // Cardcom credit card - dynamic payment page (server creates the session)
   if (method === 'card') {
     const orderPayload = {
-      customer: { name: fullName, phone, address: fullAddr, city, zip: zip || undefined },
+      customer: { name: fullName, phone, email: email || undefined, address: fullAddr, city, zip: zip || undefined },
       items: items.map(i => ({ productId: i.productId, name: i.name, scent: i.scent || '', qty: i.qty, price: i.price, isUpsell: i.isUpsell || false })),
       subtotal: totals.subtotal,
       shipping: totals.shipping,
@@ -703,7 +704,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        customer: { name: fullName, phone, address: fullAddr, city, zip: zip || undefined },
+        customer: { name: fullName, phone, email: email || undefined, address: fullAddr, city, zip: zip || undefined },
         items: items.map(i => ({ productId: i.productId, name: i.name, scent: i.scent || '', qty: i.qty, price: i.price, isUpsell: i.isUpsell || false })),
         subtotal: totals.subtotal,
         shipping: totals.shipping,
