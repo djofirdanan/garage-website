@@ -371,37 +371,45 @@
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-18px); }
 }
-/* Floating stat pills */
-.bh-stat {
-  position: absolute;
-  z-index: 3;
-  background: rgba(10,8,32,.78);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(91,196,206,.32);
-  border-radius: 14px;
-  padding: 12px 17px;
-  text-align: center;
-  white-space: nowrap;
-  box-shadow: 0 8px 32px rgba(0,0,0,.45);
+/* REELS / UGC RAIL */
+.reels-rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 24px 20px;
+  scrollbar-width: none;
 }
-.bh-stat__n {
+.reels-rail::-webkit-scrollbar { display: none; }
+.ugc-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 208px;
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: #111;
+  cursor: pointer;
+  border: none;
+  padding: 0;
   display: block;
-  font-size: 22px;
-  font-weight: 900;
-  color: #fff;
-  line-height: 1;
 }
-.bh-stat__l {
-  display: block;
-  font-size: 11px;
-  color: rgba(168,229,236,.85);
-  margin-top: 4px;
-  font-weight: 600;
+.ugc-card__media { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ugc-card__scrim {
+  position: absolute; inset: auto 0 0 0; padding: 40px 12px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.82), rgba(0,0,0,0));
+  text-align: right; pointer-events: none;
 }
-.bh-stat--a { top: 8%;  right: -4%; }
-.bh-stat--b { bottom: 14%; right: -2%; }
-.bh-stat--c { top: 46%; left: -5%; }
+.ugc-card__caption { color: #fff; font-size: .82rem; font-weight: 700; line-height: 1.35; }
+.ugc-card__play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,.92); color: #111;
+  display: grid; place-items: center; font-size: 1.4rem; pointer-events: none;
+}
+@media (max-width: 640px) { .ugc-card { width: 160px; } .reels-rail { padding-inline: 16px; } }
 
 /* RESPONSIVE */
 @media (max-width: 960px) {
@@ -1020,6 +1028,20 @@
   </div>
 </section>
 
+<!-- ACCESSORIES / REFILLS -->
+<section class="section" id="accessories">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__tag">משלימים את הריח</div>
+      <h2 class="section__title" data-split>מוצרים נוספים שאתם אוהבים</h2>
+      <p class="section__sub">בקבוקי מילוי למפיץ, מבשם כביסה, בשמי גוף וקרם ידיים - כל הניחוחות שלנו</p>
+    </div>
+    <div class="products-row" id="accessoriesGrid">
+      <!-- Loaded by JS -->
+    </div>
+  </div>
+</section>
+
 <!-- VIDEOS -->
 <section class="section section--gray" id="videos">
   <div class="container">
@@ -1392,7 +1414,8 @@ function playVideo(card) {
   })()
 
   // IntersectionObserver: only run while visible (saves resources)
-  const sec = document.getElementById('testimonials')
+  // Reuses the `sec` declared above — redeclaring it threw a SyntaxError that
+  // killed this entire script block, so the carousel never rendered.
   if (sec && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -1410,6 +1433,18 @@ function playVideo(card) {
   }
 })()
 </script>
+
+<!-- REELS / UGC — renders only when REELS has entries -->
+<section class="section reels-section" id="reels" style="display:none">
+  <div class="container">
+    <div class="section__header">
+      <div class="section__tag">מהלקוחות שלנו</div>
+      <h2 class="section__title" data-split>ככה זה נראה אצלכם בבית</h2>
+      <p class="section__sub">סרטונים אמיתיים של לקוחות - בלי במאי, בלי תסריט</p>
+    </div>
+  </div>
+  <div class="reels-rail" id="reelsRail" role="list"></div>
+</section>
 
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
@@ -1488,11 +1523,7 @@ function playVideo(card) {
       bottles_100ml: '100 מ"ל',
     };
 
-    const show = FEATURED_IDS
-      .map(id => PRODUCTS[id])
-      .filter(Boolean);
-
-    grid.innerHTML = show.map(p => `
+    const cardHTML = p => `
       <div class="product-card" data-coverage="${COVERAGE_MAP[p.id] || ''}">
         <div class="product-card__img-wrap">
           <img class="product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
@@ -1511,10 +1542,58 @@ function playVideo(card) {
             <button class="product-card__btn" onclick="location.href='product.html?id=${p.id}'">לצפייה במוצר</button>
           </div>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+
+    const renderInto = (el, ids) => {
+      if (!el) return;
+      el.innerHTML = ids.map(id => PRODUCTS[id]).filter(Boolean).map(cardHTML).join('');
+    };
+
+    renderInto(grid, FEATURED_IDS);
+    // Refills and add-ons — bottles, laundry perfume, body perfumes, hand cream
+    renderInto(document.getElementById('accessoriesGrid'),
+      ['bottles_100ml', 'laundry', 'perfume_men', 'perfume_women', 'hand_cream', 'samples']);
 
   });
+
+  /* ── Reels / UGC rail ──
+     Fill REELS with the customer videos. Each entry:
+       { src: 'imgs/reels/clip1.mp4', poster: 'imgs/reels/clip1.jpg', caption: '...' }
+     or, for a link out to Instagram/TikTok:
+       { href: 'https://...', poster: 'imgs/reels/clip1.jpg', caption: '...' }
+     The whole section stays hidden while the list is empty. */
+  const REELS = [];
+
+  (function initReels() {
+    const section = document.getElementById('reels');
+    const rail    = document.getElementById('reelsRail');
+    if (!section || !rail || !REELS.length) return;
+
+    rail.innerHTML = REELS.map(r => {
+      const media = r.src
+        ? `<video class="ugc-card__media" src="${r.src}" poster="${r.poster || ''}" muted loop playsinline preload="none"></video>`
+        : `<img class="ugc-card__media" src="${r.poster || ''}" alt="${r.caption || 'סרטון לקוח'}" loading="lazy">`;
+      const inner = `${media}
+        <span class="ugc-card__play"><i class="ph-fill ph-play"></i></span>
+        ${r.caption ? `<span class="ugc-card__scrim"><span class="ugc-card__caption">${r.caption}</span></span>` : ''}`;
+      return r.href
+        ? `<a class="ugc-card" role="listitem" href="${r.href}" target="_blank" rel="noopener">${inner}</a>`
+        : `<button class="ugc-card" role="listitem" type="button">${inner}</button>`;
+    }).join('');
+
+    section.style.display = '';
+
+    // Tap/click plays inline; only one clip runs at a time.
+    rail.querySelectorAll('.ugc-card').forEach(card => {
+      const vid = card.querySelector('video');
+      if (!vid) return;
+      card.addEventListener('click', () => {
+        rail.querySelectorAll('video').forEach(v => { if (v !== vid) { v.pause(); v.currentTime = 0; } });
+        if (vid.paused) { vid.play(); card.querySelector('.ugc-card__play').style.display = 'none'; }
+        else { vid.pause(); card.querySelector('.ugc-card__play').style.display = ''; }
+      });
+    });
+  })();
 
   // ── Hero rotating word ──
   const rotatingWords = ['בבית שלך', 'ברכב שלך', 'במשרד שלך'];
