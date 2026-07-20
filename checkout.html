@@ -456,7 +456,7 @@ const PM_KEY     = 'garage_payment_cfg';
 const PM_DEFAULTS_CO = {
   card:   { enabled: true,  link: '' },
   bit:    { enabled: true,  phone: '050-9723636', link: 'https://www.bitpay.co.il/app/me/13B85130-40AC-F09E-B0FB-240A551E0F91AD38' },
-  paybox: { enabled: false, link: '' },
+  paybox: { enabled: true,  link: 'https://links.payboxapp.com/GHTBIDKsXUb' },
   bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
   cash:   { enabled: false },
 };
@@ -466,6 +466,13 @@ let pmCfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS_CO
 if (!pmCfg.card) pmCfg.card = PM_DEFAULTS_CO.card;
 if (!pmCfg.bit) pmCfg.bit = PM_DEFAULTS_CO.bit;
 if (!pmCfg.bit.link) pmCfg.bit.link = PM_DEFAULTS_CO.bit.link;
+if (!pmCfg.paybox) pmCfg.paybox = PM_DEFAULTS_CO.paybox;
+// Returning visitors have a cached config from before PayBox was set up,
+// so backfill the link and enable it rather than leaving them on the old copy.
+if (!pmCfg.paybox.link) {
+  pmCfg.paybox.link = PM_DEFAULTS_CO.paybox.link;
+  pmCfg.paybox.enabled = true;
+}
 let selectedPayMethod = null;
 
 function renderPaymentMethods(total) {

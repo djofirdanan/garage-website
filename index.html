@@ -1665,29 +1665,39 @@ function playVideo(card) {
       bottles_100ml: '100 מ"ל',
     };
 
-    const cardHTML = p => `
-      <div class="product-card" data-coverage="${COVERAGE_MAP[p.id] || ''}">
-        <div class="product-card__img-wrap">
-          <img class="product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
-          ${p.badge ? `<span class="product-card__badge product-card__badge--hot">${p.badge}</span>` : ''}
+    // Large stacked presentation, same as the category pages
+    const cardHTML = (p, i) => {
+      const saving = p.origPrice ? p.origPrice - p.price : 0;
+      const nis = n => '₪' + n.toLocaleString('he-IL');
+      return `
+      <a href="product.html?id=${p.id}" class="solo-card">
+        <div class="solo-card__img-wrap">
+          <div class="solo-card__img-glow"></div>
+          <img class="solo-card__img" src="${p.img || ''}" alt="${p.name}" loading="${i === 0 ? 'eager' : 'lazy'}" />
+          ${p.badge ? `<span class="solo-card__badge">${p.badge}</span>` : ''}
         </div>
-        <div class="product-card__body">
-          <div class="product-card__name">${p.name}</div>
-          ${COVERAGE_MAP[p.id] ? `<div class="product-card__coverage">${COVERAGE_MAP[p.id]}</div>` : ''}
-          <div class="product-card__scent">${p.subtitle || p.categoryLabel || ''}</div>
-          <div class="product-card__price-row">
-            <span class="product-card__price">&#8362;${p.price}</span>
-            ${p.origPrice ? `<span class="product-card__old">&#8362;${p.origPrice}</span>` : ''}
-            ${p.freeShipping ? `<span style="font-size:11px;font-weight:700;color:#2A9FAE;background:#D9F4F7;padding:2px 8px;border-radius:20px;white-space:nowrap">הכי משתלם</span>` : ''}
+        <div class="solo-card__body">
+          <div class="solo-card__cat">${COVERAGE_MAP[p.id] || p.categoryLabel || ''}</div>
+          <h3 class="solo-card__name">${p.name}</h3>
+          ${p.subtitle ? `<p class="solo-card__sub">${p.subtitle}</p>` : ''}
+          ${p.desc ? `<p class="solo-card__desc">${p.desc}</p>` : ''}
+          <div class="solo-card__price-row">
+            <span class="solo-card__price">${nis(p.price)}</span>
+            ${p.origPrice ? `<span class="solo-card__orig">${nis(p.origPrice)}</span>` : ''}
+            ${saving > 0 ? `<span class="solo-card__save">חיסכון ${nis(saving)}</span>` : ''}
           </div>
-          <div class="product-card__cta">
-            <button class="product-card__btn" onclick="location.href='product.html?id=${p.id}'">לצפייה במוצר</button>
+          ${p.features ? `<div class="solo-card__features">${p.features.slice(0, 4).map(f => `<div class="solo-card__feat"><i class="ph-fill ${f.icon}"></i><span>${f.text}</span></div>`).join('')}</div>` : ''}
+          <div class="solo-card__cta">
+            <i class="ph ph-shopping-cart-simple"></i>
+            לצפייה ורכישה
           </div>
         </div>
-      </div>`;
+      </a>`;
+    };
 
     const renderInto = (el, ids) => {
       if (!el) return;
+      el.classList.add('solo-cards');
       el.innerHTML = ids.map(id => PRODUCTS[id]).filter(Boolean).map(cardHTML).join('');
     };
 

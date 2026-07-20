@@ -4345,3 +4345,159 @@ textarea.form-input {
   .newsletter-input-row { flex-direction: column; }
   .newsletter-btn { width: 100%; }
 }
+
+/* ====================================================
+   SOLO PRODUCT CARD
+   The large stacked product presentation. Shared by the
+   homepage grids; colours follow the gold palette rather
+   than the teal/purple the category page still hardcodes.
+==================================================== */
+.solo-cards { display: flex; flex-direction: column; gap: 28px; }
+.solo-card {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  background: var(--white);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  padding: 48px 56px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  box-shadow: 0 4px 24px rgba(26,20,16,.06);
+}
+.solo-cards .solo-card:nth-child(even) { flex-direction: row-reverse; }
+.solo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(200,150,42,.18);
+}
+.solo-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.solo-card__img-wrap {
+  flex: 0 0 340px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--cream), var(--gold-pale));
+  border-radius: 24px;
+  padding: 32px;
+  min-height: 340px;
+}
+.solo-card__img-glow {
+  position: absolute;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(200,150,42,.28) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.solo-card__img {
+  position: relative;
+  z-index: 1;
+  max-width: 280px;
+  max-height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 40px rgba(26,20,16,.22));
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.solo-card:hover .solo-card__img { transform: translateY(-8px) scale(1.03); }
+.solo-card__badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  z-index: 2;
+}
+.solo-card__body { flex: 1; min-width: 0; }
+.solo-card__cat {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 10px;
+}
+.solo-card__name {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.solo-card__sub {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.solo-card__desc {
+  font-size: 15px;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.solo-card__price-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.solo-card__price { font-size: 42px; font-weight: 900; color: var(--black); }
+.solo-card__orig { font-size: 20px; color: var(--mid); text-decoration: line-through; }
+.solo-card__save {
+  font-size: 14px;
+  font-weight: 700;
+  color: #166534;
+  background: #dcfce7;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+}
+.solo-card__features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin-bottom: 28px;
+}
+.solo-card__feat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black);
+}
+.solo-card__feat i { font-size: 17px; color: var(--gold-dark); flex-shrink: 0; }
+.solo-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  background: var(--black);
+  color: #fff;
+  padding: 16px 36px;
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 700;
+  transition: background .25s ease, transform .25s ease;
+}
+.solo-card:hover .solo-card__cta { background: var(--gold); transform: translateY(-1px); }
+
+@media (max-width: 900px) {
+  .solo-card { flex-direction: column; padding: 32px 24px; gap: 32px; }
+  .solo-cards .solo-card:nth-child(even) { flex-direction: column; }
+  .solo-card__img-wrap { flex: none; width: 100%; min-height: 240px; }
+  .solo-card__img { max-width: 200px; max-height: 220px; }
+  .solo-card__name { font-size: 26px; }
+  .solo-card__price { font-size: 34px; }
+  .solo-card__features { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .solo-card, .solo-card__img, .solo-card__cta { transition: none; }
+  .solo-card:hover { transform: none; }
+  .solo-card:hover .solo-card__img { transform: none; }
+  .solo-card:hover .solo-card__cta { transform: none; }
+}
