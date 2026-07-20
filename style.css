@@ -2036,16 +2036,17 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .cart-overlay.open { opacity: 1; pointer-events: all; }
 .cart-sidebar {
   position: fixed;
-  top: 0; right: 0; bottom: 0;
+  top: 0; left: 0; bottom: 0;
   width: 420px;
   max-width: 100vw;
   background: var(--white);
   z-index: 201;
-  transform: translateX(100%);
+  /* Anchored left, so it slides out to the left when closed */
+  transform: translateX(-100%);
   transition: transform .35s cubic-bezier(.4,0,.2,1);
   display: flex;
   flex-direction: column;
-  box-shadow: -4px 0 32px rgba(0,0,0,.15);
+  box-shadow: 4px 0 32px rgba(0,0,0,.15);
 }
 .cart-sidebar.open { transform: translateX(0); }
 .cart-header {
