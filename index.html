@@ -371,6 +371,84 @@
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-18px); }
 }
+/* GOOGLE REVIEWS */
+.grev { padding: 76px 0 84px; background: var(--lav-bg); overflow: hidden; }
+.grev__head { text-align: center; max-width: 720px; margin: 0 auto 40px; }
+.grev__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--radius-pill); padding: 7px 16px;
+  font-size: .82rem; font-weight: 700; color: var(--black);
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.grev__title { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 800; color: var(--black); margin: 18px 0 10px; line-height: 1.2; }
+.grev__sub { color: var(--mid); font-size: 1rem; line-height: 1.6; margin: 0 0 22px; }
+.grev__score { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.grev__score-num { font-size: 2.2rem; font-weight: 800; color: var(--black); line-height: 1; font-variant-numeric: tabular-nums; }
+.grev__score-stars { display: inline-flex; gap: 2px; }
+.grev__score-meta { color: var(--mid); font-size: .9rem; }
+.grev__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.grev__btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 12px 24px; border-radius: var(--radius-pill);
+  font-weight: 700; font-size: .92rem; text-decoration: none;
+  border: 1.5px solid var(--border); background: #fff; color: var(--black);
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.grev__btn:hover { border-color: var(--gold); transform: translateY(-1px); }
+.grev__btn--primary { background: var(--black); color: #fff; border-color: var(--black); }
+.grev__btn--primary:hover { background: #000; border-color: #000; }
+.grev__btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.grev__marquee { position: relative; overflow: hidden; padding: 8px 0; }
+.grev__marquee + .grev__marquee { margin-top: 4px; }
+/* Fade the rails into the background at both edges */
+.grev__marquee::before, .grev__marquee::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none;
+}
+.grev__marquee::before { right: 0; background: linear-gradient(to left, var(--lav-bg), transparent); }
+.grev__marquee::after  { left: 0;  background: linear-gradient(to right, var(--lav-bg), transparent); }
+
+.grev__row {
+  display: flex; gap: 16px; width: max-content;
+  animation-name: grev-scroll; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+/* Hebrew RTL: the rail travels left-to-right */
+@keyframes grev-scroll { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.grev__marquee:hover .grev__row,
+.grev__marquee:focus-within .grev__row { animation-play-state: paused; }
+
+.grev-card {
+  flex: 0 0 auto; width: 330px;
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-card);
+  padding: 18px; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.grev-card:hover { box-shadow: 0 10px 30px rgba(26,20,16,.10); transform: translateY(-3px); border-color: var(--gold-pale); }
+.grev-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.grev-card__top { display: flex; align-items: center; gap: 10px; }
+.grev-card__avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: var(--gray-bg); }
+.grev-card__avatar--txt { display: grid; place-items: center; font-weight: 800; color: var(--gold-dark); background: var(--gold-pale); font-size: 1rem; }
+.grev-card__who { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.grev-card__name { font-weight: 700; font-size: .93rem; color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grev-card__date { font-size: .78rem; color: var(--light); }
+.grev-card__g { flex-shrink: 0; display: grid; place-items: center; }
+.grev-card__stars { display: flex; gap: 2px; }
+.grev-card__text { margin: 0; font-size: .9rem; line-height: 1.65; color: var(--mid); }
+
+@media (max-width: 640px) {
+  .grev { padding: 56px 0 62px; }
+  .grev-card { width: 272px; padding: 15px; }
+  .grev__marquee::before, .grev__marquee::after { width: 44px; }
+}
+/* Motion is decorative here — let the rails sit still and scroll by hand instead */
+@media (prefers-reduced-motion: reduce) {
+  .grev__row { animation: none; width: auto; }
+  .grev__marquee { overflow-x: auto; }
+  .grev__marquee::before, .grev__marquee::after { display: none; }
+}
+
 /* REELS / UGC RAIL */
 .reels-rail {
   display: flex;
@@ -1223,215 +1301,109 @@ function playVideo(card) {
   </div>
 </section>
 
-<!-- ANIMATED TESTIMONIALS -->
-<section class="anim-testi" id="testimonials">
-  <div class="anim-testi__container">
-    <div class="anim-testi__grid">
-      <!-- LEFT: Heading + dots -->
-      <div class="anim-testi__lead">
-        <div class="anim-testi__badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>
-          <span>אהובים בלב הלקוחות</span>
-        </div>
-        <h2 class="anim-testi__title">הם כבר לא יכולים בלי הריח הזה</h2>
-        <p class="anim-testi__sub">ריח של מלון יוקרה - בבית, ברכב ובעסק. קראו מה אומרים אנשים שכבר מריחים עם GARAGE.</p>
-        <div class="anim-testi__dots" id="animTestiDots"><!-- populated by JS --></div>
-        <div class="anim-testi__rating">
-          <div class="anim-testi__rating-stars">★★★★★</div>
-          <div class="anim-testi__rating-text"><strong>4.9</strong> מתוך 5 · מעל 15,000 לקוחות מרוצים</div>
-        </div>
+<!-- GOOGLE REVIEWS -->
+<section class="grev" id="testimonials" aria-labelledby="grevTitle">
+  <div class="container">
+    <div class="grev__head">
+      <div class="grev__badge">
+        <svg class="grev__g" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/>
+          <path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
+        </svg>
+        <span>ביקורות מ‑Google</span>
+      </div>
+      <h2 class="grev__title" id="grevTitle">‏202 לקוחות דירגו אותנו 5 כוכבים</h2>
+      <p class="grev__sub">כל ביקורת כאן נכתבה בפרופיל העסקי שלנו בגוגל - אפשר ללחוץ ולראות את המקור</p>
+
+      <div class="grev__score">
+        <span class="grev__score-num">5.0</span>
+        <span class="grev__score-stars" id="grevHeadStars" aria-hidden="true"></span>
+        <span class="grev__score-meta">מבוסס על <strong>202</strong> ביקורות ב‑Google</span>
       </div>
 
-      <!-- RIGHT: Card stack -->
-      <div class="anim-testi__stack">
-        <div class="anim-testi__deco anim-testi__deco--br"></div>
-        <div class="anim-testi__deco anim-testi__deco--tl"></div>
-        <div class="anim-testi__cards" id="animTestiCards"><!-- populated by JS --></div>
-        <button class="anim-testi__nav anim-testi__nav--prev" id="animTestiPrev" aria-label="ביקורת קודמת">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </button>
-        <button class="anim-testi__nav anim-testi__nav--next" id="animTestiNext" aria-label="ביקורת הבאה">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        </button>
+      <div class="grev__actions">
+        <a class="grev__btn grev__btn--primary" id="grevAllLink" href="#" target="_blank" rel="noopener">
+          קראו את כל הביקורות
+        </a>
+        <a class="grev__btn" id="grevWriteLink" href="#" target="_blank" rel="noopener">
+          כתבו ביקורת
+        </a>
       </div>
     </div>
+  </div>
 
-    <!-- Trusted-by row -->
-    <div class="anim-testi__trusted">
-      <p class="anim-testi__trusted-title">המפיצים שלנו פוגשים אותך כל יום</p>
-      <div class="anim-testi__trusted-row">
-        <div class="anim-testi__trusted-item">בתי מלון יוקרה</div>
-        <div class="anim-testi__trusted-item">משרדי הייטק</div>
-        <div class="anim-testi__trusted-item">מסעדות שף</div>
-        <div class="anim-testi__trusted-item">סטודיו ליופי</div>
-        <div class="anim-testi__trusted-item">חנויות בוטיק</div>
-        <div class="anim-testi__trusted-item">משרדי עו"ד</div>
-      </div>
-    </div>
+  <div class="grev__marquee" data-speed="64">
+    <div class="grev__row" id="grevRow1"></div>
+  </div>
+  <div class="grev__marquee" data-speed="86">
+    <div class="grev__row" id="grevRow2"></div>
   </div>
 </section>
 
 <script>
-(function () {
-  const TESTIMONIALS = [
-    { id: 1, name: 'מיכאל רוזנברג', role: 'בעלים', company: 'מסעדת LUMA',
-      content: 'קניתי מפיץ S500 למסעדה. כל לקוח שנכנס שואל "מה הריח המדהים הזה?". הפך לחתימה של המקום. ROI מטורף - מספיק שלקוח אחד מציין את זה ביקורת.',
-      rating: 5, initial: 'מ', tag: 'מפיץ לעסק - וניל ועץ תה' },
-    { id: 2, name: 'דנה לוי', role: 'אמא ל-3', company: 'תל אביב',
-      content: 'לקחתי שניים לבית - אחד לסלון ואחד לחדר שינה. הריח עדין, נעים, ונמשך באמת שעות (לא כמו אלה מהסופר שנגמרים אחרי יום). הזמנתי כבר פעמיים.',
-      rating: 5, initial: 'ד', tag: 'מפיץ לבית - ורד מרוקאי' },
-    { id: 3, name: 'אלי גרין', role: 'מנכ"ל', company: 'חברת ייעוץ',
-      content: 'קניתי לכל המשרד - 4 קומות. לקוחות מעירים על הריח הנעים בכל פגישה. השירות לקוחות זמין בוואטסאפ ועונה תוך דקות. ממליץ בחום לכל עסק שבא לו להתבלט.',
-      rating: 5, initial: 'א', tag: 'חבילת עסקים - וניל ועץ תה' },
-    { id: 4, name: 'שירה ברק', role: 'נהגת', company: 'הרצליה',
-      content: 'אני בטוחה שהשמן של GARAGE שונה מכל מפיץ אחר שניסיתי. כשאני נכנסת לרכב אחרי יום עבודה - הראש מתחיל להירגע מיד. זה לא רק ריח, זה חוויה.',
-      rating: 5, initial: 'ש', tag: 'מפיץ לרכב - לבנדר צרפתי' },
-    { id: 5, name: 'יוסי דהן', role: 'בעלים', company: 'סטודיו לעיצוב שיער',
-      content: 'הסטודיו מקבל כל יום עשרות לקוחות. מאז ש-G100 פועל אצלי הריח של חומרי כימיה כבר לא מורגש. לקוחות שואלים אם זה ספא חדש שפתחתי.',
-      rating: 5, initial: 'י', tag: 'מפיץ G100 - מנטה קרירה' },
-  ]
-  const ROTATE_MS = 5000
+// reviews-data.js is loaded further down the page, so wait for the parser to
+// finish before reading GOOGLE_REVIEWS.
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof GOOGLE_REVIEWS === 'undefined' || !GOOGLE_REVIEWS.length) return;
 
-  const cardsRoot = document.getElementById('animTestiCards')
-  const dotsRoot  = document.getElementById('animTestiDots')
-  const btnPrev   = document.getElementById('animTestiPrev')
-  const btnNext   = document.getElementById('animTestiNext')
-  if (!cardsRoot || !dotsRoot) return
+  const STAR = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#FBBC04" d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>';
+  const G_MARK = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>';
 
-  // Build cards
-  cardsRoot.innerHTML = TESTIMONIALS.map((t, i) => `
-    <article class="anim-testi-card${i === 0 ? ' is-active' : ''}" data-idx="${i}">
-      <div class="anim-testi-card__stars">${'★'.repeat(t.rating)}</div>
-      <div class="anim-testi-card__quote">
-        <svg class="anim-testi-card__quote-icon" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
-        <p class="anim-testi-card__text">${t.content}</p>
-      </div>
-      <div class="anim-testi-card__sep"></div>
-      <div class="anim-testi-card__author">
-        <div class="anim-testi-card__avatar">${t.initial}</div>
-        <div>
-          <div class="anim-testi-card__name">${t.name}</div>
-          <div class="anim-testi-card__meta">${t.role}, ${t.company}</div>
-          <div class="anim-testi-card__tag">${t.tag}</div>
-        </div>
-      </div>
-    </article>
-  `).join('')
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  const initial = n => (String(n).trim()[0] || '?');
 
-  // Build dots
-  dotsRoot.innerHTML = TESTIMONIALS.map((_, i) =>
-    `<button class="anim-testi-dot${i === 0 ? ' is-active' : ''}" data-idx="${i}" aria-label="ביקורת ${i + 1}"></button>`
-  ).join('')
+  // Header links + stars
+  const place = (typeof GOOGLE_PLACE !== 'undefined') ? GOOGLE_PLACE : {};
+  const headStars = document.getElementById('grevHeadStars');
+  if (headStars) headStars.innerHTML = STAR.repeat(5);
+  const allLink = document.getElementById('grevAllLink');
+  const writeLink = document.getElementById('grevWriteLink');
+  if (allLink && place.mapsUrl) allLink.href = place.mapsUrl;
+  if (writeLink && place.reviewUrl) writeLink.href = place.reviewUrl;
 
-  let active = 0
-  let timer = null
+  function cardHTML(r) {
+    const stars = STAR.repeat(r.stars || 5);
+    // The avatar is a Google-hosted URL; if it fails, fall back to an initial.
+    const avatar = r.photo
+      ? '<img class="grev-card__avatar" src="' + esc(r.photo) + '" alt="" loading="lazy" width="40" height="40" ' +
+        'onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'grev-card__avatar grev-card__avatar--txt\',textContent:' +
+        JSON.stringify(initial(r.name)) + '}))">'
+      : '<span class="grev-card__avatar grev-card__avatar--txt">' + esc(initial(r.name)) + '</span>';
 
-  function show(idx) {
-    if (idx === active) return
-    cardsRoot.querySelectorAll('.anim-testi-card').forEach(el => {
-      const i = parseInt(el.dataset.idx, 10)
-      el.classList.toggle('is-active', i === idx)
-      el.classList.toggle('is-prev', i < idx)
-    })
-    dotsRoot.querySelectorAll('.anim-testi-dot').forEach(el => {
-      el.classList.toggle('is-active', parseInt(el.dataset.idx, 10) === idx)
-    })
-    active = idx
+    return '<a class="grev-card" href="' + esc(r.url || place.mapsUrl || '#') + '" target="_blank" rel="noopener"' +
+      ' aria-label="ביקורת של ' + esc(r.name) + ' ב-Google, ' + (r.stars || 5) + ' כוכבים">' +
+      '<div class="grev-card__top">' +
+        avatar +
+        '<div class="grev-card__who">' +
+          '<span class="grev-card__name">' + esc(r.name) + '</span>' +
+          '<span class="grev-card__date">' + esc(r.date || '') + (r.localGuide ? ' · Local Guide' : '') + '</span>' +
+        '</div>' +
+        '<span class="grev-card__g">' + G_MARK + '</span>' +
+      '</div>' +
+      '<div class="grev-card__stars">' + stars + '</div>' +
+      '<p class="grev-card__text">' + esc(r.text) + '</p>' +
+    '</a>';
   }
 
-  function tick() {
-    show((active + 1) % TESTIMONIALS.length)
-  }
+  // Split across two rails so the wall reads as a grid in motion.
+  const half = Math.ceil(GOOGLE_REVIEWS.length / 2);
+  const rows = [
+    { el: document.getElementById('grevRow1'), items: GOOGLE_REVIEWS.slice(0, half) },
+    { el: document.getElementById('grevRow2'), items: GOOGLE_REVIEWS.slice(half) },
+  ];
 
-  function startAuto() {
-    stopAuto()
-    timer = setInterval(tick, ROTATE_MS)
-  }
-  function stopAuto() {
-    if (timer) { clearInterval(timer); timer = null }
-  }
-
-  dotsRoot.addEventListener('click', e => {
-    const btn = e.target.closest('.anim-testi-dot')
-    if (!btn) return
-    show(parseInt(btn.dataset.idx, 10))
-    startAuto()
-  })
-
-  // Prev / Next buttons
-  if (btnPrev) btnPrev.addEventListener('click', () => {
-    show((active - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-    startAuto()
-  })
-  if (btnNext) btnNext.addEventListener('click', () => {
-    show((active + 1) % TESTIMONIALS.length)
-    startAuto()
-  })
-
-  // Keyboard navigation (left/right arrows) - active only when section is focused/hovered
-  const sec = document.getElementById('testimonials')
-  if (sec) {
-    sec.setAttribute('tabindex', '-1')
-    document.addEventListener('keydown', e => {
-      if (!sec.matches(':hover') && document.activeElement !== sec) return
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        e.preventDefault()
-        show((active - 1 + TESTIMONIALS.length) % TESTIMONIALS.length); startAuto()
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault()
-        show((active + 1) % TESTIMONIALS.length); startAuto()
-      }
-    })
-  }
-
-  // Mouse drag (desktop) + Touch swipe (mobile)
-  ;(function setupSwipe() {
-    let startX = 0, dragging = false, moved = false
-    const THRESHOLD = 50
-
-    function onDragStart(x) { startX = x; dragging = true; moved = false }
-    function onDragEnd(x) {
-      if (!dragging) return
-      dragging = false
-      const dx = x - startX
-      if (Math.abs(dx) < THRESHOLD) return
-      moved = true
-      // RTL: swipe right (positive dx) = previous, swipe left (negative dx) = next
-      if (dx > 0) { show((active - 1 + TESTIMONIALS.length) % TESTIMONIALS.length); startAuto() }
-      else        { show((active + 1) % TESTIMONIALS.length); startAuto() }
-    }
-
-    // Touch
-    cardsRoot.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true })
-    cardsRoot.addEventListener('touchend',   e => onDragEnd(e.changedTouches[0].clientX), { passive: true })
-
-    // Mouse
-    cardsRoot.addEventListener('mousedown',  e => { onDragStart(e.clientX); cardsRoot.style.cursor = 'grabbing' })
-    cardsRoot.addEventListener('mouseup',    e => { onDragEnd(e.clientX);   cardsRoot.style.cursor = '' })
-    cardsRoot.addEventListener('mouseleave', e => { if (dragging) { onDragEnd(e.clientX); cardsRoot.style.cursor = '' } })
-    cardsRoot.style.cursor = 'grab'
-    cardsRoot.addEventListener('click', e => { if (moved) { e.preventDefault(); moved = false } })
-  })()
-
-  // IntersectionObserver: only run while visible (saves resources)
-  // Reuses the `sec` declared above — redeclaring it threw a SyntaxError that
-  // killed this entire script block, so the carousel never rendered.
-  if (sec && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          sec.classList.add('is-in-view')
-          startAuto()
-        } else {
-          stopAuto()
-        }
-      })
-    }, { threshold: 0.2 })
-    io.observe(sec)
-  } else {
-    startAuto()
-  }
-})()
+  rows.forEach(({ el, items }) => {
+    if (!el || !items.length) return;
+    const cards = items.map(cardHTML).join('');
+    // Duplicated once so translateX(-50%) -> 0 loops with no visible seam.
+    el.innerHTML = cards + cards;
+    el.setAttribute('aria-hidden', 'false');
+    const speed = el.parentElement.dataset.speed || 70;
+    el.style.animationDuration = speed + 's';
+  });
+});
 </script>
 
 <!-- REELS / UGC — renders only when REELS has entries -->
@@ -1503,6 +1475,7 @@ function playVideo(card) {
 <script src="site-components.js"></script>
 <script src="scents-data.js"></script>
 <script src="products.js"></script>
+<script src="reviews-data.js"></script>
 <script>
   // Render products
   document.addEventListener('DOMContentLoaded', () => {
