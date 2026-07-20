@@ -3700,60 +3700,112 @@ textarea.form-input {
 }
 
 /* ====================================================
-   ALT OPTIONS SECTION
+   SOLUTION FINDER
+   The main doorway into the catalogue. Editorial cards:
+   tinted image well, gold kicker, rule that draws itself
+   on hover. Tints vary per card but stay in one family so
+   the row reads as a set despite mismatched product shots.
 ==================================================== */
-.alt-options-section { background: var(--cream); }
+.alt-options-section {
+  position: relative;
+  background: linear-gradient(180deg, var(--white) 0%, var(--cream) 46%, var(--cream) 100%);
+  overflow: hidden;
+}
+/* Faint gold bloom behind the row for depth */
+.alt-options-section::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: min(1100px, 92%);
+  height: 460px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(200,150,42,.10) 0%, transparent 68%);
+  pointer-events: none;
+}
+.alt-options-section > .container { position: relative; z-index: 1; }
+
 .alt-options-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-  margin-top: 10px;
+  gap: 24px;
+  margin-top: 14px;
 }
+
 .alt-option-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  border-radius: 22px;
-  border: 1px solid var(--border);
+  border-radius: 24px;
   background: var(--white);
   text-decoration: none;
   color: inherit;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(26,20,16,.05);
-  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+  box-shadow: 0 1px 2px rgba(26,20,16,.05), 0 8px 24px rgba(26,20,16,.05);
+  transition: transform .4s cubic-bezier(.2,.8,.3,1), box-shadow .4s ease;
+}
+/* Gold hairline that fades in on hover, drawn as a border-width gradient so it
+   never shifts the layout */
+.alt-option-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(160deg, var(--gold) 0%, rgba(200,150,42,.25) 45%, transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
 }
 .alt-option-card:hover {
-  border-color: var(--gold);
-  box-shadow: 0 18px 44px rgba(26,20,16,.13);
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 2px 4px rgba(26,20,16,.05), 0 26px 56px rgba(26,20,16,.16);
 }
-.alt-option-card:focus-visible {
-  outline: 3px solid var(--gold);
-  outline-offset: 3px;
-}
-/* White, not cream: most of these product shots are cut out on white, so a
-   tinted panel left a visible white rectangle inside it. The radial wash and
-   the shadow under the product are what tie the four photos together. */
+.alt-option-card:hover::after { opacity: 1; }
+.alt-option-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+
+/* ---- image well ---- */
 .alt-option-card__media {
   position: relative;
   aspect-ratio: 1 / 1;
-  background:
-    radial-gradient(120% 85% at 50% 8%, #ffffff 0%, #ffffff 55%, var(--cream) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  /* white centre so the cut-out product shots blend, tint only at the edges */
+  background: radial-gradient(115% 80% at 50% 12%, #fff 0%, #fff 52%, var(--tint, #f4efe4) 100%);
 }
-/* Soft ground shadow so products that float and products that sit on a prop
-   read at the same visual weight */
+.alt-options-grid .alt-option-card:nth-child(1) { --tint: #efe6d6; }
+.alt-options-grid .alt-option-card:nth-child(2) { --tint: #e7ecf0; }
+.alt-options-grid .alt-option-card:nth-child(3) { --tint: #eae6ef; }
+.alt-options-grid .alt-option-card:nth-child(4) { --tint: #e6efe9; }
+
+/* oversized index, sits behind the product */
+.alt-option-card__num {
+  position: absolute;
+  top: 14px;
+  inset-inline-start: 18px;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(26,20,16,.07);
+  letter-spacing: -.03em;
+  user-select: none;
+}
+/* ground shadow, so floating and propped products carry equal weight */
 .alt-option-card__media::after {
   content: '';
   position: absolute;
   left: 50%;
-  bottom: 12%;
-  width: 58%;
-  height: 12px;
+  bottom: 11%;
+  width: 56%;
+  height: 14px;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(26,20,16,.16) 0%, transparent 72%);
+  background: radial-gradient(ellipse at center, rgba(26,20,16,.18) 0%, transparent 72%);
   pointer-events: none;
 }
 .alt-option-card__media img {
@@ -3762,60 +3814,103 @@ textarea.form-input {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 20px 20px 26px;
-  transition: transform .35s cubic-bezier(.34,1.4,.64,1);
+  padding: 26px 26px 32px;
+  transition: transform .55s cubic-bezier(.2,.8,.3,1);
 }
-.alt-option-card:hover .alt-option-card__media img { transform: scale(1.06) translateY(-4px); }
+.alt-option-card:hover .alt-option-card__media img { transform: scale(1.07) translateY(-6px); }
+
+/* ---- body ---- */
 .alt-option-card__body {
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  padding: 20px 22px 22px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 22px 24px 24px;
   flex: 1;
-  border-top: 1px solid var(--border);
 }
+.alt-option-card__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-pale);
+  /* Deeper than --gold-dark: at 11.5px this needs 4.5:1 on the pale gold,
+     which the standard token only reaches at 3.5:1 */
+  color: #7D5A12;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.alt-option-card__kicker svg { flex-shrink: 0; }
 .alt-option-card__title {
-  font-size: 17.5px;
+  font-size: 18.5px;
   font-weight: 800;
   color: var(--black);
   line-height: 1.3;
-  letter-spacing: -.01em;
+  letter-spacing: -.015em;
+  position: relative;
+  padding-bottom: 10px;
 }
+/* rule under the title that draws itself out on hover */
+.alt-option-card__title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+  transition: width .45s cubic-bezier(.2,.8,.3,1);
+}
+.alt-option-card:hover .alt-option-card__title::after { width: 58px; }
 .alt-option-card__text {
   font-size: 13.5px;
   color: var(--mid);
-  line-height: 1.65;
+  line-height: 1.7;
   flex: 1;
 }
 .alt-option-card__btn {
   align-self: stretch;
-  min-height: 46px;
-  margin-top: 6px;
+  min-height: 48px;
+  margin-top: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 18px;
+  padding: 13px 20px;
   border-radius: var(--radius-pill);
   background: var(--black);
   color: #fff;
   font-size: 14.5px;
   font-weight: 700;
-  transition: background .22s ease, gap .22s ease;
+  transition: background .3s ease, gap .3s ease;
 }
-.alt-option-card:hover .alt-option-card__btn { background: var(--gold); gap: 12px; }
+.alt-option-card__btn svg { transition: transform .3s ease; }
+.alt-option-card:hover .alt-option-card__btn { background: var(--gold); gap: 14px; }
+.alt-option-card:hover .alt-option-card__btn svg { transform: translateX(-3px); }
 
-@media (max-width: 900px) {
-  .alt-option-card__title { font-size: 16px; }
-  .alt-option-card__media img { padding: 16px 16px 22px; }
+@media (max-width: 1100px) {
+  .alt-options-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+@media (max-width: 560px) {
+  .alt-options-grid { grid-template-columns: 1fr; gap: 16px; }
+  .alt-option-card__media { aspect-ratio: 4 / 3; }
+  .alt-option-card__num { font-size: 38px; }
+  .alt-option-card__title { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .alt-option-card, .alt-option-card__media img, .alt-option-card__btn { transition: none; }
+  .alt-option-card,
+  .alt-option-card::after,
+  .alt-option-card__media img,
+  .alt-option-card__title::after,
+  .alt-option-card__btn,
+  .alt-option-card__btn svg { transition: none; }
   .alt-option-card:hover { transform: none; }
   .alt-option-card:hover .alt-option-card__media img { transform: none; }
+  .alt-option-card:hover .alt-option-card__btn svg { transform: none; }
 }
-@media (max-width: 900px) { .alt-options-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 540px) { .alt-options-grid { grid-template-columns: 1fr; } }
 
 /* ====================================================
    NEWSLETTER SECTION
