@@ -230,15 +230,43 @@
       padding: 14px 16px; background: #f0fdf4; border-radius: var(--radius-sm);
       color: #166534; font-size: .87rem; display: flex; gap: 10px; align-items: flex-start;
     }
+    /* The payment button is the whole point of this screen: blue so it reads as
+       an action rather than brand decoration, and sized well above the rest. */
     .pay-transfer-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 15px 30px; background: var(--gold, #c9a24a); color: #fff;
-      border: none; border-radius: 99px; font-weight: 700; font-size: 1rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 22px 52px; background: #1a56db; color: #fff;
+      border: none; border-radius: 99px; font-weight: 800; font-size: 1.3rem;
       font-family: inherit; cursor: pointer; text-decoration: none;
-      transition: transform .15s, box-shadow .15s; box-shadow: 0 4px 14px rgba(201,162,74,.35);
+      line-height: 1.2; max-width: 100%;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 8px 26px rgba(26,86,219,.42);
     }
-    .pay-transfer-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,162,74,.45); }
-    .pay-transfer-btn i { font-size: 1.3rem; }
+    .pay-transfer-btn:hover { background: #1547bb; transform: translateY(-2px); box-shadow: 0 12px 34px rgba(26,86,219,.5); }
+    .pay-transfer-btn:focus-visible { outline: 3px solid #1a56db; outline-offset: 3px; }
+    .pay-transfer-btn i { font-size: 1.6rem; }
+    #successActions { margin: 26px 0 0; }
+    /* Deliberate distance: the home link must not compete with paying */
+    .success-secondary {
+      margin-top: 72px; padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: center;
+    }
+    .success-home-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px; border-radius: 99px;
+      border: 1.5px solid var(--border); background: transparent;
+      color: var(--mid); font-weight: 600; font-size: .9rem; text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+    .success-home-link:hover { border-color: var(--black); color: var(--black); }
+    @media (max-width: 560px) {
+      .pay-transfer-btn { padding: 20px 30px; font-size: 1.12rem; width: 100%; }
+      .success-secondary { margin-top: 56px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pay-transfer-btn { transition: none; }
+      .pay-transfer-btn:hover { transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -280,9 +308,10 @@
       <div class="success-icon"><i class="ph-fill ph-check"></i></div>
       <h2 id="successTitle">ההזמנה התקבלה!</h2>
       <p id="successMsg">אנחנו מעבדים את הזמנתך. תודה שבחרת GARAGE!</p>
-      <div id="successActions" style="margin:0 0 18px"></div>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--black);color:#fff;border-radius:99px;font-weight:700;text-decoration:none">
+      <div id="successActions"></div>
+      <!-- Kept well clear of the payment button so it is never hit by mistake -->
+      <div class="success-secondary">
+        <a href="index.html" class="success-home-link">
           <i class="ph ph-house"></i> דף הבית
         </a>
       </div>
