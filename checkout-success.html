@@ -5,12 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="imgs/logo.png" />
   <title>ההזמנה התקבלה - GARAGE</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" href="fonts/GoogleSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
   <style>
+    /* This page carries its own styles, so it declares the font itself. */
+    @font-face {
+      font-family: 'Google Sans';
+      src: url('fonts/GoogleSans-Variable.woff2') format('woff2'),
+           url('fonts/GoogleSans-Variable.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #f8f8f6;
@@ -23,7 +30,7 @@
       --radius: 16px;
     }
     body {
-      font-family: 'Noto Sans Hebrew', sans-serif;
+      font-family: 'Google Sans', 'Noto Sans Hebrew', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100dvh;

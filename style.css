@@ -1,18 +1,26 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@300;400;500;600;700;800;900&display=swap');
-
+﻿/* Google Sans, subset to Hebrew + Latin and compressed to WOFF2: 4.5MB -> 99KB.
+   It is preloaded from each page's <head>, so it is already in cache by the
+   time this rule is applied and the fallback is never seen.
+   No @import here on purpose — that forced the browser to fetch the CSS, parse
+   it, fetch a second stylesheet and only then the font, which is what made the
+   page render in a system font first. */
 @font-face {
   font-family: 'Google Sans';
-  src: url('fonts/GoogleSans-Variable.ttf') format('truetype');
+  src: url('fonts/GoogleSans-Variable.woff2') format('woff2'),
+       url('fonts/GoogleSans-Variable.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
+/* Fallback tuned to Google Sans' metrics, so on the rare load where it is not
+   ready yet the text does not visibly resize when it arrives. */
 @font-face {
-  font-family: 'Google Sans';
-  src: url('fonts/GoogleSans-Variable-Italic.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
+  font-family: 'Google Sans Fallback';
+  src: local('Arial');
+  size-adjust: 97%;
+  ascent-override: 95%;
+  descent-override: 24%;
+  line-gap-override: 0%;
 }
 
 /* ====================================================
@@ -41,7 +49,7 @@
   --mid:       #6B5E52;   /* warm mid-gray */
   --light:     #A09080;   /* warm light */
   --border:    #E0D5C8;   /* warm border */
-  --font:      'Google Sans', 'Noto Sans Hebrew', sans-serif;
+  --font:      'Google Sans', 'Google Sans Fallback', 'Noto Sans Hebrew', sans-serif;
   --radius-pill: 99px;
   --radius-card: 16px;
   /* Explicit gold tokens */
