@@ -387,7 +387,8 @@
 .grev__score-num { font-size: 2.2rem; font-weight: 800; color: var(--black); line-height: 1; font-variant-numeric: tabular-nums; }
 .grev__score-stars { display: inline-flex; gap: 2px; }
 .grev__score-meta { color: var(--mid); font-size: .9rem; }
-.grev__actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.grev__actions { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 28px; }
+.grev__actions-hint { margin: 0; font-size: .85rem; color: var(--mid); }
 .grev__btn {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 44px; padding: 12px 24px; border-radius: var(--radius-pill);
@@ -413,8 +414,8 @@
   display: flex; gap: 16px; width: max-content;
   animation-name: grev-scroll; animation-timing-function: linear; animation-iteration-count: infinite;
 }
-/* Hebrew RTL: the rail travels left-to-right */
-@keyframes grev-scroll { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+/* Cards enter from the right and travel leftwards, matching the reading flow */
+@keyframes grev-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .grev__marquee:hover .grev__row,
 .grev__marquee:focus-within .grev__row { animation-play-state: paused; }
 
@@ -889,11 +890,6 @@
         <span class="grev__score-meta">מבוסס על <strong>202</strong> ביקורות ב‑Google</span>
       </div>
 
-      <div class="grev__actions">
-        <button type="button" class="grev__btn grev__btn--primary" id="grevOpenAll">
-          קראו את כל הביקורות
-        </button>
-      </div>
     </div>
   </div>
 
@@ -905,6 +901,15 @@
   </div>
   <div class="grev__marquee" data-speed="165">
     <div class="grev__row" id="grevRow3"></div>
+  </div>
+
+  <div class="container">
+    <div class="grev__actions">
+      <button type="button" class="grev__btn grev__btn--primary" id="grevOpenAll">
+        קראו את כל הביקורות
+      </button>
+      <p class="grev__actions-hint">עוד <strong>150</strong> ביקורות מחכות לכם - בלי לצאת מהאתר</p>
+    </div>
   </div>
 </section>
 
