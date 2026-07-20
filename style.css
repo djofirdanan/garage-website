@@ -475,58 +475,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .trust-card__title { font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
 .trust-card__sub { font-size: 12px; color: var(--mid); }
 
-/* ── HOW IT WORKS / STEPS ───────────────────────────── */
-.steps-section { padding: 80px 0; }
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-.step-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  padding: 40px 28px 36px;
-  text-align: center;
-  transition: all .22s;
-  position: relative;
-}
-.step-card:hover {
-  box-shadow: 0 12px 36px var(--gold-glow);
-  transform: translateY(-4px);
-  border-color: var(--gold);
-}
-.step-card__num {
-  width: 54px; height: 54px;
-  background: var(--black);
-  color: var(--white);
-  border-radius: 50%;
-  font-size: 22px;
-  font-weight: 900;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 22px;
-  letter-spacing: - .01em;
-}
-.step-card__icon {
-  width: 54px; height: 54px;
-  background: var(--lav-bg);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 8px;
-}
-.step-card__icon svg { width: 24px; height: 24px; color: var(--black); }
-.step-card__title {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--black);
-  margin-bottom: 10px;
-}
-.step-card__text {
-  font-size: 14px;
-  color: var(--mid);
-  line-height: 1.75;
-}
-
 /* ── MARQUEE ────────────────────────────────────────── */
 .marquee-strip {
   background: var(--black);
@@ -1912,10 +1860,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .trust-cards__grid   { grid-template-columns: 1fr; }
   .trust-card          { padding: 20px; }
 
-  /* STEPS */
-  .steps-grid          { grid-template-columns: 1fr; }
-  .step-card           { padding: 28px 20px 24px; }
-
   /* GRIDS */
   .products-row        { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .ugc-grid            { grid-template-columns: repeat(2, 1fr); }
@@ -2646,7 +2590,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 .section-head a:hover { color: var(--black); }
 
-
 /* ====================================================
    CART PAGE
 ==================================================== */
@@ -3158,142 +3101,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .account-reorder-btn:hover { background: var(--mint-dark); }
 
 /* ====================================================
-   ANIMATED TESTIMONIALS  (vanilla port of shadcn block)
-==================================================== */
-.anim-testi {
-  background: linear-gradient(180deg, var(--lav-bg) 0%, var(--white) 100%);
-  padding: 88px 0;
-  overflow: hidden;
-  position: relative;
-}
-.anim-testi__container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-.anim-testi__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-.anim-testi__lead { display: flex; flex-direction: column; gap: 22px; }
-.anim-testi__badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--lavender); color: var(--black);
-  font-size: 13px; font-weight: 700;
-  padding: 6px 14px; border-radius: var(--radius-pill);
-  width: fit-content;
-}
-.anim-testi__badge svg { color: #B8922A; }
-.anim-testi__title {
-  font-size: clamp(28px, 4vw, 46px);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--black);
-}
-.anim-testi__sub { font-size: 17px; color: var(--mid); line-height: 1.7; max-width: 540px; }
-.anim-testi__dots { display: flex; align-items: center; gap: 10px; padding-top: 8px; }
-.anim-testi-dot {
-  height: 8px; width: 8px; border-radius: var(--radius-pill);
-  background: rgba(0,0,0,.15); border: none; padding: 0;
-  transition: all .35s cubic-bezier(.4,0,.2,1); cursor: pointer;
-}
-.anim-testi-dot.is-active { width: 36px; background: var(--black); }
-.anim-testi-dot:hover { background: rgba(0,0,0,.4); }
-.anim-testi-dot.is-active:hover { background: var(--black); }
-.anim-testi__rating {
-  display: flex; align-items: center; gap: 12px;
-  padding-top: 10px; border-top: 1px solid var(--border); margin-top: 8px;
-}
-.anim-testi__rating-stars { color: #F59E0B; font-size: 18px; letter-spacing: 2px; }
-.anim-testi__rating-text { font-size: 13px; color: var(--mid); }
-.anim-testi__rating-text strong { color: var(--black); font-size: 16px; font-weight: 800; }
-
-.anim-testi__stack {
-  position: relative; min-height: 360px;
-  display: flex; align-items: center; justify-content: center;
-}
-.anim-testi__deco { position: absolute; height: 96px; width: 96px; border-radius: 18px; }
-.anim-testi__deco--br { bottom: -18px; left: -18px; background: var(--mint); }
-.anim-testi__deco--tl { top: -18px; right: -18px; background: var(--lavender); }
-.anim-testi__cards { position: relative; width: 100%; height: 100%; min-height: 360px; }
-
-.anim-testi-card {
-  position: absolute; inset: 0;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 18px 50px rgba(0,0,0,.08);
-  padding: 32px;
-  display: flex; flex-direction: column;
-  opacity: 0;
-  transform: translateX(-90px) scale(.92);
-  transition: opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
-  pointer-events: none;
-}
-.anim-testi-card.is-active {
-  opacity: 1;
-  transform: translateX(0) scale(1);
-  pointer-events: auto;
-  z-index: 2;
-}
-.anim-testi-card.is-prev {
-  opacity: 0;
-  transform: translateX(90px) scale(.92);
-}
-.anim-testi-card__stars { color: #F59E0B; font-size: 18px; letter-spacing: 4px; margin-bottom: 18px; }
-.anim-testi-card__quote { position: relative; flex: 1; }
-.anim-testi-card__quote-icon {
-  position: absolute; top: -8px; right: -8px;
-  color: var(--lavender); opacity: .55;
-}
-.anim-testi-card__text {
-  position: relative; z-index: 1;
-  font-size: 17px; line-height: 1.75;
-  color: var(--black); font-weight: 500;
-}
-.anim-testi-card__sep {
-  height: 1px; background: var(--border);
-  margin: 22px 0 18px;
-}
-.anim-testi-card__author { display: flex; align-items: center; gap: 14px; }
-.anim-testi-card__avatar {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--mint), var(--lavender));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 19px; font-weight: 800; color: var(--black);
-  flex-shrink: 0; border: 2px solid var(--white); box-shadow: 0 2px 6px rgba(0,0,0,.08);
-}
-.anim-testi-card__name { font-size: 15px; font-weight: 800; color: var(--black); }
-.anim-testi-card__meta { font-size: 12px; color: var(--mid); margin-top: 1px; }
-.anim-testi-card__tag {
-  display: inline-block; margin-top: 6px;
-  font-size: 11px; font-weight: 600; color: var(--mid);
-  background: var(--lav-bg); padding: 2px 10px; border-radius: var(--radius-pill);
-}
-
-/* Trusted-by row */
-.anim-testi__trusted { margin-top: 88px; text-align: center; }
-.anim-testi__trusted-title { font-size: 13px; color: var(--mid); font-weight: 600; margin-bottom: 24px; letter-spacing: .04em; }
-.anim-testi__trusted-row {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 16px 32px;
-}
-.anim-testi__trusted-item {
-  font-size: 18px; font-weight: 700; color: rgba(0,0,0,.35);
-  padding: 6px 14px; transition: color .25s;
-}
-.anim-testi__trusted-item:hover { color: var(--black); }
-
-/* Mobile */
-@media (max-width: 900px) {
-  .anim-testi { padding: 56px 0; }
-  .anim-testi__grid { grid-template-columns: 1fr; gap: 36px; }
-  .anim-testi__stack { min-height: 320px; }
-  .anim-testi__cards { min-height: 320px; }
-  .anim-testi-card { padding: 24px; }
-  .anim-testi-card__text { font-size: 15px; }
-  .anim-testi__deco { display: none; }
-  .anim-testi__trusted { margin-top: 56px; }
-}
-
-/* ====================================================
    SCROLL REVEAL
 ==================================================== */
 .reveal {
@@ -3587,10 +3394,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .why-card__icon { transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .3s; }
 .why-card:hover .why-card__icon { transform: scale(1.22) rotate(-9deg); background: rgba(200,150,42,.22); }
 
-/* --- Step number bounce on hover --- */
-.step-card__num { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
-.step-card:hover .step-card__num { transform: scale(1.14) rotate(-6deg); }
-
 /* --- Bundle price glow --- */
 @keyframes priceGlow {
   0%, 100% { text-shadow: none; }
@@ -3612,7 +3415,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .why-grid .why-card:nth-child(4) { transition-delay: .35s; }
 
 /* --- Section overflow hidden for deco clip --- */
-.steps-section, .section--lav, #products, .section--gray, .section:not(.hero) {
+.section--lav, #products, .section--gray, .section:not(.hero) {
   overflow: hidden;
 }
 
@@ -4034,38 +3837,6 @@ textarea.form-input {
   .category-card__product-img { max-height: 135px; }
   .category-card__name { font-size: 18px; }
   .category-card__range { font-size: 10px; }
-}
-
-/* ====================================================
-   TESTIMONIALS NAV BUTTONS
-==================================================== */
-.anim-testi__nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0,0,0,.08);
-  box-shadow: 0 4px 16px rgba(0,0,0,.14);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  transition: transform .2s, box-shadow .2s, background .2s;
-  color: #1a1208;
-}
-.anim-testi__nav:hover {
-  background: #fff;
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(0,0,0,.2);
-}
-.anim-testi__nav--prev { right: -18px; }
-.anim-testi__nav--next { left: -18px; }
-
-@media (max-width: 900px) {
-  .anim-testi__nav { display: none; }
 }
 
 /* ====================================================

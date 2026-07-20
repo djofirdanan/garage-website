@@ -223,8 +223,8 @@ window.pixelPurchase = function(value, orderId) {
       <div class="footer-col">
         <p class="footer-col__title">מידע</p>
         <ul>
-          <li><a href="index.html#how-it-works">איך זה עובד?</a></li>
           <li><a href="index.html#testimonials">ביקורות לקוחות</a></li>
+          <li><a href="index.html#accessories">מוצרים נוספים</a></li>
           <li><a href="index.html#products">מוצרים נמכרים</a></li>
           <li><a href="cart.html">סל קניות</a></li>
           <li><a href="account.html">אזור אישי</a></li>
