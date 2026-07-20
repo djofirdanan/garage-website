@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>תשלום — GARAGE</title>
+  <title>תשלום - GARAGE</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" href="imgs/logo.png" />
   <link rel="apple-touch-icon" href="imgs/logo.png" />
@@ -59,7 +59,7 @@
       width: 100%;
       padding: 13px 16px;
       font-family: var(--font);
-      font-size: .93rem;
+      font-size: 16px;
       color: var(--black);
       background: #fff;
       border: 1.5px solid #e0e0e0;
@@ -152,7 +152,7 @@
     .pm-logo {
       width: 48px; height: 30px; border-radius: 7px;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 13px; letter-spacing: -.5px; flex-shrink: 0;
+      font-weight: 900; font-size: 13px; letter-spacing: - .5px; flex-shrink: 0;
     }
     .pm-logo.card   { background: #1a1a1a; color: #fff; font-size: 9px; letter-spacing: 0; }
     .pm-logo.bit    { background: #0e2d7b; color: #fff; font-style: italic; }
@@ -230,6 +230,15 @@
       padding: 14px 16px; background: #f0fdf4; border-radius: var(--radius-sm);
       color: #166534; font-size: .87rem; display: flex; gap: 10px; align-items: flex-start;
     }
+    .pay-transfer-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 15px 30px; background: var(--gold, #c9a24a); color: #fff;
+      border: none; border-radius: 99px; font-weight: 700; font-size: 1rem;
+      font-family: inherit; cursor: pointer; text-decoration: none;
+      transition: transform .15s, box-shadow .15s; box-shadow: 0 4px 14px rgba(201,162,74,.35);
+    }
+    .pay-transfer-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,162,74,.45); }
+    .pay-transfer-btn i { font-size: 1.3rem; }
   </style>
 </head>
 <body>
@@ -271,6 +280,7 @@
       <div class="success-icon"><i class="ph-fill ph-check"></i></div>
       <h2 id="successTitle">ההזמנה התקבלה!</h2>
       <p id="successMsg">אנחנו מעבדים את הזמנתך. תודה שבחרת GARAGE!</p>
+      <div id="successActions" style="margin:0 0 18px"></div>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--black);color:#fff;border-radius:99px;font-weight:700;text-decoration:none">
           <i class="ph ph-house"></i> דף הבית
@@ -290,13 +300,13 @@
         <div class="checkout-samples" id="checkoutSamplesUpsell" style="display:none">
           <div class="checkout-samples__head">
             <i class="ph-fill ph-lightning" style="color:#d97706"></i>
-            הוסף לפני התשלום — מבצע מיוחד!
+            הוסף לפני התשלום - מבצע מיוחד!
           </div>
           <div class="checkout-samples__card">
             <img class="checkout-samples__img" src="imgs/bottles-refill.png" alt="ערכת דוגמיות">
             <div class="checkout-samples__info">
               <div class="checkout-samples__name">ערכת 10 דוגמיות</div>
-              <div style="font-size:.78rem;color:var(--mid);margin:2px 0 4px">10 ניחוחות שונים — נסה לפני שאתה מחליט</div>
+              <div style="font-size:.78rem;color:var(--mid);margin:2px 0 4px">10 ניחוחות שונים - נסה לפני שאתה מחליט</div>
               <div class="checkout-samples__price">
                 <strong id="samplesBundlePrice">₪29</strong>
                 <span id="samplesSaveText" style="margin-right:6px;color:#16a34a;font-size:.8rem"></span>
@@ -518,7 +528,7 @@ function renderPayDetail(method, total) {
         <div class="bit-steps">
           <div class="bit-step"><div class="bit-step-num">1</div><span>פתח את אפליקציית ביט בטלפון שלך</span></div>
           <div class="bit-step"><div class="bit-step-num">2</div><span>שלח <strong>${amt}</strong> למספר <strong>${phone}</strong></span></div>
-          <div class="bit-step"><div class="bit-step-num">3</div><span>לחץ "שלח הזמנה" — ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span></div>
+          <div class="bit-step"><div class="bit-step-num">3</div><span>לחץ "שלח הזמנה" - ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span></div>
         </div>
       </div>`;
   } else if (method === 'paybox') {
@@ -636,6 +646,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
     [firstName, 'firstName', 'נא למלא שם פרטי'],
     [lastName,  'lastName',  'נא למלא שם משפחה'],
     [phone,     'phone',     'נא למלא טלפון'],
+    [email,     'email',     'נא למלא כתובת אימייל'],
     [address,   'address',   'נא למלא כתובת'],
     [city,      'city',      'נא למלא עיר'],
   ];
@@ -648,6 +659,23 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
       setTimeout(() => el.style.borderColor = '', 2000);
       return;
     }
+  }
+
+  // Field-format checks — a valid email is required for the payment confirmation,
+  // and an Israeli mobile keeps the WhatsApp notification deliverable.
+  const emailEl = document.getElementById('email');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    emailEl.style.borderColor = 'var(--red)'; emailEl.focus();
+    cartToast('כתובת אימייל לא תקינה');
+    setTimeout(() => emailEl.style.borderColor = '', 2000);
+    return;
+  }
+  const phoneEl = document.getElementById('phone');
+  if (phone.replace(/\D/g, '').length < 9) {
+    phoneEl.style.borderColor = 'var(--red)'; phoneEl.focus();
+    cartToast('מספר טלפון לא תקין');
+    setTimeout(() => phoneEl.style.borderColor = '', 2000);
+    return;
   }
 
   const fullName = `${firstName} ${lastName}`;
@@ -698,7 +726,10 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
     return;
   }
 
-  // All other payment methods - save order first then handle
+  // Bit / PayBox / bank / cash — save the order first (status: ממתין לתשלום),
+  // then show the "order received" screen with transfer instructions. The
+  // confirmation to the customer (WhatsApp + email) is sent by the admin once
+  // the payment is marked as received — not from here.
   try {
     await fetch(`${ADMIN_API}/api/orders`, {
       method: 'POST',
@@ -719,25 +750,7 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
 
   btn.disabled = false; btn.style.opacity = '';
 
-  if (method === 'paybox') {
-    const pbLink = pmCfg.paybox?.link;
-    if (pbLink) window.location.href = pbLink;
-    else {
-      const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, method, finalTotal);
-      window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
-    }
-  } else if (method === 'bit') {
-    // Show Bit instructions on success screen
-    const bitPhone = pmCfg.bit?.phone || '050-9723636';
-    document.getElementById('successTitle').textContent = `שלח ${`₪${finalTotal.toLocaleString('he-IL')}`} בביט`;
-    document.getElementById('successMsg').innerHTML = `
-      שלח <strong>₪${finalTotal.toLocaleString('he-IL')}</strong> לביט למספר <strong>${bitPhone}</strong><br>
-      לאחר ההעברה — ניצור איתך קשר לאישור ומשלוח.<br>תודה שבחרת GARAGE!`;
-  } else {
-    // Bank / cash — WhatsApp confirmation
-    const waMsg = buildOrderMessage(fullName, phone, fullAddr, notes, method, finalTotal);
-    window.open(`https://wa.me/${WA_PHONE}?text=${waMsg}`, '_blank');
-  }
+  renderSuccessScreen(method, finalTotal);
 
   if (typeof pixelPurchase === 'function') pixelPurchase(finalTotal, Date.now());
   cartClear();
@@ -748,6 +761,59 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async e => {
   document.getElementById('successScreen').style.display  = 'block';
   window.scrollTo(0, 0);
 });
+
+/* Success screen — payment instructions per method */
+function renderSuccessScreen(method, finalTotal) {
+  const amt      = `₪${finalTotal.toLocaleString('he-IL')}`;
+  const titleEl  = document.getElementById('successTitle');
+  const msgEl    = document.getElementById('successMsg');
+  const actionEl = document.getElementById('successActions');
+  const confirmNote = 'לאחר שנאשר את קבלת התשלום — תקבל הודעת אישור במייל ובוואטסאפ.';
+  titleEl.textContent = 'ההזמנה התקבלה!';
+  actionEl.innerHTML = '';
+
+  if (method === 'bit') {
+    const bitPhone = pmCfg.bit?.phone || '050-9723636';
+    msgEl.innerHTML = `שמרנו את הזמנתך על סך <strong>${amt}</strong>.<br>
+      כדי להשלים, העבר את הסכום בביט למספר <strong>${bitPhone}</strong>.<br>${confirmNote}`;
+    actionEl.innerHTML = `<button type="button" class="pay-transfer-btn" onclick="copyPayInfo('${bitPhone}')">
+      <i class="ph-fill ph-device-mobile"></i> העבר ${amt} בביט · ${bitPhone}</button>`;
+  } else if (method === 'paybox') {
+    const pbLink = pmCfg.paybox?.link || '';
+    const pbPhone = pmCfg.bit?.phone || '050-9723636';
+    msgEl.innerHTML = `שמרנו את הזמנתך על סך <strong>${amt}</strong>.<br>
+      השלם את התשלום דרך PayBox.<br>${confirmNote}`;
+    actionEl.innerHTML = pbLink
+      ? `<a href="${pbLink}" target="_blank" rel="noopener" class="pay-transfer-btn">
+           <i class="ph-fill ph-arrow-square-out"></i> שלם ${amt} דרך PayBox</a>`
+      : `<button type="button" class="pay-transfer-btn" onclick="copyPayInfo('${pbPhone}')">
+           <i class="ph-fill ph-device-mobile"></i> העבר ${amt} · ${pbPhone}</button>`;
+  } else if (method === 'bank') {
+    const b = pmCfg.bank || {};
+    const lines = [
+      b.bankName ? `בנק ${b.bankName}` : '',
+      b.branch   ? `סניף ${b.branch}`  : '',
+      b.account  ? `חשבון ${b.account}` : '',
+      b.owner    ? `על שם ${b.owner}`   : '',
+    ].filter(Boolean).join(' · ');
+    msgEl.innerHTML = `שמרנו את הזמנתך על סך <strong>${amt}</strong>.<br>
+      ${lines ? `להעברה בנקאית: <strong>${lines}</strong><br>` : ''}${confirmNote}`;
+  } else {
+    // cash
+    msgEl.innerHTML = `שמרנו את הזמנתך על סך <strong>${amt}</strong>.<br>
+      התשלום יתבצע במזומן בעת קבלת ההזמנה. ניצור איתך קשר לתיאום.`;
+  }
+}
+
+/* Copy a payment phone/number to clipboard */
+function copyPayInfo(value) {
+  const done = () => cartToast('המספר הועתק - פתח את האפליקציה והדבק');
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(value).then(done).catch(() => cartToast(`העבר למספר ${value}`));
+  } else {
+    cartToast(`העבר למספר ${value}`);
+  }
+}
 
 /* Samples upsell */
 function initCheckoutSamplesUpsell() {
@@ -876,7 +942,7 @@ if (typeof pixelInitCheckout === 'function') {
   var banner = document.createElement('div');
   banner.style.cssText = 'background:#fff9e6;border:1.5px solid #fde68a;border-radius:12px;padding:12px 18px;margin-bottom:20px;font-size:.88rem;color:#92400e;font-weight:600;display:flex;align-items:center;gap:10px;';
   banner.innerHTML = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="18" height="18" style="flex-shrink:0;color:#d97706"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>'
-    + '<span>מסיימים את ההזמנה של <strong>' + (fullName || 'הלקוח') + '</strong> — עדכן את הפרטים אם נדרש</span>';
+    + '<span>מסיימים את ההזמנה של <strong>' + (fullName || 'הלקוח') + '</strong> - עדכן את הפרטים אם נדרש</span>';
   var titleEl = document.querySelector('.co-page-title');
   if (titleEl) titleEl.insertAdjacentElement('afterend', banner);
 })();

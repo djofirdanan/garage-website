@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>סל הקניות — GARAGE</title>
+  <title>סל הקניות - GARAGE</title>
   <meta name="robots" content="noindex, follow" />
   <link rel="canonical" href="https://garage-beryl-sigma.vercel.app/cart.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -67,14 +67,6 @@
               <span><i class="ph ph-truck" style="margin-left:4px"></i>משלוח</span>
               <span id="summaryShip">₪35</span>
             </div>
-            <div class="shipping-note" id="freeShipNote" style="display:none">
-              <i class="ph-fill ph-truck"></i>
-              כל הכבוד — משלוח חינם!
-            </div>
-            <div class="shipping-note shipping-note--progress" id="freeShipProgress" style="display:none">
-              <i class="ph ph-package"></i>
-              <span id="freeShipProgressText"></span>
-            </div>
             <div class="summary-row summary-row--saving" id="summarySaving" style="display:none">
               <span><i class="ph ph-tag" style="margin-left:4px"></i>חסכת בהזמנה</span>
               <span id="summarySavingAmt"></span>
@@ -99,7 +91,7 @@
         <!-- Bit teaser -->
         <div class="bit-teaser">
           <div class="bit-icon">bit</div>
-          <span>תשלום מהיר דרך <strong>ביט</strong> — קל, מאובטח ומיידי.</span>
+          <span>תשלום מהיר דרך <strong>ביט</strong> - קל, מאובטח ומיידי.</span>
         </div>
       </div>
     </div>
@@ -152,21 +144,7 @@ function renderCart() {
   /* summary */
   document.getElementById('summarySubtotal').textContent = `₪${totals.subtotal.toLocaleString('he-IL')}`;
 
-  if (totals.shipping === 0) {
-    document.getElementById('summaryShip').textContent         = 'חינם!';
-    document.getElementById('summaryShipRow').style.color      = '#16A34A';
-    document.getElementById('freeShipNote').style.display      = 'flex';
-    document.getElementById('freeShipProgress').style.display  = 'none';
-  } else {
-    document.getElementById('summaryShip').textContent         = `₪${totals.shipping}`;
-    document.getElementById('summaryShipRow').style.color      = '';
-    document.getElementById('freeShipNote').style.display      = 'none';
-    const needed = FREE_SHIP_THRESHOLD - totals.subtotal;
-    if (needed > 0) {
-      document.getElementById('freeShipProgress').style.display = 'flex';
-      document.getElementById('freeShipProgressText').textContent = `עוד ₪${needed} למשלוח חינם!`;
-    }
-  }
+  document.getElementById('summaryShip').textContent = `₪${totals.shipping}`;
 
   const totalSave = totals.savings + totals.saleSave;
   if (totalSave > 0) {
@@ -208,7 +186,7 @@ function renderCartUpsells() {
         <img src="${u.img}" alt="${u.name}" loading="lazy">
       </div>
       <div class="upsell-card__info">
-        <div class="upsell-card__note">הוסף עכשיו — ${savePct}% הנחה</div>
+        <div class="upsell-card__note">הוסף עכשיו - ${savePct}% הנחה</div>
         <div class="upsell-card__name">${u.name}</div>
         <div class="upsell-card__prices">
           <span class="up">₪${u.bundlePrice}</span>
@@ -290,7 +268,7 @@ hamburger?.addEventListener('click', () => {
   mobileNav.classList.contains('open') ? closeMobileNav() : openMobileNav();
 });
 
-/* "המשך קניות" — return to last viewed product */
+/* "המשך קניות" - return to last viewed product */
 const lastProduct = sessionStorage.getItem('garage_last_product');
 if (lastProduct) {
   const link = document.getElementById('continueShopping');

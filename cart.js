@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    GARAGE – Cart Engine (localStorage)
    ========================================================= */
 
@@ -174,7 +174,7 @@ function cartSidebarRender() {
   if (ship) ship.textContent = totals.shipping === 0 ? 'חינם!' : `₪${totals.shipping}`;
   if (tot)  tot.textContent  = `₪${totals.total.toLocaleString('he-IL')}`;
 
-  // Upsell strip — show samples kit when cart has items but no samples
+  // Upsell strip - show samples kit when cart has items but no samples
   const strip = document.getElementById('cartUpsellStrip');
   if (strip && typeof UPSELLS !== 'undefined') {
     const inCart = new Set(items.map(i => i.productId));
@@ -232,7 +232,7 @@ function buildOrderMessage(customerName, phone, address, notes, payMethod, final
     msg += `• ${i.name}`;
     if (i.scent) msg += ` [${i.scent}]`;
     if (i.qty > 1) msg += ` x${i.qty}`;
-    msg += ` — ₪${(i.price * i.qty).toLocaleString('he-IL')}\n`;
+    msg += ` - ₪${(i.price * i.qty).toLocaleString('he-IL')}\n`;
   });
   msg += `\nסכום: ₪${totals.subtotal.toLocaleString('he-IL')}`;
   msg += totals.shipping === 0 ? `\nמשלוח: חינם!` : `\nמשלוח: ₪${totals.shipping}`;

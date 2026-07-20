@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="imgs/logo.png" />
   <link rel="apple-touch-icon" href="imgs/logo.png" />
-  <title id="page-title">קטגוריה — GARAGE</title>
-  <meta id="page-desc" name="description" content="מפיצי ריח איכותיים — GARAGE" />
+  <title id="page-title">קטגוריה - GARAGE</title>
+  <meta id="page-desc" name="description" content="מפיצי ריח איכותיים - GARAGE" />
   <meta name="robots" content="index, follow" />
   <link id="canonical-link" rel="canonical" href="https://garage-beryl-sigma.vercel.app/category.html" />
   <meta property="og:type" content="website" />
@@ -65,7 +65,7 @@
       margin-bottom: 16px;
     }
     .cat-hero__title mark {
-      background: linear-gradient(135deg, #a78bfa, #7c3aed);
+      background: linear-gradient(135deg, #7DD8E0, #2A9FAE);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -92,7 +92,7 @@
       color: rgba(255,255,255,.72);
       font-weight: 500;
     }
-    .cat-hero__stat i { font-size: 16px; color: #a78bfa; }
+    .cat-hero__stat i { font-size: 16px; color: #7DD8E0; }
 
     /* Hero two-column layout */
     .cat-hero__inner {
@@ -117,12 +117,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      background: rgba(255,255,255,.06);
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.1);
     }
     .cat-hero__img-glow {
       position: absolute;
       width: 240px;
       height: 240px;
-      background: radial-gradient(circle, rgba(167,139,250,.45) 0%, rgba(124,58,237,.15) 55%, transparent 75%);
+      background: radial-gradient(circle, rgba(91,196,206,.45) 0%, rgba(42,159,174,.15) 55%, transparent 75%);
       border-radius: 50%;
       animation: heroGlow 3s ease-in-out infinite alternate;
     }
@@ -201,7 +208,7 @@
     }
     .cat-product-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(80,40,200,.14);
+      box-shadow: 0 16px 40px rgba(42,159,174,.14);
     }
     .cat-product-card__img-wrap {
       position: relative;
@@ -221,7 +228,7 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      background: var(--accent, #7c3aed);
+      background: var(--accent, #2A9FAE);
       color: #fff;
       font-size: 11px;
       font-weight: 700;
@@ -237,7 +244,7 @@
     .cat-product-card__cat {
       font-size: 11px;
       font-weight: 600;
-      color: #7c3aed;
+      color: #2A9FAE;
       text-transform: uppercase;
       letter-spacing: .06em;
       margin-bottom: 6px;
@@ -346,7 +353,7 @@
     }
     .cat-desc-block__feature i {
       font-size: 18px;
-      color: #7c3aed;
+      color: #2A9FAE;
       flex-shrink: 0;
     }
     @media (max-width: 1024px) {
@@ -361,6 +368,161 @@
       .cat-products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .cat-hero__stats { gap: 14px; }
     }
+
+    /* Hero ghost background image (bottles category) */
+    .cat-hero__bg-img-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #heroBgImg {
+      width: auto;
+      height: 115%;
+      max-width: 72%;
+      object-fit: contain;
+      opacity: 0.18;
+      filter: blur(1px) drop-shadow(0 0 80px rgba(91,196,206,.55));
+    }
+    .cat-hero .container { position: relative; z-index: 1; }
+
+    /* === Solo product card (single item in category) === */
+    .cat-solo-card {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      background: var(--white);
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      padding: 48px 56px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      box-shadow: 0 4px 24px rgba(42,159,174,.07);
+    }
+    .cat-solo-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(42,159,174,.16);
+    }
+    .cat-solo-card__img-wrap {
+      flex: 0 0 340px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+      border-radius: 24px;
+      padding: 32px;
+      min-height: 340px;
+    }
+    .cat-solo-card__img-glow {
+      position: absolute;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(91,196,206,.35) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .cat-solo-card__img {
+      position: relative;
+      z-index: 1;
+      max-width: 280px;
+      max-height: 300px;
+      object-fit: contain;
+      filter: drop-shadow(0 16px 40px rgba(100,60,220,.3));
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cat-solo-card:hover .cat-solo-card__img { transform: translateY(-8px) scale(1.03); }
+    .cat-solo-card__body { flex: 1; }
+    .cat-solo-card__cat {
+      font-size: 12px;
+      font-weight: 700;
+      color: #2A9FAE;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+    }
+    .cat-solo-card__name {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .cat-solo-card__sub {
+      font-size: 16px;
+      color: var(--mid);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .cat-solo-card__desc {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      max-width: 500px;
+    }
+    .cat-solo-card__price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .cat-solo-card__price {
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--black);
+    }
+    .cat-solo-card__orig {
+      font-size: 20px;
+      color: var(--mid);
+      text-decoration: line-through;
+    }
+    .cat-solo-card__features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 24px;
+      margin-bottom: 28px;
+    }
+    .cat-solo-card__feat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .cat-solo-card__feat i { font-size: 17px; color: #2A9FAE; flex-shrink: 0; }
+    .cat-solo-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--black);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 99px;
+      font-size: 17px;
+      font-weight: 700;
+      transition: background .2s, transform .15s;
+    }
+    .cat-solo-card:hover .cat-solo-card__cta {
+      background: #2d1b69;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 900px) {
+      .cat-solo-card {
+        flex-direction: column;
+        padding: 32px 24px;
+        gap: 32px;
+      }
+      .cat-solo-card__img-wrap { flex: none; width: 100%; min-height: 240px; }
+      .cat-solo-card__img { max-width: 200px; max-height: 220px; }
+      .cat-solo-card__name { font-size: 26px; }
+      .cat-solo-card__price { font-size: 34px; }
+      .cat-solo-card__features { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -369,6 +531,9 @@
 
 <!-- CATEGORY HERO -->
 <section class="cat-hero" id="catHero">
+  <div class="cat-hero__bg-img-wrap" id="heroBgImgWrap" style="display:none">
+    <img id="heroBgImg" src="" alt="" aria-hidden="true">
+  </div>
   <div class="container">
     <div class="cat-hero__inner">
       <div class="cat-hero__content">
@@ -428,56 +593,59 @@
 <script>
 const CAT_META = {
   car: {
-    heroImg: 'https://garage.org.il/wp-content/uploads/2023/05/%d7%90%d7%99%d7%99%d7%a8%d7%a7%d7%95%d7%9c%d7%a1-%d7%9c%d7%a8%d7%9b%d7%91-%d7%a0%d7%a7%d7%99.png',
+    heroImg: 'imgs/aircules-car.png',
+    heroBg: 'imgs/car-hero-bg.jpg',
     label: 'לרכב',
     tagText: 'מפיצי רכב',
     titleMark: 'ריח יוקרה',
     titleSub: 'בכל נסיעה',
-    sub: 'מפיצי ריח חכמים לרכב — עם חיישן תנועה, שמן טהור 100% ועד 45 יום שימוש. הנסיעה שלך לעולם לא תהיה אותו דבר.',
+    sub: 'מפיצי ריח חכמים לרכב - עם חיישן תנועה, שמן טהור 100% ועד 45 יום שימוש. הנסיעה שלך לעולם לא תהיה אותו דבר.',
     icon: 'ph-car',
     descTitle: 'מפיצי ריח לרכב',
     descText: 'אנחנו מאמינים שגם בתוך הרכב מגיע לך ריח יוקרתי. מפיצי הריח שלנו לרכב משתמשים בשמן ריח טהור 100%, מופעלים על ידי USB ומצוידים בחיישן תנועה שמריח בדיוק כשנכנסים. 18 ניחוחות להיבחר.',
     features: [
-      { icon: 'ph-usb', text: 'טעינה דרך USB — לא צריך סוללות' },
-      { icon: 'ph-eye', text: 'חיישן תנועה חכם — מריח כשנכנסים' },
-      { icon: 'ph-drop', text: 'שמן ריח טהור 100% — ללא מים' },
+      { icon: 'ph-usb', text: 'טעינה דרך USB - לא צריך סוללות' },
+      { icon: 'ph-eye', text: 'חיישן תנועה חכם - מריח כשנכנסים' },
+      { icon: 'ph-drop', text: 'שמן ריח טהור 100% - ללא מים' },
       { icon: 'ph-timer', text: 'עד 45 יום לבקבוק 100 מ"ל' },
     ],
     stats: [
       { icon: 'ph-star-fill', text: '+15,000 לקוחות מרוצים' },
       { icon: 'ph-drop', text: 'שמן טהור 100%' },
-      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+      { icon: 'ph-truck', text: 'משלוח מהיר 2-4 ימים' },
     ],
   },
   home: {
-    heroImg: 'https://garage.org.il/wp-content/uploads/2023/05/%d7%9e%d7%a4%d7%99%d7%a5-300-%d7%a0%d7%a7%d7%99-%d7%a2%d7%9d-%d7%91%d7%a7%d7%91%d7%95%d7%a7-%d7%9e%d7%aa%d7%a0%d7%94.png',
+    heroImg: 'imgs/g100-diffuser.png',
+    heroBg: 'imgs/home-hero-bg.jpg',
     label: 'לבית',
     tagText: 'מפיצי בית',
     titleMark: 'בית שמריח',
     titleSub: 'כמו מלון 5 כוכבים',
-    sub: 'מפיצי ריח חשמליים לבית — מכסים עד 100 מ"ר, שמן ריח טהור 100% ב-18 ניחוחות. תהפכו את הסלון לחוויה.',
+    sub: 'מפיצי ריח חשמליים לבית - מכסים עד 100 מ"ר, שמן ריח טהור 100% ב-18 ניחוחות. תהפכו את הסלון לחוויה.',
     icon: 'ph-house',
     descTitle: 'מפיצי ריח לבית ומשרד',
     descText: 'הבית שלכם ראוי לריח שמחזיק שעות. מפיצי GARAGE לבית מכסים שטחים של עד 100 מ"ר, פועלים בשקט מוחלט ומשתלבים בכל עיצוב פנים. כולם כוללים שמן ריח טהור 100% ב-18 ניחוחות לבחירה.',
     features: [
       { icon: 'ph-house', text: 'כיסוי עד 100 מ"ר בקלות' },
       { icon: 'ph-speaker-none', text: 'פעולה שקטה לחלוטין' },
-      { icon: 'ph-drop', text: 'שמן טהור 100% — ללא כימיקלים' },
-      { icon: 'ph-palette', text: 'עיצוב מינימליסטי — משתלב בכל דקור' },
+      { icon: 'ph-drop', text: 'שמן טהור 100% - ללא כימיקלים' },
+      { icon: 'ph-palette', text: 'עיצוב מינימליסטי - משתלב בכל דקור' },
     ],
     stats: [
       { icon: 'ph-house', text: 'עד 100 מ"ר כיסוי' },
       { icon: 'ph-drop', text: 'שמן טהור 100%' },
-      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+      { icon: 'ph-truck', text: 'משלוח מהיר 2-4 ימים' },
     ],
   },
   biz: {
-    heroImg: 'https://garage.org.il/wp-content/uploads/2023/09/S-300.png',
+    heroImg: 'imgs/s300-diffuser.png',
+    heroBg: 'imgs/biz-hero-bg.jpg',
     label: 'לעסק',
     tagText: 'פתרון עסקי',
     titleMark: 'ריח עסקי',
     titleSub: 'שמרשים לקוחות',
-    sub: 'מפיצי ריח מסחריים לעסקים — מכסים עד 1,000 מ"ר, מתאימים למסעדות, מלונות, חנויות ומשרדים. לקוחות זוכרים את הריח.',
+    sub: 'מפיצי ריח מסחריים לעסקים - מכסים עד 1,000 מ"ר, מתאימים למסעדות, מלונות, חנויות ומשרדים. לקוחות זוכרים את הריח.',
     icon: 'ph-buildings',
     descTitle: 'פתרון ריח מקצועי לעסקים',
     descText: 'מחקרים מראים שלקוחות מבלים 20% יותר זמן בחנויות עם ריח נעים. מפיצי GARAGE לעסקים מכסים שטחים גדולים, פועלים ברציפות ומפוקחים מרחוק. מושלמים למסעדות, חנויות, מלונות ומשרדים.',
@@ -490,21 +658,22 @@ const CAT_META = {
     stats: [
       { icon: 'ph-buildings', text: 'עד 1,000 מ"ר כיסוי' },
       { icon: 'ph-phone', text: 'תמיכה עסקית ייעודית' },
-      { icon: 'ph-truck', text: 'משלוח חינם' },
+      { icon: 'ph-truck', text: 'משלוח מהיר 2-4 ימים' },
     ],
   },
   bottles: {
-    heroImg: 'https://garage.org.il/wp-content/uploads/2022/06/3-%d7%91%d7%a7%d7%91%d7%95%d7%a7%d7%99%d7%9d-%d7%92%d7%93%d7%95%d7%9c%d7%99%d7%9d-%d7%a0%d7%a7%d7%99.png',
+    heroImg: 'imgs/bottles-3-large.png',
+    heroBg: 'imgs/bottles-hero-bg.jpg',
     label: 'בקבוקי שמן',
     tagText: 'שמן ריח',
     titleMark: '18 ניחוחות',
     titleSub: 'שמן טהור 100%',
-    sub: 'בקבוקי שמן ריח טהור 100% — ללא מים, ללא כימיקלים. 100 מ"ל ועד ליטר שלם. מתאים לכל מפיצי GARAGE.',
+    sub: 'בקבוקי שמן ריח טהור 100% - ללא מים, ללא כימיקלים. 100 מ"ל ועד ליטר שלם. מתאים לכל מפיצי GARAGE.',
     icon: 'ph-drop',
     descTitle: 'שמן ריח טהור 100%',
-    descText: 'בקבוקי שמן הריח שלנו מכילים שמן טהור לחלוטין — ללא מים, ללא דילולים. כל ניחוח מבוסס על בושמים יוקרתיים מהעולם. 100 מ"ל מחזיקים 30-60 יום בשימוש יומי. מתאימים לכל מפיצי GARAGE.',
+    descText: 'בקבוקי שמן הריח שלנו מכילים שמן טהור לחלוטין - ללא מים, ללא דילולים. כל ניחוח מבוסס על בושמים יוקרתיים מהעולם. 100 מ"ל מחזיקים 30-60 יום בשימוש יומי. מתאימים לכל מפיצי GARAGE.',
     features: [
-      { icon: 'ph-drop', text: 'שמן טהור 100% — ללא מים' },
+      { icon: 'ph-drop', text: 'שמן טהור 100% - ללא מים' },
       { icon: 'ph-flask', text: '18 ניחוחות יוקרתיים לבחירה' },
       { icon: 'ph-timer', text: '30-60 יום לבקבוק 100 מ"ל' },
       { icon: 'ph-star', text: 'מבוסס על בושמים מהעולם' },
@@ -512,7 +681,30 @@ const CAT_META = {
     stats: [
       { icon: 'ph-drop', text: 'שמן טהור 100%' },
       { icon: 'ph-flask', text: '18 ניחוחות' },
-      { icon: 'ph-truck', text: 'משלוח חינם מ-₪250' },
+      { icon: 'ph-truck', text: 'משלוח מהיר 2-4 ימים' },
+    ],
+  },
+  extra: {
+    heroImg: 'imgs/hand-cream-clean.png',
+    heroBg: 'imgs/bottles-hero-bg.jpg',
+    label: 'תוספות',
+    tagText: 'מוצרי טיפוח',
+    titleMark: 'ריח על כל הגוף',
+    titleSub: 'מהבגד ועד הידיים',
+    sub: 'מבשם כביסה מרוכז, קרם ידיים, דוגמיות ריח ובשמי שמן - כל מה שמשלים את חוויית הריח שלך.',
+    icon: 'ph-sparkle',
+    descTitle: 'מוצרים משלימים לחוויית ריח מלאה',
+    descText: 'מעבר למפיצי הריח - יש לנו גם מבשם כביסה מרוכז שמשאיר ריח מלון על הבגדים, קרם ידיים בניחוח בראשית הפופולרי, ערכת דוגמיות לגילוי ניחוחות חדשים ובשמי שמן מרוכזים לגברים ונשים.',
+    features: [
+      { icon: 'ph-washing-machine', text: 'מבשם כביסה מרוכז - 25 כביסות' },
+      { icon: 'ph-hand', text: 'קרם ידיים בניחוח בראשית' },
+      { icon: 'ph-test-tube', text: 'ערכת 10 דוגמיות ריח' },
+      { icon: 'ph-sparkle', text: 'בשמי שמן - לגברים ונשים' },
+    ],
+    stats: [
+      { icon: 'ph-heart', text: 'ריח על כל הגוף' },
+      { icon: 'ph-leaf', text: 'מרכיבים איכותיים' },
+      { icon: 'ph-truck', text: 'משלוח מהיר 2-4 ימים' },
     ],
   },
 };
@@ -522,7 +714,7 @@ const catKey  = params.get('cat') || 'car';
 const meta    = CAT_META[catKey] || CAT_META.car;
 
 /* update page meta */
-document.title = `${meta.label} — GARAGE | מפיצי ריח`;
+document.title = `${meta.label} - GARAGE | מפיצי ריח`;
 document.getElementById('page-title').textContent = document.title;
 document.getElementById('page-desc').setAttribute('content', meta.sub);
 document.getElementById('canonical-link').setAttribute('href',
@@ -537,9 +729,25 @@ document.getElementById('heroSub').textContent         = meta.sub;
 const heroImgEl = document.getElementById('heroImg');
 if (meta.heroImg) {
   heroImgEl.src = meta.heroImg;
-  heroImgEl.alt = meta.label + ' — GARAGE';
+  heroImgEl.alt = meta.label + ' - GARAGE';
 } else {
   document.getElementById('heroImgWrap').style.display = 'none';
+}
+/* per-category hero background */
+if (catKey === 'bottles') {
+  /* bottles: show the actual product image large as a ghost background */
+  const wrap = document.getElementById('heroBgImgWrap');
+  const img  = document.getElementById('heroBgImg');
+  img.src = 'imgs/bottles-3-large.png';
+  img.alt = '';
+  wrap.style.display = 'flex';
+} else if (meta.heroBg) {
+  const catHero = document.querySelector('.cat-hero');
+  catHero.style.backgroundImage =
+    `linear-gradient(145deg, rgba(16,8,38,.82) 0%, rgba(32,18,82,.72) 55%, rgba(55,38,130,.68) 100%), url('${meta.heroBg}')`;
+  catHero.style.backgroundSize = 'cover';
+  catHero.style.backgroundPosition = 'center';
+  catHero.style.backgroundRepeat = 'no-repeat';
 }
 document.getElementById('heroStats').innerHTML = meta.stats.map(s => `
   <div class="cat-hero__stat">
@@ -575,27 +783,36 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  grid.innerHTML = products.map(p => {
+  /* All products - stacked large cards one above the other */
+  grid.style.display = 'flex';
+  grid.style.flexDirection = 'column';
+  grid.style.gap = '28px';
+
+  grid.innerHTML = products.map((p, i) => {
     const saving = p.origPrice ? p.origPrice - p.price : 0;
+    const flip = i % 2 === 1 ? 'style="flex-direction:row-reverse"' : '';
     return `
-    <a href="product.html?id=${p.id}" class="cat-product-card">
-      <div class="cat-product-card__img-wrap">
-        <img class="cat-product-card__img" src="${p.img || ''}" alt="${p.name}" loading="lazy" />
-        ${p.badge ? `<span class="cat-product-card__badge">${p.badge}</span>` : ''}
+    <a href="product.html?id=${p.id}" class="cat-solo-card" ${flip}>
+      <div class="cat-solo-card__img-wrap">
+        <div class="cat-solo-card__img-glow"></div>
+        <img class="cat-solo-card__img" src="${p.img || ''}" alt="${p.name}" loading="${i === 0 ? 'eager' : 'lazy'}" />
+        ${p.badge ? `<span class="cat-product-card__badge" style="font-size:13px;padding:6px 16px">${p.badge}</span>` : ''}
       </div>
-      <div class="cat-product-card__body">
-        <div class="cat-product-card__cat">${p.categoryLabel}</div>
-        <div class="cat-product-card__name">${p.name}</div>
-        <div class="cat-product-card__sub">${p.subtitle || p.desc?.slice(0, 60) + '...' || ''}</div>
-        <div class="cat-product-card__price-row">
-          <span class="cat-product-card__price">₪${p.price.toLocaleString('he-IL')}</span>
-          ${p.origPrice ? `<span class="cat-product-card__orig">₪${p.origPrice.toLocaleString('he-IL')}</span>` : ''}
-          ${saving > 0 ? `<span class="cat-product-card__save">חיסכון ₪${saving}</span>` : ''}
+      <div class="cat-solo-card__body">
+        <div class="cat-solo-card__cat">${p.categoryLabel}</div>
+        <h2 class="cat-solo-card__name">${p.name}</h2>
+        <p class="cat-solo-card__sub">${p.subtitle || ''}</p>
+        <p class="cat-solo-card__desc">${p.desc || ''}</p>
+        <div class="cat-solo-card__price-row">
+          <span class="cat-solo-card__price">₪${p.price.toLocaleString('he-IL')}</span>
+          ${p.origPrice ? `<span class="cat-solo-card__orig">₪${p.origPrice.toLocaleString('he-IL')}</span>` : ''}
+          ${saving > 0 ? `<span class="cat-product-card__save" style="font-size:14px;padding:5px 14px">חיסכון ₪${saving}</span>` : ''}
         </div>
-        <button class="cat-product-card__btn">
-          <i class="ph ph-eye"></i>
-          צפייה ורכישה
-        </button>
+        ${p.features ? `<div class="cat-solo-card__features">${p.features.slice(0,4).map(f => `<div class="cat-solo-card__feat"><i class="ph-fill ${f.icon}"></i><span>${f.text}</span></div>`).join('')}</div>` : ''}
+        <div class="cat-solo-card__cta">
+          <i class="ph ph-shopping-cart-simple"></i>
+          לצפייה ורכישה
+        </div>
       </div>
     </a>`;
   }).join('');

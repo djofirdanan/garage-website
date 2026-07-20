@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    GARAGE – Shared site components (nav, cart sidebar, footer)
    Inject into pages via <div id="siteHeader"> / <div id="siteFooter">
    ========================================================= */
@@ -19,7 +19,7 @@
   `;
   document.head.appendChild(gaInit);
 
-  // Facebook Pixel — ID: 471764037206333
+  // Facebook Pixel - ID: 471764037206333
   // Conversion API token (server-side): EAAPA5s8HmX8BO8Eb3ZAu6gadEZAmGW3mMPd8JSV11rm9bBF0TUdsb0g0XleZBCOkBG3ZBBjQRA2TzzvXxU2XJjitNGNb16tRNz5l6tQfpBSM6GebDCHUVrRqZA0HawNUliKXLVaBzmQsOGg6RqjOWur5PZBwDgeENVbHFZABRmfPZCZAEoOHZCzqMY3mNGZAeNHg3wYZCAZDZD
   const fbEl = document.createElement('script');
   fbEl.textContent = `
@@ -105,11 +105,11 @@ window.pixelPurchase = function(value, orderId) {
   <div class="cart-footer">
     <div class="cart-totals">
       <div class="cart-total-row"><span>סכום ביניים</span><span id="cartSubtotal">₪0</span></div>
-      <div class="cart-total-row"><span>משלוח</span><span id="cartShipping">חינם מ-₪250</span></div>
+      <div class="cart-total-row"><span>משלוח</span><span id="cartShipping">₪35</span></div>
       <div class="cart-total-row total"><span>סה"כ</span><span id="cartTotal">₪0</span></div>
     </div>
     <button class="cart-checkout-btn" onclick="location.href='checkout.html'">המשך לתשלום</button>
-    <p class="cart-free-ship">משלוח חינם בהזמנות מעל <span>₪250</span></p>
+    <p class="cart-free-ship">אספקה תוך 2-4 ימי עסקים</p>
   </div>
 </div>`;
   }
@@ -118,8 +118,6 @@ window.pixelPurchase = function(value, orderId) {
     return `
 <div class="announcement-bar">
   <div class="announcement-bar__inner">
-    <span>משלוח חינם מ-250 שח</span>
-    <span class="announcement-bar__sep">|</span>
     <span>18 ניחוחות יוקרתיים</span>
     <span class="announcement-bar__sep">|</span>
     <span>שמן טהור בלבד</span>
@@ -198,39 +196,56 @@ window.pixelPurchase = function(value, orderId) {
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="${LOGO}" alt="GARAGE" onerror="this.style.display='none'">
-        <p>מפיצי ריח ומוצרי ריח איכותיים לבית, לרכב ולעסק.</p>
+        <img src="${LOGO}" alt="GARAGE - מפיצי ריח איכותיים" onerror="this.style.display='none'">
+        <p>מפיצי ריח ומוצרי ריח איכותיים לבית, לרכב ולעסק. שמן ריח טהור 100% ב-18 ניחוחות יוקרתיים.</p>
+        <div class="footer-rating">
+          <span class="footer-rating__stars">★★★★★</span>
+          <span class="footer-rating__text">+200 ביקורות 5 כוכבים בגוגל</span>
+        </div>
         <div class="footer-socials">
-          <a href="${IG}" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
-          <a href="https://www.facebook.com/garage.org.il" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph-fill ph-facebook-logo"></i></a>
-          <a href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ph-fill ph-whatsapp-logo"></i></a>
+          <a href="${IG}" target="_blank" rel="noopener" aria-label="Instagram GARAGE"><i class="ph-fill ph-instagram-logo"></i></a>
+          <a href="https://www.facebook.com/garage.org.il" target="_blank" rel="noopener" aria-label="Facebook GARAGE"><i class="ph-fill ph-facebook-logo"></i></a>
+          <a href="${WA}" target="_blank" rel="noopener" aria-label="WhatsApp GARAGE"><i class="ph-fill ph-whatsapp-logo"></i></a>
+          <a href="https://www.tiktok.com/@garage_scents" target="_blank" rel="noopener" aria-label="TikTok GARAGE"><i class="ph-fill ph-tiktok-logo"></i></a>
         </div>
       </div>
       <div class="footer-col">
-        <p class="footer-col__title">קטגוריות</p>
+        <p class="footer-col__title">מוצרים</p>
         <ul>
-          <li><a href="category.html?cat=car">מפיצים לרכב</a></li>
-          <li><a href="category.html?cat=home">מפיצים לבית</a></li>
-          <li><a href="category.html?cat=biz">מפיצים לעסק</a></li>
-          <li><a href="category.html?cat=bottles">בקבוקי ריח</a></li>
-          <li><a href="subscriptions.html">מנויים</a></li>
+          <li><a href="category.html?cat=car">מפיצי ריח לרכב</a></li>
+          <li><a href="category.html?cat=home">מפיצי ריח לבית</a></li>
+          <li><a href="category.html?cat=biz">מפיצי ריח לעסק</a></li>
+          <li><a href="category.html?cat=bottles">בקבוקי שמן ריח</a></li>
+          <li><a href="category.html?cat=extra">תוספות ואקסטרות</a></li>
+          <li><a href="subscriptions.html">מנוי ריח חודשי</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col__title">מידע</p>
+        <ul>
+          <li><a href="index.html#how-it-works">איך זה עובד?</a></li>
+          <li><a href="index.html#testimonials">ביקורות לקוחות</a></li>
+          <li><a href="index.html#products">מוצרים נמכרים</a></li>
+          <li><a href="cart.html">סל קניות</a></li>
+          <li><a href="account.html">אזור אישי</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <p class="footer-col__title">צור קשר</p>
         <ul>
           <li><a href="tel:0509723636"><i class="ph ph-phone" style="margin-left:6px"></i>050-9723636</a></li>
+          <li><a href="${WA}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo" style="margin-left:6px"></i>שלח הודעה בוואטסאפ</a></li>
+          <li><span><i class="ph ph-clock" style="margin-left:6px"></i>א'-ה' 9:00-18:00</span></li>
           <li><span><i class="ph ph-map-pin" style="margin-left:6px"></i>הארום 82, נתיבות</span></li>
-          <li><a href="${WA}" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo" style="margin-left:6px"></i>וואטסאפ</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 GARAGE — כל הזכויות שמורות</p>
-      <div style="display:flex;gap:20px">
-        <a href="#">תקנון</a>
-        <a href="#">פרטיות</a>
-        <a href="#">נגישות</a>
+      <p>© 2025 GARAGE | מפיצי ריח איכותיים לבית, רכב ועסק - כל הזכויות שמורות</p>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <a href="#">תקנון ומדיניות החזרות</a>
+        <a href="#">מדיניות פרטיות</a>
+        <a href="#">הצהרת נגישות</a>
       </div>
     </div>
   </div>

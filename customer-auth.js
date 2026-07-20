@@ -1,4 +1,4 @@
-/* GARAGE storefront — customer auth client (cross-origin to admin API) */
+﻿/* GARAGE storefront - customer auth client (cross-origin to admin API) */
 (function () {
   const ADMIN_API = 'https://garage-admin.vercel.app';
   const TOKEN_KEY = 'garage_customer_token';

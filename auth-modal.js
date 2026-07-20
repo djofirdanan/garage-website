@@ -1,4 +1,4 @@
-/* GARAGE — Auth Modal Popup
+﻿/* GARAGE - Auth Modal Popup
    Usage: GarageAuthModal.open('login' | 'register')
    Auto-triggers when user-icon in nav is clicked (unauthenticated)
 */
