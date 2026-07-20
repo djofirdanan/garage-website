@@ -449,6 +449,59 @@
   .grev__marquee::before, .grev__marquee::after { display: none; }
 }
 
+/* ALL-REVIEWS PANEL */
+.grevall { position: fixed; inset: 0; z-index: 1000; }
+.grevall[hidden] { display: none; }
+.grevall__backdrop {
+  position: absolute; inset: 0; background: rgba(26,20,16,.55);
+  opacity: 0; transition: opacity .3s ease;
+}
+.grevall.is-open .grevall__backdrop { opacity: 1; }
+.grevall__panel {
+  position: absolute; inset-block: 0; inset-inline-end: 0;
+  width: min(560px, 100%); background: var(--lav-bg);
+  display: flex; flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,.25);
+  transform: translateX(-100%); transition: transform .32s cubic-bezier(.22,1,.36,1);
+}
+/* RTL: the panel sits on the left edge, so it enters from there */
+.grevall.is-open .grevall__panel { transform: translateX(0); }
+.grevall__head {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 20px 22px 16px; border-bottom: 1px solid var(--border);
+  background: #fff; flex-shrink: 0;
+}
+.grevall__head-main { flex: 1; min-width: 0; }
+.grevall__title { font-size: 1.3rem; font-weight: 800; color: var(--black); margin: 12px 0 4px; }
+.grevall__meta { font-size: .87rem; color: var(--mid); margin: 0; }
+.grevall__close {
+  flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center;
+  border: 1px solid var(--border); background: #fff; border-radius: 50%;
+  color: var(--black); cursor: pointer; transition: background .2s ease;
+}
+.grevall__close:hover { background: var(--gray-bg); }
+.grevall__close:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.grevall__list {
+  flex: 1; overflow-y: auto; overscroll-behavior: contain;
+  padding: 18px 22px; display: flex; flex-direction: column; gap: 12px;
+  scroll-behavior: smooth;
+}
+.grevall__list:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+.grevall__foot {
+  padding: 14px 22px; border-top: 1px solid var(--border);
+  background: #fff; flex-shrink: 0; display: flex; justify-content: center;
+}
+.grev-card--full { width: auto; }
+.grev-card--full:hover { transform: none; }
+@media (max-width: 640px) {
+  .grevall__panel { width: 100%; }
+  .grevall__list { padding: 14px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grevall__panel, .grevall__backdrop { transition: none; }
+  .grevall__list { scroll-behavior: auto; }
+}
+
 /* REELS / UGC RAIL */
 .reels-rail {
   display: flex;
@@ -813,6 +866,188 @@
     </div>
   </div>
 </section>
+
+<!-- GOOGLE REVIEWS -->
+<section class="grev" id="testimonials" aria-labelledby="grevTitle">
+  <div class="container">
+    <div class="grev__head">
+      <div class="grev__badge">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/>
+          <path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
+        </svg>
+        <span>ביקורות מ‑Google</span>
+      </div>
+      <h2 class="grev__title" id="grevTitle">‏202 לקוחות דירגו אותנו 5 כוכבים</h2>
+      <p class="grev__sub">ביקורות אמיתיות מהפרופיל העסקי שלנו בגוגל - כולן נקראות כאן באתר</p>
+
+      <div class="grev__score">
+        <span class="grev__score-num">5.0</span>
+        <span class="grev__score-stars" id="grevHeadStars" aria-hidden="true"></span>
+        <span class="grev__score-meta">מבוסס על <strong>202</strong> ביקורות ב‑Google</span>
+      </div>
+
+      <div class="grev__actions">
+        <button type="button" class="grev__btn grev__btn--primary" id="grevOpenAll">
+          קראו את כל הביקורות
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grev__marquee" data-speed="150">
+    <div class="grev__row" id="grevRow1"></div>
+  </div>
+  <div class="grev__marquee" data-speed="185">
+    <div class="grev__row" id="grevRow2"></div>
+  </div>
+  <div class="grev__marquee" data-speed="165">
+    <div class="grev__row" id="grevRow3"></div>
+  </div>
+</section>
+
+<!-- All-reviews panel: keeps readers on the page -->
+<div class="grevall" id="grevAll" hidden>
+  <div class="grevall__backdrop" data-grev-close></div>
+  <div class="grevall__panel" role="dialog" aria-modal="true" aria-labelledby="grevAllTitle">
+    <header class="grevall__head">
+      <div class="grevall__head-main">
+        <div class="grev__badge">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/>
+          <path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/>
+          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
+        </svg>
+          <span>ביקורות מ‑Google</span>
+        </div>
+        <h3 class="grevall__title" id="grevAllTitle">כל הביקורות שלנו</h3>
+        <p class="grevall__meta"><strong>5.0</strong> · <span id="grevAllCount"></span> ביקורות מוצגות מתוך 202</p>
+      </div>
+      <button type="button" class="grevall__close" id="grevAllClose" aria-label="סגירת חלון הביקורות">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </header>
+    <div class="grevall__list" id="grevAllList" tabindex="0"></div>
+    <footer class="grevall__foot">
+      <a class="grev__btn" href="https://g.page/r/CTGEsrzsu850EAE/review" target="_blank" rel="noopener">כתבו ביקורת ב‑Google</a>
+    </footer>
+  </div>
+</div>
+
+<script>
+// reviews-data.js loads further down the page, so wait for the parser.
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof GOOGLE_REVIEWS === 'undefined' || !GOOGLE_REVIEWS.length) return;
+
+  const STAR = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#FBBC04" d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>';
+  const G_MARK = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>';
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  const initial = n => (String(n).trim()[0] || '?');
+
+  const headStars = document.getElementById('grevHeadStars');
+  if (headStars) headStars.innerHTML = STAR.repeat(5);
+
+  function avatarHTML(r) {
+    if (!r.p) return '<span class="grev-card__avatar grev-card__avatar--txt">' + esc(initial(r.n)) + '</span>';
+    return '<img class="grev-card__avatar" src="' + esc(r.p) + '" alt="" loading="lazy" width="40" height="40" ' +
+      'onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'grev-card__avatar grev-card__avatar--txt\',textContent:' +
+      JSON.stringify(initial(r.n)) + '}))">';
+  }
+
+  function cardInner(r) {
+    return '<div class="grev-card__top">' +
+        avatarHTML(r) +
+        '<div class="grev-card__who">' +
+          '<span class="grev-card__name">' + esc(r.n) + '</span>' +
+          '<span class="grev-card__date">' + esc(r.d || '') + (r.lg ? ' · Local Guide' : '') + '</span>' +
+        '</div>' +
+        '<span class="grev-card__g">' + G_MARK + '</span>' +
+      '</div>' +
+      '<div class="grev-card__stars">' + STAR.repeat(5) + '</div>' +
+      '<p class="grev-card__text">' + esc(r.t) + '</p>';
+  }
+
+  /* ---------- moving rails ---------- */
+  // A slice feeds the rails; the full set lives in the panel. Keeps the DOM light.
+  const RAIL_TOTAL = 45;
+  const railItems = GOOGLE_REVIEWS.slice(0, RAIL_TOTAL);
+  const per = Math.ceil(railItems.length / 3);
+  [
+    ['grevRow1', railItems.slice(0, per)],
+    ['grevRow2', railItems.slice(per, per * 2)],
+    ['grevRow3', railItems.slice(per * 2)],
+  ].forEach(([id, items]) => {
+    const el = document.getElementById(id);
+    if (!el || !items.length) return;
+    const cards = items.map(r => '<article class="grev-card">' + cardInner(r) + '</article>').join('');
+    // Duplicated so translateX(-50%) -> 0 loops without a visible seam.
+    el.innerHTML = cards + cards;
+    el.style.animationDuration = (el.parentElement.dataset.speed || 150) + 's';
+  });
+
+  /* ---------- all-reviews panel ---------- */
+  const panel = document.getElementById('grevAll');
+  const list = document.getElementById('grevAllList');
+  const openBtn = document.getElementById('grevOpenAll');
+  const closeBtn = document.getElementById('grevAllClose');
+  const countEl = document.getElementById('grevAllCount');
+  if (!panel || !list || !openBtn) return;
+
+  if (countEl) countEl.textContent = GOOGLE_REVIEWS.length;
+
+  let built = false;
+  let lastFocus = null;
+
+  function build() {
+    if (built) return;
+    list.innerHTML = GOOGLE_REVIEWS
+      .map(r => '<article class="grev-card grev-card--full">' + cardInner(r) + '</article>')
+      .join('');
+    built = true;
+  }
+
+  function open() {
+    build();
+    lastFocus = document.activeElement;
+    panel.hidden = false;
+    document.body.style.overflow = 'hidden';
+    // Bind the escape/focus-trap handler before anything that could throw,
+    // so the dialog can always be dismissed.
+    document.addEventListener('keydown', onKey);
+    closeBtn.focus();
+    requestAnimationFrame(() => panel.classList.add('is-open'));
+  }
+
+  function close() {
+    panel.classList.remove('is-open');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onKey);
+    const done = () => { panel.hidden = true; panel.removeEventListener('transitionend', done); };
+    panel.addEventListener('transitionend', done);
+    setTimeout(done, 350);
+    if (lastFocus) lastFocus.focus();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab') return;
+    // Keep focus inside the dialog.
+    const f = panel.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  panel.querySelectorAll('[data-grev-close]').forEach(el => el.addEventListener('click', close));
+});
+</script>
 
 <!-- EXPLAINER -->
 <section class="explainer-section">
@@ -1301,110 +1536,6 @@ function playVideo(card) {
   </div>
 </section>
 
-<!-- GOOGLE REVIEWS -->
-<section class="grev" id="testimonials" aria-labelledby="grevTitle">
-  <div class="container">
-    <div class="grev__head">
-      <div class="grev__badge">
-        <svg class="grev__g" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
-          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/>
-          <path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/>
-          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/>
-        </svg>
-        <span>ביקורות מ‑Google</span>
-      </div>
-      <h2 class="grev__title" id="grevTitle">‏202 לקוחות דירגו אותנו 5 כוכבים</h2>
-      <p class="grev__sub">כל ביקורת כאן נכתבה בפרופיל העסקי שלנו בגוגל - אפשר ללחוץ ולראות את המקור</p>
-
-      <div class="grev__score">
-        <span class="grev__score-num">5.0</span>
-        <span class="grev__score-stars" id="grevHeadStars" aria-hidden="true"></span>
-        <span class="grev__score-meta">מבוסס על <strong>202</strong> ביקורות ב‑Google</span>
-      </div>
-
-      <div class="grev__actions">
-        <a class="grev__btn grev__btn--primary" id="grevAllLink" href="#" target="_blank" rel="noopener">
-          קראו את כל הביקורות
-        </a>
-        <a class="grev__btn" id="grevWriteLink" href="#" target="_blank" rel="noopener">
-          כתבו ביקורת
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="grev__marquee" data-speed="64">
-    <div class="grev__row" id="grevRow1"></div>
-  </div>
-  <div class="grev__marquee" data-speed="86">
-    <div class="grev__row" id="grevRow2"></div>
-  </div>
-</section>
-
-<script>
-// reviews-data.js is loaded further down the page, so wait for the parser to
-// finish before reading GOOGLE_REVIEWS.
-document.addEventListener('DOMContentLoaded', function () {
-  if (typeof GOOGLE_REVIEWS === 'undefined' || !GOOGLE_REVIEWS.length) return;
-
-  const STAR = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="#FBBC04" d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>';
-  const G_MARK = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47a5.4 5.4 0 0 1-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a12 12 0 0 0 0 10.76l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.7 0 3.99 2.47 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75z"/></svg>';
-
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
-  const initial = n => (String(n).trim()[0] || '?');
-
-  // Header links + stars
-  const place = (typeof GOOGLE_PLACE !== 'undefined') ? GOOGLE_PLACE : {};
-  const headStars = document.getElementById('grevHeadStars');
-  if (headStars) headStars.innerHTML = STAR.repeat(5);
-  const allLink = document.getElementById('grevAllLink');
-  const writeLink = document.getElementById('grevWriteLink');
-  if (allLink && place.mapsUrl) allLink.href = place.mapsUrl;
-  if (writeLink && place.reviewUrl) writeLink.href = place.reviewUrl;
-
-  function cardHTML(r) {
-    const stars = STAR.repeat(r.stars || 5);
-    // The avatar is a Google-hosted URL; if it fails, fall back to an initial.
-    const avatar = r.photo
-      ? '<img class="grev-card__avatar" src="' + esc(r.photo) + '" alt="" loading="lazy" width="40" height="40" ' +
-        'onerror="this.replaceWith(Object.assign(document.createElement(\'span\'),{className:\'grev-card__avatar grev-card__avatar--txt\',textContent:' +
-        JSON.stringify(initial(r.name)) + '}))">'
-      : '<span class="grev-card__avatar grev-card__avatar--txt">' + esc(initial(r.name)) + '</span>';
-
-    return '<a class="grev-card" href="' + esc(r.url || place.mapsUrl || '#') + '" target="_blank" rel="noopener"' +
-      ' aria-label="ביקורת של ' + esc(r.name) + ' ב-Google, ' + (r.stars || 5) + ' כוכבים">' +
-      '<div class="grev-card__top">' +
-        avatar +
-        '<div class="grev-card__who">' +
-          '<span class="grev-card__name">' + esc(r.name) + '</span>' +
-          '<span class="grev-card__date">' + esc(r.date || '') + (r.localGuide ? ' · Local Guide' : '') + '</span>' +
-        '</div>' +
-        '<span class="grev-card__g">' + G_MARK + '</span>' +
-      '</div>' +
-      '<div class="grev-card__stars">' + stars + '</div>' +
-      '<p class="grev-card__text">' + esc(r.text) + '</p>' +
-    '</a>';
-  }
-
-  // Split across two rails so the wall reads as a grid in motion.
-  const half = Math.ceil(GOOGLE_REVIEWS.length / 2);
-  const rows = [
-    { el: document.getElementById('grevRow1'), items: GOOGLE_REVIEWS.slice(0, half) },
-    { el: document.getElementById('grevRow2'), items: GOOGLE_REVIEWS.slice(half) },
-  ];
-
-  rows.forEach(({ el, items }) => {
-    if (!el || !items.length) return;
-    const cards = items.map(cardHTML).join('');
-    // Duplicated once so translateX(-50%) -> 0 loops with no visible seam.
-    el.innerHTML = cards + cards;
-    el.setAttribute('aria-hidden', 'false');
-    const speed = el.parentElement.dataset.speed || 70;
-    el.style.animationDuration = speed + 's';
-  });
-});
-</script>
 
 <!-- REELS / UGC — renders only when REELS has entries -->
 <section class="section reels-section" id="reels" style="display:none">
