@@ -455,15 +455,17 @@ const ADMIN_API  = 'https://garage-admin.vercel.app';
 const PM_KEY     = 'garage_payment_cfg';
 const PM_DEFAULTS_CO = {
   card:   { enabled: true,  link: '' },
-  bit:    { enabled: true,  phone: '050-9723636' },
+  bit:    { enabled: true,  phone: '050-9723636', link: 'https://www.bitpay.co.il/app/me/13B85130-40AC-F09E-B0FB-240A551E0F91AD38' },
   paybox: { enabled: false, link: '' },
   bank:   { enabled: false, bankName: '', account: '', branch: '', owner: '' },
   cash:   { enabled: false },
 };
 
 let pmCfg = JSON.parse(localStorage.getItem(PM_KEY) || 'null') || PM_DEFAULTS_CO;
-// Make sure new card key exists in old cached configs
+// Make sure new keys exist in old cached configs
 if (!pmCfg.card) pmCfg.card = PM_DEFAULTS_CO.card;
+if (!pmCfg.bit) pmCfg.bit = PM_DEFAULTS_CO.bit;
+if (!pmCfg.bit.link) pmCfg.bit.link = PM_DEFAULTS_CO.bit.link;
 let selectedPayMethod = null;
 
 function renderPaymentMethods(total) {
@@ -526,9 +528,9 @@ function renderPayDetail(method, total) {
           <strong>${phone}</strong>
         </div>
         <div class="bit-steps">
-          <div class="bit-step"><div class="bit-step-num">1</div><span>פתח את אפליקציית ביט בטלפון שלך</span></div>
-          <div class="bit-step"><div class="bit-step-num">2</div><span>שלח <strong>${amt}</strong> למספר <strong>${phone}</strong></span></div>
-          <div class="bit-step"><div class="bit-step-num">3</div><span>לחץ "שלח הזמנה" - ואנחנו נאשר בוואטסאפ תוך שעות ספורות</span></div>
+          <div class="bit-step"><div class="bit-step-num">1</div><span>לחץ "שלח הזמנה" - נשמור את ההזמנה עבורך</span></div>
+          <div class="bit-step"><div class="bit-step-num">2</div><span>בעמוד הבא תקבל כפתור להעברת <strong>${amt}</strong> בביט</span></div>
+          <div class="bit-step"><div class="bit-step-num">3</div><span>לאחר שנאשר את התשלום - תקבל אישור במייל ובוואטסאפ</span></div>
         </div>
       </div>`;
   } else if (method === 'paybox') {
@@ -565,8 +567,8 @@ function updateSubmitBtn(method) {
   const btn   = document.getElementById('submitOrderBtn');
   const hint  = document.getElementById('submitHint');
   const icons  = { card: 'ph-credit-card', bit: 'ph-device-mobile', paybox: 'ph-arrow-square-out', bank: 'ph-paper-plane-tilt', cash: 'ph-check-circle' };
-  const labels = { card: 'המשך לתשלום באשראי', bit: 'המשך לתשלום בביט', paybox: 'המשך לתשלום ב-PayBox', bank: 'שלח הזמנה', cash: 'שלח הזמנה' };
-  const hints  = { card: 'תועבר לדף תשלום מאובטח', bit: 'תקבל הוראות לתשלום בביט', paybox: 'תועבר לאתר PayBox', bank: 'נשלח לך פרטי העברה בנקאית', cash: 'ניצור איתך קשר לתיאום' };
+  const labels = { card: 'המשך לתשלום באשראי', bit: 'שלח הזמנה', paybox: 'שלח הזמנה', bank: 'שלח הזמנה', cash: 'שלח הזמנה' };
+  const hints  = { card: 'תועבר לדף תשלום מאובטח', bit: 'לאחר השליחה תקבל כפתור לתשלום בביט', paybox: 'לאחר השליחה תקבל כפתור לתשלום ב-PayBox', bank: 'נשלח לך פרטי העברה בנקאית', cash: 'ניצור איתך קשר לתיאום' };
   btn.innerHTML = `<i class="ph ${icons[method] || 'ph-credit-card'}" style="font-size:1.4rem"></i> ${labels[method] || 'המשך לתשלום'}`;
   if (hint) hint.textContent = hints[method] || '';
 }
@@ -774,10 +776,15 @@ function renderSuccessScreen(method, finalTotal) {
 
   if (method === 'bit') {
     const bitPhone = pmCfg.bit?.phone || '050-9723636';
+    const bitLink  = pmCfg.bit?.link || '';
     msgEl.innerHTML = `שמרנו את הזמנתך על סך <strong>${amt}</strong>.<br>
-      כדי להשלים, העבר את הסכום בביט למספר <strong>${bitPhone}</strong>.<br>${confirmNote}`;
-    actionEl.innerHTML = `<button type="button" class="pay-transfer-btn" onclick="copyPayInfo('${bitPhone}')">
-      <i class="ph-fill ph-device-mobile"></i> העבר ${amt} בביט · ${bitPhone}</button>`;
+      כדי להשלים, העבר את הסכום בביט.<br>${confirmNote}`;
+    actionEl.innerHTML = bitLink
+      ? `<a href="${bitLink}" target="_blank" rel="noopener" class="pay-transfer-btn">
+           <i class="ph-fill ph-device-mobile"></i> העבר ${amt} בביט</a>
+         <div style="margin-top:10px;font-size:.82rem;color:var(--mid)">או ידנית למספר <strong>${bitPhone}</strong></div>`
+      : `<button type="button" class="pay-transfer-btn" onclick="copyPayInfo('${bitPhone}')">
+           <i class="ph-fill ph-device-mobile"></i> העבר ${amt} בביט · ${bitPhone}</button>`;
   } else if (method === 'paybox') {
     const pbLink = pmCfg.paybox?.link || '';
     const pbPhone = pmCfg.bit?.phone || '050-9723636';
