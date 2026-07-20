@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "garage",
+      "name": "garage-static",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", "."],
-      "port": 3457,
-      "autoPort": true
+      "runtimeArgs": ["--yes", "serve", "-l", "4173", "."],
+      "port": 4173
     }
   ]
 }
