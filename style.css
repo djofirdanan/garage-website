@@ -4187,29 +4187,46 @@ textarea.form-input {
 .alt-option-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 28px 24px;
   border-radius: var(--radius-card);
   border: 1.5px solid var(--border);
   background: var(--white);
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
   transition: border-color .22s, box-shadow .22s, transform .22s;
 }
 .alt-option-card:hover {
-  border-color: var(--mint);
-  box-shadow: 0 8px 32px rgba(42,159,174,.12);
+  border-color: var(--gold);
+  box-shadow: 0 10px 34px rgba(200,150,42,.16);
   transform: translateY(-3px);
 }
-.alt-option-card__icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+.alt-option-card:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+/* Fixed ratio keeps the four cards aligned whatever the source image is */
+.alt-option-card__media {
+  aspect-ratio: 16 / 11;
   background: var(--lav-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--mint);
+  overflow: hidden;
+}
+.alt-option-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  transition: transform .3s ease;
+}
+.alt-option-card:hover .alt-option-card__media img { transform: scale(1.05); }
+.alt-option-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px 22px;
+  flex: 1;
 }
 .alt-option-card__title {
   font-size: 16px;
@@ -4223,15 +4240,28 @@ textarea.form-input {
   line-height: 1.6;
   flex: 1;
 }
-.alt-option-card__link {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--mint);
-  display: flex;
+.alt-option-card__btn {
+  align-self: stretch;
+  min-height: 44px;
+  margin-top: 4px;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--black);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .22s ease;
 }
-.alt-option-card__link::before { content: '←'; }
+.alt-option-card:hover .alt-option-card__btn { background: var(--gold); }
+@media (prefers-reduced-motion: reduce) {
+  .alt-option-card, .alt-option-card__media img { transition: none; }
+  .alt-option-card:hover { transform: none; }
+  .alt-option-card:hover .alt-option-card__media img { transform: none; }
+}
 @media (max-width: 900px) { .alt-options-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 540px) { .alt-options-grid { grid-template-columns: 1fr; } }
 
